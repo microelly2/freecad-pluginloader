@@ -11,11 +11,22 @@ import FreeCAD,PySide,os,FreeCADGui,time
 from PySide import QtCore, QtGui, QtSvg
 from PySide.QtGui import * 
 
-__vers__='0.0'
+__vers__='0.3'
 
 
 import sys
-sys.path.append("/usr/lib/freecad/Mod/plugins")
+
+import os
+
+try:
+	__dir__ = os.path.dirname(__file__)
+	say(__dir__)
+	say(__file__)
+except:
+	__dir__='/usr/lib/freecad/Mod/mylib'
+
+
+
 
 def say(s):
 	FreeCAD.Console.PrintMessage(str(s)+"\n")
@@ -41,92 +52,16 @@ def dlgi(msg):
 #
 #-----------------
 
-# configuration file in yaml - local and maintained by the enduser
-
-configfile='''
-
-
-assembly:
- name: assembly
- description: Assembly Workbench in python
- author: hamish2914
- source: https://github.com/hamish2014/FreeCAD_assembly2/archive/master.zip
- method: zip
- sourcedir: FreeCAD_assembly2-master
- #destdir: /usr/lib/freecad/Mod/assembly2/
- destdir: /usr/lib/freecad/Mod/plugins/assembly2/
-
-
-drawing dimensioning : 
-  #status: ignore
-  name: drawing Dimsioning
-  description : Drawing Dim ...
-  author: hamish2914
-  source: https://github.com/hamish2014/FreeCAD_drawing_dimensioning/archive/master.zip
-  sourcedir:FreeCAD_drawing_dimensioning-master
-  timestamp: https://github.com/hamish2014/FreeCAD_assembly2/master/release
-  #destdir: /usr/lib/freecad/Mod/drawing_dimensioning
-  destdir: /usr/lib/freecad/Mod/plugins/drawing_dimensioning
-
-
-sipoc : 
- name: sipoc
- description : Single Point Configuration
- author: microelly2
- source: https://github.com/microelly2/freecad-sipoc/archive/master.zip
- sourcedir: freecad-sipoc-master
- timestamp: https://raw.githubusercontent.com/microelly2/freecad-sipoc/master/release
- destdir: /usr/lib/freecad/Mod/plugins/plugin3
-
-
-
-'''
-
-
-
-
-
 
 # read from file and converted to python
 import yaml
-config3 = yaml.load(configfile)
+
+#fn="/home/thomas/Dokumente/freecad_buch/b134_pluginloader/pluginloaderconfig.yaml"
+
+fn=__dir__+"/pluginloaderconfig.yaml"
+stream = open(fn, 'r')
+config3 = yaml.load(stream)
 say(config3)
-
-# for test hard coded
-config2={
-	'assembly' : {
-		'status': 'ignore',
-		'name': 'assembly2',
-		'description' : 'Assembly Workbench in python',
-		'author': 'hamish2914',
-		'source': 'https://github.com/hamish2014/FreeCAD_assembly2/archive/master.zip',
-		'sourcedir':'FreeCAD_assembly2-master',
-		'timestamp': 'https://github.com/hamish2014/FreeCAD_assembly2/master/release',
-		'destdir': '/usr/lib/freecad/Mod/plugins/assembly2',
-	},
-	
-	'drawing dimensioning' : {
-		'status': 'Xignore',
-#		'name': 'drawing Dimsioning',
-#		'description' : 'Drawiing Dim',
-#		'author': 'hamish2914',
-		'source': 'https://github.com/hamish2014/FreeCAD_drawing_dimensioning/archive/master.zip',
-		'sourcedir':'FreeCAD_drawing_dimensioning-master',
-		'timestamp': 'https://github.com/hamish2014/FreeCAD_assembly2/master/release',
-		'destdir': '/usr/lib/freecad/Mod/plugins/drawing_dimensioning',
-	},
-
-	'sipoc' : {
-		'status': 'ignore',
-		'name': 'sipoc',
-		'description' : 'Single Point Configuration',
-		'author': 'microelly2',
-		'source': 'https://github.com/microelly2/freecad-sipoc/archive/master.zip',
-		'sourcedir':'freecad-sipoc-master',
-		'timestamp': 'https://raw.githubusercontent.com/microelly2/freecad-sipoc/master/release',
-		'destdir': '/usr/lib/freecad/Mod/plugins/plugin3',
-	}
-}
 
 
 import urllib
@@ -183,6 +118,8 @@ class MyWidget(QtGui.QWidget):
 				self.master.install(sel.text())
 			pass
 			self.show()
+			say("fertig")
+
 
 
 
@@ -192,7 +129,7 @@ class PluginLoader(object):
 
 	def __init__(self):
 		say("init")
-		self.config=config2
+		self.config=config3['plugins']
 		self.keys=self.config.keys
 
 
@@ -239,22 +176,18 @@ class PluginLoader(object):
 #else:
 
 	def install(self,item):
-		say("huhu")
-		say("master installs " + str(item))
-		say("hahah")
-		say(self.config[item])
+#		say(self.config[item])
 		plugin=item
-		saye(plugin) 
+#		saye(plugin) 
 		if self.config[plugin]['status'] == 'ignore':
 				saye('ignore')
-				#return
-		say("weiter")
+				return
 
 		localVersion=self.getlocalVersionDate(plugin)
 		webVersion=self.getwebVersionDate(plugin)
 
-		say("Local Version: "+localVersion)
-		say("Web Version  : "+webVersion)
+		#say("Local Version: "+localVersion)
+		#say("Web Version  : "+webVersion)
 
 		needUpdate = localVersion < webVersion
 
@@ -281,7 +214,6 @@ class PluginLoader(object):
 			# positionieren
 			source="/tmp/zipout/"+self.config[plugin]['sourcedir']
 			say(source)
-
 			destination=self.config[plugin]['destdir']
 			say(destination)
 			# hier muss fehlerhandlich verbessert werden !!
@@ -297,8 +229,21 @@ class PluginLoader(object):
 
 
 
+if False:
+	#reload the plugins
+	say("import plugins ..")
+
+	import plugins
+	reload(plugins)
+
+	# use the plugins
+	App.newDocument("Unnamed")
+	App.setActiveDocument("Unnamed")
+	App.ActiveDocument=App.getDocument("Unnamed")
+	plugins.plugin3.sipoc.createSipoc("MySipoc",[],[])
 
 
+say("reloaded")
 
 plulo=PluginLoader()
 plulo.start()

@@ -1,0 +1,37 @@
+
+plugins:
+  assembly5:
+    name: assembly1
+    status: noignore
+    description: Assembly Workbench in python
+    author: hamish2914
+    source: https://github.com/hamish2014/FreeCAD_assembly2/archive/master.zip
+    method: zip
+    sourcedir: FreeCAD_assembly2-master
+    #destdir: /usr/lib/freecad/Mod/assembly2
+    destdir: /usr/lib/freecad/Mod/plugins/assembly2
+
+
+  drawing dimensioning : 
+    status: noignore
+    name: drawing Dimsioning
+    description : Drawing Dim ...
+    author: hamish2914
+    source: https://github.com/hamish2014/FreeCAD_drawing_dimensioning/archive/master.zip
+    sourcedir: FreeCAD_drawing_dimensioning-master
+    timestamp: https://github.com/hamish2014/FreeCAD_assembly2/master/release
+    #destdir: /usr/lib/freecad/Mod/drawing_dimensioning
+    destdir: /usr/lib/freecad/Mod/plugins/drawing_dimensioning
+
+
+  sipoc : 
+    name: sipoc
+    status: noignore
+    description : Single Point Configuration
+    author: microelly2
+    source: https://github.com/microelly2/freecad-sipoc/archive/master.zip
+    sourcedir: freecad-sipoc-master
+    timestamp: https://raw.githubusercontent.com/microelly2/freecad-sipoc/master/release
+    destdir: /usr/lib/freecad/Mod/plugins/plugin3
+
+
