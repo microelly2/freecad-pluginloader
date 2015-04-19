@@ -1,6 +1,6 @@
 
 plugins:
-  assembly5:
+  assembly6:
     name: assembly1
     status: noignore
     description: Assembly Workbench in python
@@ -22,7 +22,13 @@ plugins:
     timestamp: https://github.com/hamish2014/FreeCAD_assembly2/master/release
     #destdir: /usr/lib/freecad/Mod/drawing_dimensioning
     destdir: /usr/lib/freecad/Mod/plugins/drawing_dimensioning
-
+    menuitems:
+        draw dim command1:
+           exec: import plugins;plugins.plugin1.info2()
+        draw dim cmd2:
+           exec: import plugins;plugins.plugin1.p1.info1()
+        draw dim fun:
+           exec:  FreeCAD.ActiveDocument.addObject("Part::Box","Box")
 
   sipoc : 
     name: sipoc
@@ -33,5 +39,8 @@ plugins:
     sourcedir: freecad-sipoc-master
     timestamp: https://raw.githubusercontent.com/microelly2/freecad-sipoc/master/release
     destdir: /usr/lib/freecad/Mod/plugins/plugin3
+    menu: sipoc command3
+    exec: import plugins;plugins.plugin1.info2()
+
 
 
