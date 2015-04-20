@@ -1,33 +1,53 @@
+#
+# yaml configration file for the plugin management
+# see yaml.org
+#
 
 plugins:
-  assembly6:
-    name: assembly1
+  assembly2:
+    name: assembly2
     status: noignore
     description: Assembly Workbench in python
     author: hamish2914
+    
+    # mandatory attributes
     source: https://github.com/hamish2014/FreeCAD_assembly2/archive/master.zip
     method: zip
     sourcedir: FreeCAD_assembly2-master
-    #destdir: /usr/lib/freecad/Mod/assembly2
-    destdir: /usr/lib/freecad/Mod/plugins/assembly2
+    
+    destdir: /home/microelly2/.FreeCAD/Mod/plugins/assembly2
 
 
   drawing dimensioning : 
     status: noignore
     name: drawing Dimsioning
     description : Drawing Dim ...
+    
+    # display information about this package
+    info: https://github.com/hamish2014/FreeCAD_drawing_dimensioning/blob/master/README.md
+    
+    # display commit log
+    history: https://github.com/hamish2014/FreeCAD_drawing_dimensioning/commits/master/
     author: hamish2914
     source: https://github.com/hamish2014/FreeCAD_drawing_dimensioning/archive/master.zip
     sourcedir: FreeCAD_drawing_dimensioning-master
     timestamp: https://github.com/hamish2014/FreeCAD_assembly2/master/release
-    #destdir: /usr/lib/freecad/Mod/drawing_dimensioning
-    destdir: /usr/lib/freecad/Mod/plugins/drawing_dimensioning
+
+    # local installation
+    destdir: /home/microelly2/.FreeCAD/Mod/drawing_dimensioning
+
+    # installation for all users
+    #destdir: /usr/lib/freecad/Mod/plugins/drawing_dimensioning
+    
+    # install this module with 3 menu items
     menuitems:
-        draw dim command1:
+        draw dim - command1:
            exec: import plugins;plugins.plugin1.info2()
-        draw dim cmd2:
+        draw dim - cmd2:
            exec: import plugins;plugins.plugin1.p1.info1()
-        draw dim fun:
+
+        # its possible to add useful commands too
+        draw dim - fun:
            exec:  FreeCAD.ActiveDocument.addObject("Part::Box","Box")
 
   sipoc : 
@@ -39,8 +59,20 @@ plugins:
     sourcedir: freecad-sipoc-master
     timestamp: https://raw.githubusercontent.com/microelly2/freecad-sipoc/master/release
     destdir: /usr/lib/freecad/Mod/plugins/plugin3
-    menu: sipoc command3
+    
+    # only one single menu entry
+    menu: sipoc - command3
     exec: import plugins;plugins.plugin1.info2()
 
 
+  workfeature:
+     name: workfeature 
+     status: noignore
+     source: https://github.com/Rentlau/WorkFeature/archive/master.zip
+     timestamp: 00
+     sourcedir: WorkFeature-master
+     destdir: /usr/lib/freecad/Mod/plugins/WorkFeature
+     menu: workfeature macro
+     exec: fn="/usr/lib/freecad/Mod/plugins/WorkFeature/start_WF.FCMacro";exec open(fn).read()
+  
 

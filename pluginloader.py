@@ -11,11 +11,10 @@ import FreeCAD,PySide,os,FreeCADGui,time
 from PySide import QtCore, QtGui, QtSvg
 from PySide.QtGui import * 
 
-__vers__='0.3'
+__vers__='0.4'
 
 
 import sys
-
 import os
 
 try:
@@ -88,9 +87,6 @@ class MyAction( QtGui.QAction):
 			say(self.cmd)
 			exec(self.cmd)
 			say("done")
-
-#s=MyAction("myname",cmdstring)
-#s.run()
 
 
 class MyWidget(QtGui.QWidget):
@@ -187,8 +183,8 @@ class PluginLoader(object):
 	def getwebVersionDate(self,plugin):
 		# get the date of the last update of the master
 		fn="/tmp/release"
-		tg=urllib.urlretrieve(self.config[plugin]['timestamp'],fn)
 		try:
+			tg=urllib.urlretrieve(self.config[plugin]['timestamp'],fn)
 			f = open(fn)
 			lines = f.readlines()
 			rc=lines[0]
@@ -213,9 +209,9 @@ class PluginLoader(object):
 #else:
 
 	def install(self,item):
-#		say(self.config[item])
+		say(self.config[item])
 		plugin=item
-#		saye(plugin) 
+		saye(plugin) 
 		if self.config[plugin]['status'] == 'ignore':
 				saye('ignore')
 				return
@@ -223,10 +219,11 @@ class PluginLoader(object):
 		localVersion=self.getlocalVersionDate(plugin)
 		webVersion=self.getwebVersionDate(plugin)
 
-		#say("Local Version: "+localVersion)
-		#say("Web Version  : "+webVersion)
+		say("Local Version: "+localVersion)
+		say("Web Version  : "+webVersion)
 
 		needUpdate = localVersion < webVersion
+		needUpdate = True
 
 		if needUpdate:
 				saye("Need Update")
@@ -273,14 +270,15 @@ class PluginLoader(object):
 					found=c
 					break
 			except:
-				print c
+#				print c
+				pass
 		if not found:
 			p=pp.addMenu("Plugins")
 		else: 
 			p=found
 		for c in p.actions():
 			if c.text() == 'pluginloader':
-				print ("replace action")
+#				print ("replace action")
 				p.removeAction(c)
 				break;
 		plina = QtGui.QAction(QtGui.QIcon('/usr/lib/FreeCAD/Mod/mylib/icons/mars.png'),'pluginloader', t)
@@ -305,7 +303,7 @@ class PluginLoader(object):
 			p=found
 		for c in p.actions():
 			if c.text() == name:
-				print ("replace action")
+#				print ("replace action")
 				p.removeAction(c)
 				break;
 		# plina = QtGui.QAction(QtGui.QIcon('/usr/lib/FreeCAD/Mod/mylib/icons/mars.png'),name, t)
@@ -341,16 +339,16 @@ class PluginLoader(object):
 			else:
 				say("keine menuitmes")
 			if self.config[k].has_key('menu'):
-				say("top menue")
+#				say("top menue")
 				menu=self.config[k]['menu']
 				say(menu)
 				itemlist.append(menu)
-				say("yy")
+#				say("yy")
 				tm=FreeCAD.ParamGet('User parameter:Plugins/'+k+'/'+menu)
-				say("rr")
+#				say("rr")
 				tm.SetString("exec",self.config[k]['exec'])
 			ms=";".join(itemlist)
-			say('ii')
+#			say('ii')
 			if ms <>"":
 				
 				t.SetString("menulist",ms)
@@ -407,8 +405,10 @@ if False:
 say("reloaded")
 
 plulo=PluginLoader()
-# plulo.start()
+#plulo.start()
+
 #plulo.register()
+
 plulo.setParams()
 plulo.getParams()
 
