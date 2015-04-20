@@ -15,7 +15,7 @@ plugins:
     method: zip
     sourcedir: FreeCAD_assembly2-master
     
-    destdir: /home/microelly2/.FreeCAD/Mod/plugins/assembly2
+    destdir: /home/microelly2/.FreeCAD/Mod/assembly2
 
 
   drawing dimensioning : 
@@ -75,4 +75,26 @@ plugins:
      menu: workfeature macro
      exec: fn="/usr/lib/freecad/Mod/plugins/WorkFeature/start_WF.FCMacro";exec open(fn).read()
   
+  
+  assembly animation:
+     name: ExplodedAssemblyAnimation
+     status: noignore
+     source:  https://www.dropbox.com/s/qxvtavsp4g539jq/ExplodedAssemblyAnimation.zip?dl=1
+     timestamp: 
+     sourcedir: ExplodedAssemblyAnimation
+     destdir: /home/microelly2/.FreeCAD/Mod/ExplodedAssemblyAnimation
+
+
+  bolts:
+     name: bolts 
+     status: noignore
+     source: http://www.bolts-library.org/de/downloads/freecad/BOLTS_FreeCAD_0.3_lgpl2.1+.zip
+     timestamp: 00
+     sourcedir: BOLTS
+     destdir: /usr/lib/freecad/Mod/BOLTS
+     menu: bolts
+     exec: import BOLTS;BOLTS.show_widget()
+     requires: pyside-tools 
+
+ 
 

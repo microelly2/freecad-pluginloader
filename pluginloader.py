@@ -11,11 +11,24 @@ import FreeCAD,PySide,os,FreeCADGui,time
 from PySide import QtCore, QtGui, QtSvg
 from PySide.QtGui import * 
 
+global QtGui
 __vers__='0.4'
 
 
 import sys
 import os
+
+FreeCAD.Console.PrintError("start")
+
+
+
+def say(s):
+	FreeCAD.Console.PrintMessage(str(s)+"\n")
+
+def saye(s):
+	FreeCAD.Console.PrintError(str(s)+"\n")
+
+global say,saye
 
 try:
 	__dir__ = os.path.dirname(__file__)
@@ -33,11 +46,6 @@ home = expanduser("~")
 __dir__=home+ '/.FreeCAD/Mod/pluginloader'
 
 
-def say(s):
-	FreeCAD.Console.PrintMessage(str(s)+"\n")
-
-def saye(s):
-	FreeCAD.Console.PrintError(str(s)+"\n")
 
 
 def dlge(msg):
@@ -70,9 +78,10 @@ fn=__dir__+"/pluginloaderconfig.yaml"
 
 stream = open(fn, 'r')
 config3 = yaml.load(stream)
+global config3
 say(config3)
 
-
+saye("tt")
 import urllib
 
 class MyAction( QtGui.QAction):
@@ -88,7 +97,8 @@ class MyAction( QtGui.QAction):
 			exec(self.cmd)
 			say("done")
 
-
+global MyAction
+saye("hh")
 class MyWidget(QtGui.QWidget):
 	def __init__(self, master,*args):
 		QtGui.QWidget.__init__(self, *args)
@@ -108,11 +118,11 @@ class MyWidget(QtGui.QWidget):
 		self.pushButton03.clicked.connect(self.on_pushButton03_clicked) 
 		self.pushButton03.setText("Run ")
 
-		self.listWidget = QListWidget() 
+		self.listWidget = QtGui.QListWidget() 
 #		FreeCAD.tu=self.listWidget
 		self.listWidget.setSelectionMode(QtGui.QAbstractItemView.MultiSelection)
 		for k in self.config.keys():
-			item = QListWidgetItem(k)
+			item = QtGui.QListWidgetItem(k)
 			self.listWidget.addItem(item)
 			FreeCAD.tk=item
 #		self.listWidget.itemEntered.connect(self.entered)
@@ -154,12 +164,14 @@ class MyWidget(QtGui.QWidget):
 
 
 
+global MyWidget
 
-
+saye("zz")
 
 class PluginLoader(object):
 
 	def __init__(self):
+		global say
 		say("init")
 		self.config=config3['plugins']
 		self.keys=self.config.keys
@@ -246,7 +258,10 @@ class PluginLoader(object):
 			zfile.extractall("/tmp/zipout")
 
 			# positionieren
-			source="/tmp/zipout/"+self.config[plugin]['sourcedir']
+			if self.config[plugin]['sourcedir'] =='.':
+				source="/tmp/zipout"
+			else:
+				source="/tmp/zipout/"+self.config[plugin]['sourcedir']
 			say(source)
 			destination=self.config[plugin]['destdir']
 			say(destination)
@@ -263,31 +278,41 @@ class PluginLoader(object):
 	def register(self):
 		t=FreeCADGui.getMainWindow()
 		pp=t.menuBar()
+		self.pp=pp
+		say(pp)
+		say("register menu")
 		found=False
 		for c in pp.children():
 			try:
 				if c.title() == "Plugins":
+				#if c.title() == "Help":
 					found=c
 					break
 			except:
-#				print c
 				pass
 		if not found:
+			saye("Plugins not found")
 			p=pp.addMenu("Plugins")
+			saye(p)
+			self.Menu=p
 		else: 
+			saye("Plugins found")
 			p=found
+			self.Menu=p
 		for c in p.actions():
 			if c.text() == 'pluginloader':
-#				print ("replace action")
+				say("replace action")
 				p.removeAction(c)
 				break;
 		plina = QtGui.QAction(QtGui.QIcon('/usr/lib/FreeCAD/Mod/mylib/icons/mars.png'),'pluginloader', t)
 		a=p.addAction(plina)
 		plina.triggered.connect(self.start)
+		saye("register menu done")
 
 
 	def registerPlugin(self,name,method):
 		t=FreeCADGui.getMainWindow()
+		saye("register menubar")
 		pp=t.menuBar()
 		found=False
 		for c in pp.children():
@@ -299,25 +324,21 @@ class PluginLoader(object):
 				print c
 		if not found:
 			p=pp.addMenu("Plugins")
+			saye("addmenu ..")
+			say(p)
 		else: 
 			p=found
+			say("found 1")
 		for c in p.actions():
 			if c.text() == name:
-#				print ("replace action")
 				p.removeAction(c)
 				break;
-		# plina = QtGui.QAction(QtGui.QIcon('/usr/lib/FreeCAD/Mod/mylib/icons/mars.png'),name, t)
-		saye("create action"+name)
+		saye("create action "+name)
 		plina =MyAction(name,t,method)
-#s.run()
-
 		a=p.addAction(plina)
-#		say(method)
-#		def method2():
-#			s=method+""
-#			#exec(s)
-#		# lambda f=self.setDefaultHeight, arg=obj:f(arg)
 		plina.triggered.connect(plina.run)
+		saye("menubar done")
+		
 
 	def setParams(self):
 		ta=FreeCAD.ParamGet('User parameter:Plugins')
@@ -402,15 +423,23 @@ if False:
 	plugins.plugin3.sipoc.createSipoc("MySipoc",[],[])
 
 
-say("reloaded")
+saye("reloaded")
 
 plulo=PluginLoader()
-#plulo.start()
+FreeCAD.plulo=plulo
+saye("gemacht")
 
+saye("started")
+
+#plulo.register()
 #plulo.register()
 
 plulo.setParams()
 plulo.getParams()
 
+FreeCAD.plulo=plulo
+#plulo.register()
 
+saye("fertig")
 
+# freecad ~/.FreeCAD/Mod/pluginloader/pluginloader.py
