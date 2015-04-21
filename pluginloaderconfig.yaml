@@ -39,16 +39,6 @@ plugins:
     # installation for all users
     #destdir: /usr/lib/freecad/Mod/plugins/drawing_dimensioning
     
-    # install this module with 3 menu items
-    menuitems:
-        draw dim - command1:
-           exec: import plugins;plugins.plugin1.info2()
-        draw dim - cmd2:
-           exec: import plugins;plugins.plugin1.p1.info1()
-
-        # its possible to add useful commands too
-        draw dim - fun:
-           exec:  FreeCAD.ActiveDocument.addObject("Part::Box","Box")
 
   sipoc : 
     name: sipoc
@@ -95,6 +85,28 @@ plugins:
      menu: bolts
      exec: import BOLTS;BOLTS.show_widget()
      requires: pyside-tools 
+
+
+  menutest2:
+    name: sipoc
+    status: noignore
+    description : Single Point Configuration
+    author: microelly2
+    source: https://github.com/microelly2/freecad-sipoc/archive/master.zip
+    sourcedir: freecad-sipoc-master
+    timestamp: https://raw.githubusercontent.com/microelly2/freecad-sipoc/master/release
+    destdir: /usr/lib/freecad/Mod/plugins/plugin3
+    
+     # install this module with 3 menu items
+    menuitems:
+        menu test - command1:
+           exec: import plugins;plugins.plugin1.info2()
+        menu test - cmd2:
+           exec: import plugins;plugins.plugin1.p1.info1()
+
+        # its possible to add useful commands too
+        menu test - fun:
+           exec:  FreeCAD.ActiveDocument.addObject("Part::Box","Box")
 
  
 
