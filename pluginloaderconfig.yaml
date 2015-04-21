@@ -105,8 +105,12 @@ plugins:
            exec: import plugins;plugins.plugin1.p1.info1()
 
         # its possible to add useful commands too
-        menu test - fun:
+        menu tes - fun:
            exec:  FreeCAD.ActiveDocument.addObject("Part::Box","Box")
 
- 
+  loadtest:
+    name: loader test
+    source: https://github.com/microelly2/freecad-sipoc/archive/master.zip
+    sourcedir: freecad-sipoc-master
+    destdir: /tmp/destdir
 

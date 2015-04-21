@@ -18,10 +18,6 @@ __vers__='0.4'
 import sys
 import os
 
-FreeCAD.Console.PrintError("start")
-
-
-
 def say(s):
 	FreeCAD.Console.PrintMessage(str(s)+"\n")
 
@@ -46,10 +42,8 @@ home = expanduser("~")
 __dir__=home+ '/.FreeCAD/Mod/pluginloader'
 
 
-
-
 def dlge(msg):
-	diag = QtGui.QMessageBox(QtGui.QMessageBox.Critical,u"Error Message",msg )
+	diag = QtGui.QMessageBox(QtGui.QMessageBox.Critical,u"Plugin Loader Error",msg )
 	diag.setWindowFlags(PySide.QtCore.Qt.WindowStaysOnTopHint)
 	diag.exec_()
 
@@ -60,7 +54,7 @@ def dlgi(msg):
 
 
 def testmeth():
-	dlge("TEST DIA LOGe")
+	dlge("TEST DIA LOG")
 	
 #----------------
 #
@@ -81,7 +75,7 @@ config3 = yaml.load(stream)
 global config3
 say(config3)
 
-saye("tt")
+
 import urllib
 
 class MyAction( QtGui.QAction):
@@ -98,7 +92,7 @@ class MyAction( QtGui.QAction):
 			say("done")
 
 global MyAction
-saye("hh")
+
 class MyWidget(QtGui.QWidget):
 	def __init__(self, master,*args):
 		QtGui.QWidget.__init__(self, *args)
@@ -166,8 +160,6 @@ class MyWidget(QtGui.QWidget):
 
 global MyWidget
 
-saye("zz")
-
 class PluginLoader(object):
 
 	def __init__(self):
@@ -178,14 +170,8 @@ class PluginLoader(object):
 		self.register()
 
 
-	def start1(self):
-		saye("luginloader started ...")
-		self.install("sipoc")
-
-
-
 	def start(self):
-		saye("luginloader started ...")
+		saye("pluginloader started ...")
 		s=MyWidget(self)
 		self.s=s
 		s.show()
@@ -201,6 +187,7 @@ class PluginLoader(object):
 			lines = f.readlines()
 			rc=lines[0]
 		except:
+			saye("no web version info available")
 			rc=''
 		return rc
 
@@ -212,6 +199,7 @@ class PluginLoader(object):
 			lines = f.readlines()
 			rc=lines[0]
 		except:
+			saye("no local version info available")
 			rc='99999999999999999999999'
 		return rc
 
@@ -223,8 +211,8 @@ class PluginLoader(object):
 	def install(self,item):
 		say(self.config[item])
 		plugin=item
-		saye(plugin) 
-		if self.config[plugin]['status'] == 'ignore':
+		saye("install or update "+plugin) 
+		if self.config[plugin].has_key('status') and self.config[plugin]['status'] == 'ignore':
 				saye('ignore')
 				return
 
@@ -245,34 +233,44 @@ class PluginLoader(object):
 		# download if needed
 		zipfilename="/tmp/my.zip"
 		if needUpdate:
-			say(self.config[plugin]['source'])
-			tg=urllib.urlretrieve(self.config[plugin]['source'],zipfilename)
-			say(tg)
-			targetfile=tg[0]
-			say(targetfile)
-
-			import zipfile
-			# extract
-			fh = open(zipfilename, 'rb')
-			zfile = zipfile.ZipFile(fh)
-			zfile.extractall("/tmp/zipout")
-
-			# positionieren
-			if self.config[plugin]['sourcedir'] =='.':
-				source="/tmp/zipout"
+			if not self.config[plugin].has_key('source'):
+				saye("no source given - nothing to download")
 			else:
-				source="/tmp/zipout/"+self.config[plugin]['sourcedir']
-			say(source)
-			destination=self.config[plugin]['destdir']
-			say(destination)
-			# hier muss fehlerhandlich verbessert werden !!
-			try:
-				os.rename(destination,destination+".bak."+str(time.time()))
-			except:
-				os.mkdir(destination)
-			os.rename(source, destination)
-			# result dir content
-			os.listdir(destination)
+				say(self.config[plugin]['source'])
+				if not self.config[plugin].has_key('sourcedir'):
+					saye("sourcedir not given - install aborted")
+					return
+				if not self.config[plugin].has_key('destdir'):
+					saye("destdir not given -- install aborted")
+					return
+				tg=urllib.urlretrieve(self.config[plugin]['source'],zipfilename)
+				say(tg)
+				targetfile=tg[0]
+				say(targetfile)
+
+				import zipfile
+				# extract
+				fh = open(zipfilename, 'rb')
+				zfile = zipfile.ZipFile(fh)
+				zfile.extractall("/tmp/zipout")
+
+				# positionieren
+				if self.config[plugin]['sourcedir'] =='.':
+					source="/tmp/zipout"
+				else:
+					source="/tmp/zipout/"+self.config[plugin]['sourcedir']
+				say(source)
+				destination=self.config[plugin]['destdir']
+				say(destination)
+				# hier muss fehlerhandlich verbessert werden !!
+				if self.config[plugin].has_key('backup'):
+					try:
+						os.rename(destination,self.config[plugin]['backup']+".bak."+str(time.time()))
+					except:
+						os.mkdir(destination)
+				os.rename(source, destination)
+				# result dir content
+				os.listdir(destination)
 		dlgi(str(item) + " ist fertig")
 
 	def register(self):
@@ -308,6 +306,7 @@ class PluginLoader(object):
 		a=p.addAction(plina)
 		plina.triggered.connect(self.start)
 		saye("register menu done")
+
 
 
 	def registerPlugin(self,name,method):
@@ -443,3 +442,5 @@ FreeCAD.plulo=plulo
 saye("fertig")
 
 # freecad ~/.FreeCAD/Mod/pluginloader/pluginloader.py
+
+
