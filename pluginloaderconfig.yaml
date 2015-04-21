@@ -66,13 +66,27 @@ plugins:
      exec: fn="/usr/lib/freecad/Mod/plugins/WorkFeature/start_WF.FCMacro";exec open(fn).read()
   
   
-  assembly animation:
+  assembly animation dropbox:
+     comment: demo for dropbox download
      name: ExplodedAssemblyAnimation
      status: noignore
      source:  https://www.dropbox.com/s/qxvtavsp4g539jq/ExplodedAssemblyAnimation.zip?dl=1
+     author: JMG
      timestamp: 
      sourcedir: ExplodedAssemblyAnimation
      destdir: /home/microelly2/.FreeCAD/Mod/ExplodedAssemblyAnimation
+
+
+  assembly animation:
+     name: ExplodedAssemblyAnimation
+     status: noignore
+     source:  https://github.com/JMG1/FreeCAD_ExplodedAssemblyAnimationWorkbench/archive/master.zip
+     author: JMG
+     timestamp: 
+     sourcedir: FreeCAD_ExplodedAssemblyAnimationWorkbench-master
+     destdir: /home/microelly2/.FreeCAD/Mod/ExplodedAssemblyAnimation
+
+
 
 
   bolts:
