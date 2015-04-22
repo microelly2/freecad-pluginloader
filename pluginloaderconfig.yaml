@@ -99,7 +99,21 @@ plugins:
      menu: bolts
      exec: import BOLTS;BOLTS.show_widget()
      requires: pyside-tools 
+   
+#------------------------
 
+  symbollib:
+     name: symbols
+     status: noignore
+     source: https://github.com/yorikvanhavre/FreeCAD-symbols/archive/master.zip
+     author: yorik
+     timestamp: 00
+     sourcedir: FreeCAD-symbols-master
+     destdir:  /usr/lib/freecad/Mod/plugins/FreeCAD-symbols
+     menu: Drawing Symbols
+     exec: fn="/usr/lib/freecad/Mod/plugins/FreeCAD-symbols/SymbolsLibrary.FCMacro";exec open(fn).read()
+ 
+#------------------------
 
   menutest2:
     name: sipoc

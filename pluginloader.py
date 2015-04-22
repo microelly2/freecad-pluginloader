@@ -347,6 +347,9 @@ class PluginLoader(object):
 			t=FreeCAD.ParamGet('User parameter:Plugins/'+k)
 			pluginlist.append(k)
 			t.SetString("name",self.config[k]["name"])
+			if self.config[k].has_key("author"): t.SetString("author",self.config[k]["author"])
+			t.SetString("destination",self.config[k]["destdir"])
+			
 			#t.SetString("exec","execute this")
 			t.SetInt('installed',1)
 			itemlist=[]
