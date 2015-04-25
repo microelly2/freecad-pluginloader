@@ -12,11 +12,11 @@ from PySide import QtCore, QtGui, QtSvg
 from PySide.QtGui import * 
 
 global QtGui
+global config3,MyAction,say,saye
 __vers__='0.4'
 
 
-import sys
-import os
+import sys, os, zipfile
 
 def say(s):
 	FreeCAD.Console.PrintMessage(str(s)+"\n")
@@ -24,7 +24,6 @@ def say(s):
 def saye(s):
 	FreeCAD.Console.PrintError(str(s)+"\n")
 
-global say,saye
 
 try:
 	__dir__ = os.path.dirname(__file__)
@@ -34,13 +33,10 @@ except:
 	from os.path import expanduser
 	home = expanduser("~")
 	__dir__=home+ '/.FreeCAD/Mod/pluginloader'
-	
-
 
 from os.path import expanduser
 home = expanduser("~")
 __dir__=home+ '/.FreeCAD/Mod/pluginloader'
-
 
 def dlge(msg):
 	diag = QtGui.QMessageBox(QtGui.QMessageBox.Critical,u"Plugin Loader Error",msg )
@@ -52,10 +48,10 @@ def dlgi(msg):
 	diag.setWindowFlags(PySide.QtCore.Qt.WindowStaysOnTopHint)
 	diag.exec_()
 
+def dlgyn(msg):
+	m=QtGui.QWidget()
+	dial = QtGui.QMessageBox.question( m,'Message',  msg, QtGui.QMessageBox.Yes |     QtGui.QMessageBox.No, QtGui.QMessageBox.No)
 
-def testmeth():
-	dlge("TEST DIA LOG")
-	
 #----------------
 #
 # Plugin loader  - install macros, libraries and extra workbenches 
@@ -64,34 +60,43 @@ def testmeth():
 
 
 # read from file and converted to python
-import yaml
+import yaml,urllib
 
-#fn="/home/thomas/Dokumente/freecad_buch/b134_pluginloader/pluginloaderconfig.yaml"
 
 fn=__dir__+"/pluginloaderconfig.yaml"
 
 stream = open(fn, 'r')
 config3 = yaml.load(stream)
-global config3
 say(config3)
 
+def set_defaults(conf):
+	for key in conf['plugins'].keys():
+		say(key)
+		say("----")
+		for att in conf['defaults'].keys():
+			say(att)
+			if not conf['plugins'][key].has_key(att):
+				say('***')
+				say(conf['defaults'][att])
+				conf['plugins'][key][att]=conf['defaults'][att]
+	return(conf)
 
-import urllib
+config3=set_defaults(config3)
+
 
 class MyAction( QtGui.QAction):
 	def __init__(self, name,t,method,*args):
 		#QtGui.QWidget.__init__(self, *args)
-		QtGui.QAction.__init__(self,QtGui.QIcon('/usr/lib/FreeCAD/Mod/mylib/icons/mars.png'),name, t)
+		QtGui.QAction.__init__(self,QtGui.QIcon('/usr/lib/freecad/Mod/mylib/icons/sun.png'),name, t)
 		self.cmd="say('hallo')"
 		self.cmd=method
 		
 	def run(self):
 			say("run")
-			say(self.cmd)
+			say("!"+self.cmd+"!")
 			exec(self.cmd)
 			say("done")
 
-global MyAction
 
 class MyWidget(QtGui.QWidget):
 	def __init__(self, master,*args):
@@ -100,65 +105,73 @@ class MyWidget(QtGui.QWidget):
 		self.config=master.config
 		self.vollabel = QtGui.QLabel('1. Select Packages ...')
 		self.vollabel2 = QtGui.QLabel('2. Show Package Info ...')
+		self.lab2 = QtGui.QLabel('')
 		self.vollabel3 = QtGui.QLabel('3. Install/Update ...')
-#		self.volvalue = QtGui.QLineEdit()
-#		self.checkBox = QtGui.QCheckBox()
-
 		self.pushButton02 = QtGui.QPushButton()
 		self.pushButton02.clicked.connect(self.on_pushButton02_clicked) 
 		self.pushButton02.setText("Display ")
-		
 		self.pushButton03 = QtGui.QPushButton()
 		self.pushButton03.clicked.connect(self.on_pushButton03_clicked) 
 		self.pushButton03.setText("Run ")
-
 		self.listWidget = QtGui.QListWidget() 
-#		FreeCAD.tu=self.listWidget
 		self.listWidget.setSelectionMode(QtGui.QAbstractItemView.MultiSelection)
 		for k in self.config.keys():
 			item = QtGui.QListWidgetItem(k)
 			self.listWidget.addItem(item)
 			FreeCAD.tk=item
-#		self.listWidget.itemEntered.connect(self.entered)
-		#	item.itemEntered.connect(self.entered)
-
 		layout = QtGui.QGridLayout()
+		line=4
 		layout.addWidget(self.vollabel, 0, 0)
-		layout.addWidget(self.vollabel2, 4, 0)
-		layout.addWidget(self.vollabel3, 6, 0)
-#		layout.addWidget(self.volvalue, 0, 1)
-#		layout.addWidget(self.checkBox, 0, 2)
-		layout.addWidget(self.pushButton02, 5, 0,1,4)
-		layout.addWidget(self.pushButton03, 7, 0,1,4)
-		layout.addWidget(self.listWidget, 3, 0,1,4)
-
+		line=3
+		layout.addWidget(self.listWidget, line, 0,1,4)
+		line+=1
+		layout.addWidget(self.vollabel2, line, 0)
+		line+=1
+		layout.addWidget(self.lab2, line, 0)
+		line+=1
+		layout.addWidget(self.pushButton02, line, 0,1,4)
+		line+=1
+		layout.addWidget(self.vollabel3, line, 0)
+		line+=1
+		layout.addWidget(self.pushButton03, line, 0,1,4)
+		line+=1
+		line+=1
 		self.setLayout(layout)
 		self.setWindowTitle("Plugin Loader")
 
-#	def entered(self):
-#		saye("enterd")
 	def on_pushButton02_clicked(self):
-			dlge("not implemented yet")
-
+		text=""
+		say("huhu")
+		for sel in self.listWidget.selectedItems():
+			text += "*** "+ sel.text() + " ***"
+			say(text)
+			say(self.config[sel.text()])
+			say("ok")
+			
+			text += "\n" + str(self.config[sel.text()]['author'])
+			say(text)
+			text += "\n" + str(self.config[sel.text()]['source'])
+			say(text)
+			text += "\n" + str(self.config[sel.text()]['description'])
+			say(text)
+			text += "\n"
+		self.lab2.setText(text)
 
 	def on_pushButton03_clicked(self):
 		seli=[]
 		if len(self.listWidget.selectedItems())==0:
 			dlge("nothing selected - nothing to do")
 		else:
-			saye("selected ...")
-			self.hide()
+			m=QtGui.QWidget()
+			dial = QtGui.QMessageBox.question( m,'Message',    "Are you sure to install?", QtGui.QMessageBox.Yes |     QtGui.QMessageBox.No, QtGui.QMessageBox.No)
+			if dial==PySide.QtGui.QMessageBox.StandardButton.No: return
 			for sel in self.listWidget.selectedItems():
 				seli.append(sel.text())
 				say(sel.text())
 				self.master.install(sel.text())
 			pass
 			self.show()
-			say("fertig")
-
-
-
-global MyWidget
+			say("run done")
 
 class PluginLoader(object):
 
@@ -166,6 +179,7 @@ class PluginLoader(object):
 		global say
 		say("init")
 		self.config=config3['plugins']
+		self.base=config3['base']
 		self.keys=self.config.keys
 		self.register()
 
@@ -173,14 +187,14 @@ class PluginLoader(object):
 	def start(self):
 		saye("pluginloader started ...")
 		s=MyWidget(self)
-		self.s=s
+		self.widget=s
 		s.show()
 
 #check the version local against the web
 
 	def getwebVersionDate(self,plugin):
 		# get the date of the last update of the master
-		fn="/tmp/release"
+		fn=self.base['tmprelease']
 		try:
 			tg=urllib.urlretrieve(self.config[plugin]['timestamp'],fn)
 			f = open(fn)
@@ -203,13 +217,10 @@ class PluginLoader(object):
 			rc='99999999999999999999999'
 		return rc
 
-
-#if os.path.exists(config[plugin]['destdir'] +".bak"):
-#	saye("Backup for last update " + config[plugin]['destdir'] +".bak" +" still exists --> aborted")
-#else:
-
 	def install(self,item):
 		say(self.config[item])
+		self.widget.lab2.setText("Install start")
+		self.widget.show()
 		plugin=item
 		saye("install or update "+plugin) 
 		if self.config[plugin].has_key('status') and self.config[plugin]['status'] == 'ignore':
@@ -230,8 +241,11 @@ class PluginLoader(object):
 		else:
 				saye("No Update")
 
-		# download if needed
-		zipfilename="/tmp/my.zip"
+		zipextract=self.base['zipex']
+		say(zipextract)
+		zipfilename=zipextract+".zip"
+		say(zipfilename)
+		zipextract += '/'
 		if needUpdate:
 			if not self.config[plugin].has_key('source'):
 				saye("no source given - nothing to download")
@@ -244,34 +258,34 @@ class PluginLoader(object):
 					saye("destdir not given -- install aborted")
 					return
 				tg=urllib.urlretrieve(self.config[plugin]['source'],zipfilename)
-				say(tg)
 				targetfile=tg[0]
 				say(targetfile)
-
-				import zipfile
-				# extract
 				fh = open(zipfilename, 'rb')
 				zfile = zipfile.ZipFile(fh)
-				zfile.extractall("/tmp/zipout")
+				zfile.extractall(zipextract)
 
-				# positionieren
 				if self.config[plugin]['sourcedir'] =='.':
-					source="/tmp/zipout"
+					source=zipextract
 				else:
-					source="/tmp/zipout/"+self.config[plugin]['sourcedir']
+					source=zipextract+self.config[plugin]['sourcedir']
 				say(source)
 				destination=self.config[plugin]['destdir']
 				say(destination)
+
 				# hier muss fehlerhandlich verbessert werden !!
 				if self.config[plugin].has_key('backup'):
 					try:
+						say("backup")
 						os.rename(destination,self.config[plugin]['backup']+".bak."+str(time.time()))
 					except:
 						os.mkdir(destination)
+				say("move")
 				os.rename(source, destination)
-				# result dir content
-				os.listdir(destination)
+				say("done install")
+				#os.listdir(destination)
+		self.widget.lab2.setText(str(item) + " install fertig ----")
 		dlgi(str(item) + " ist fertig")
+		
 
 	def register(self):
 		t=FreeCADGui.getMainWindow()
@@ -296,18 +310,18 @@ class PluginLoader(object):
 		else: 
 			saye("Plugins found")
 			p=found
-			self.Menu=p
+		self.Menu=p
 		for c in p.actions():
 			if c.text() == 'pluginloader':
 				say("replace action")
 				p.removeAction(c)
 				break;
-		plina = QtGui.QAction(QtGui.QIcon('/usr/lib/FreeCAD/Mod/mylib/icons/mars.png'),'pluginloader', t)
+		plina = QtGui.QAction(QtGui.QIcon('/usr/lib/freecad/Mod/mylib/icons/mars.png'),'pluginloader', t)
 		a=p.addAction(plina)
 		plina.triggered.connect(self.start)
+		p.addSeparator()
+		p.addSeparator()
 		saye("register menu done")
-
-
 
 	def registerPlugin(self,name,method):
 		t=FreeCADGui.getMainWindow()
@@ -328,6 +342,7 @@ class PluginLoader(object):
 		else: 
 			p=found
 			say("found 1")
+		self.menu=p
 		for c in p.actions():
 			if c.text() == name:
 				p.removeAction(c)
@@ -337,7 +352,7 @@ class PluginLoader(object):
 		a=p.addAction(plina)
 		plina.triggered.connect(plina.run)
 		saye("menubar done")
-		
+
 
 	def setParams(self):
 		ta=FreeCAD.ParamGet('User parameter:Plugins')
@@ -346,11 +361,13 @@ class PluginLoader(object):
 		for k in self.config.keys():
 			t=FreeCAD.ParamGet('User parameter:Plugins/'+k)
 			pluginlist.append(k)
+			say("--")
+			say(k)
+			say(self.config[k])
+			say(self.config[k]["name"])
 			t.SetString("name",self.config[k]["name"])
 			if self.config[k].has_key("author"): t.SetString("author",self.config[k]["author"])
 			t.SetString("destination",self.config[k]["destdir"])
-			
-			#t.SetString("exec","execute this")
 			t.SetInt('installed',1)
 			itemlist=[]
 			if self.config[k].has_key('menuitems'):
@@ -362,29 +379,16 @@ class PluginLoader(object):
 			else:
 				say("keine menuitmes")
 			if self.config[k].has_key('menu'):
-#				say("top menue")
 				menu=self.config[k]['menu']
 				say(menu)
 				itemlist.append(menu)
-#				say("yy")
 				tm=FreeCAD.ParamGet('User parameter:Plugins/'+k+'/'+menu)
-#				say("rr")
 				tm.SetString("exec",self.config[k]['exec'])
 			ms=";".join(itemlist)
-#			say('ii')
 			if ms <>"":
-				
 				t.SetString("menulist",ms)
 		ps=";".join(pluginlist)
 		ta.SetString("pluginlist",ps)
-		say("ll")
-		if False:
-			try:
-				height=t.GetInt('height')
-				res=t.GSetFloat('resolution')
-				fn=t.GetString('filename')
-			except:
-				print "kann parameter nicht lesen"
 
 	def getParams(self):
 		for k in self.config.keys():
@@ -396,54 +400,13 @@ class PluginLoader(object):
 				say("!"+menu)
 				if menu =="":
 					continue
-				#for at in ["name","source"]:
-	#			name=t.GetString("name")
-	#			souce=t.GetString("source")
 				tm=FreeCAD.ParamGet('User parameter:Plugins/'+k+'/'+menu)
 				method=tm.GetString("exec")
-				
 				say(method)
-				def ff():
-					#exec(method)
-					say(method)
-				# ff=None
-				
 				self.registerPlugin(menu,method)
 				say("done")
 
-if False:
-	#reload the plugins
-	say("import plugins ..")
-
-	import plugins
-	reload(plugins)
-
-	# use the plugins
-	App.newDocument("Unnamed")
-	App.setActiveDocument("Unnamed")
-	App.ActiveDocument=App.getDocument("Unnamed")
-	plugins.plugin3.sipoc.createSipoc("MySipoc",[],[])
-
-
-saye("reloaded")
-
 plulo=PluginLoader()
-FreeCAD.plulo=plulo
-saye("gemacht")
-
-saye("started")
-
-#plulo.register()
-#plulo.register()
-
 plulo.setParams()
 plulo.getParams()
-
-FreeCAD.plulo=plulo
-#plulo.register()
-
-saye("fertig")
-
-# freecad ~/.FreeCAD/Mod/pluginloader/pluginloader.py
-
-
+plulo.start()

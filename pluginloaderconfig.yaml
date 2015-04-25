@@ -16,6 +16,7 @@ plugins:
     sourcedir: FreeCAD_assembly2-master
     
     destdir: /home/microelly2/.FreeCAD/Mod/assembly2
+    backup: /home/microelly2/.FreeCAD/Mod/assembly2
 
 
   drawing dimensioning : 
@@ -75,7 +76,7 @@ plugins:
      timestamp: 
      sourcedir: ExplodedAssemblyAnimation
      destdir: /home/microelly2/.FreeCAD/Mod/ExplodedAssemblyAnimation
-
+     backup: /home/microelly2/.FreeCAD/Mod/ExplodedAssemblyAnimation
 
   assembly animation:
      name: ExplodedAssemblyAnimation
@@ -107,12 +108,26 @@ plugins:
      status: noignore
      source: https://github.com/yorikvanhavre/FreeCAD-symbols/archive/master.zip
      author: yorik
+     description: symbols for drawing page
      timestamp: 00
      sourcedir: FreeCAD-symbols-master
      destdir:  /usr/lib/freecad/Mod/plugins/FreeCAD-symbols
+     backup:  /usr/lib/freecad/Mod/plugins/FreeCAD-symbols
      menu: Drawing Symbols
      exec: fn="/usr/lib/freecad/Mod/plugins/FreeCAD-symbols/SymbolsLibrary.FCMacro";exec open(fn).read()
- 
+
+  partlib:
+     name: partlib
+     status: noignore
+     source: https://github.com/yorikvanhavre/FreeCAD-library/archive/master.zip
+     author: yorik
+     timestamp: 00
+     sourcedir: FreeCAD-library-master
+     #destdir:  /usr/lib/freecad/Mod/plugins/FreeCAD-symbols
+     destdir: /tmp/test
+     menu: Drawing Symbols
+     exec: fn="/usr/lib/freecad/Mod/plugins/FreeCAD-library/PartsLibrary.FCMacro";exec open(fn).read()
+
 #------------------------
 
   menutest2:
@@ -141,4 +156,35 @@ plugins:
     source: https://github.com/microelly2/freecad-sipoc/archive/master.zip
     sourcedir: freecad-sipoc-master
     destdir: /tmp/destdir
+
+  defaulttest:
+    status: noignore
+
+
+# defaults:
+# if you don not specify parameters for your package
+# the following defaults will be used
+
+defaults:
+    name: defaultName
+    description: no description 
+    author: noname
+    status: ignore
+    source: https://github.com/microelly2/plugin_defaults/archive/master.zip
+    sourcedir: plugin_defaults-master
+    destdir: /tmp/destdir
+    timestime: https://github.com/microelly2/plugin_defaults/timestamp
+    menu: defaults
+    exec: import FreeCAD;FreeCAD.Console.PrintWarning('******************default Method\n')
+    backup: /tmp/bak_ 
+ 
+ 
+ # base:
+ # configurations of the plugin itself 
+ 
+base:
+  # verzeichnis temp zum zwischenspeichern und auspacken
+  zipex: /tmp/yyya
+  tmprelease: /tmp/release
+
 
