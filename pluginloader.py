@@ -102,6 +102,9 @@ class MyWidget(QtGui.QWidget):
 	def __init__(self, master,*args):
 		QtGui.QWidget.__init__(self, *args)
 		self.master=master
+		#if hasattr(FreeCAD,"mywidget"):
+		#	FreeCAD.mywidget.hide()
+		FreeCAD.mywidget=self
 		self.config=master.config
 		self.vollabel = QtGui.QLabel('1. Select Packages ...')
 		self.vollabel2 = QtGui.QLabel('2. Show Package Info ...')
@@ -112,13 +115,15 @@ class MyWidget(QtGui.QWidget):
 		self.pushButton02.setText("Display ")
 		self.pushButton03 = QtGui.QPushButton()
 		self.pushButton03.clicked.connect(self.on_pushButton03_clicked) 
-		self.pushButton03.setText("Run ")
+		self.pushButton03.setText("Run 2")
 		self.listWidget = QtGui.QListWidget() 
 		self.listWidget.setSelectionMode(QtGui.QAbstractItemView.MultiSelection)
-		for k in self.config.keys():
-			item = QtGui.QListWidgetItem(k)
-			self.listWidget.addItem(item)
-			FreeCAD.tk=item
+		kl=self.config.keys()
+		say(kl)
+		for k in sorted(kl):
+			if not self.config[k]['status'] == "ignore":
+				item = QtGui.QListWidgetItem(k)
+				self.listWidget.addItem(item)
 		layout = QtGui.QGridLayout()
 		line=4
 		layout.addWidget(self.vollabel, 0, 0)
@@ -292,35 +297,87 @@ class PluginLoader(object):
 		pp=t.menuBar()
 		self.pp=pp
 		say(pp)
-		say("register menu")
+		say("register menu 4")
 		found=False
+		say("q")
+		w=FreeCADGui.activeWorkbench()
+		say("q2")
+		say(w)
+		try:
+			say(w.name())
+		except:
+			say("no workbench name")
+		say("q3")
+		'''
+#		say("kkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkk")
+		if  w.name() == 'DraftWorkbench':
+			pname='Plugins2'
+		else:
+			pname='Plugins'
 		for c in pp.children():
 			try:
-				if c.title() == "Plugins":
+				if c.title() == pname:
 				#if c.title() == "Help":
 					found=c
-					break
+					#c.hide()
+					#found=False
+					#break
 			except:
 				pass
+		#found=False
+		#self.Menu=None
+		w=FreeCADGui.activeWorkbench()
+		say(w.name())
+		say("kkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkk")
+		if  w.name() == 'DraftWorkbench':
+			# found=False
+			say("QQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQ")
 		if not found:
 			saye("Plugins not found")
-			p=pp.addMenu("Plugins")
+			p=pp.addMenu(pname)
 			saye(p)
+			saye("-------------------------------xxxxxxxxxxxxxxxxxxxxxx")
 			self.Menu=p
 		else: 
 			saye("Plugins found")
 			p=found
-		self.Menu=p
+			self.Menu=p
+		'''
+		
+		t=FreeCADGui.getMainWindow()
+		pp=t.menuBar()
+		say(pp)
+		say("register menu 2")
+		found=False
+		for c in pp.children():
+			say(c)
+			try:
+				print c.title() 
+				if c.title() == "Plugins":
+					h=c
+					found=c
+			except:
+				pass
+		say("a")
+		p=pp.addMenu("Plugins")
+		if found:
+			say("b")
+			for c in h.actions():
+				p.addAction(c)
+				pp.show()
+				h.deleteLater()
+		say("c")
 		for c in p.actions():
 			if c.text() == 'pluginloader':
 				say("replace action")
 				p.removeAction(c)
 				break;
+		say("d")
 		plina = QtGui.QAction(QtGui.QIcon('/usr/lib/freecad/Mod/mylib/icons/mars.png'),'pluginloader', t)
 		a=p.addAction(plina)
 		plina.triggered.connect(self.start)
 		p.addSeparator()
-		p.addSeparator()
+		
 		saye("register menu done")
 
 	def registerPlugin(self,name,method):
@@ -328,21 +385,35 @@ class PluginLoader(object):
 		saye("register menubar")
 		pp=t.menuBar()
 		found=False
+		
+		w=FreeCADGui.activeWorkbench()
+		say(w.name())
+#		say("kkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkk")
+		#if  w.name() == 'DraftWorkbench':
+		#pname='Plugins2'
+		#else:
+		pname='Plugins'
+		
 		for c in pp.children():
 			try:
-				if c.title() == "Plugins":
+				if c.title() == pname:
 					found=c
-					break
+					#c.hide()
+					#found=False
+					#break
 			except:
 				print c
+		
 		if not found:
-			p=pp.addMenu("Plugins")
+			p=pp.addMenu(pname)
+			saye("---------------------------yyyyyyyyyyyyyyyyyyyyyyyyyyyyyyy")
 			saye("addmenu ..")
 			say(p)
 		else: 
 			p=found
 			say("found 1")
-		self.menu=p
+		
+		#p=self.Menu
 		for c in p.actions():
 			if c.text() == name:
 				p.removeAction(c)
@@ -359,54 +430,81 @@ class PluginLoader(object):
 		ta.SetString("pluginlist","")
 		pluginlist=[]
 		for k in self.config.keys():
-			t=FreeCAD.ParamGet('User parameter:Plugins/'+k)
-			pluginlist.append(k)
-			say("--")
-			say(k)
-			say(self.config[k])
-			say(self.config[k]["name"])
-			t.SetString("name",self.config[k]["name"])
-			if self.config[k].has_key("author"): t.SetString("author",self.config[k]["author"])
-			t.SetString("destination",self.config[k]["destdir"])
-			t.SetInt('installed',1)
-			itemlist=[]
-			if self.config[k].has_key('menuitems'):
-				for menu in self.config[k]['menuitems'].keys():
+			if not self.config[k]['status'] == 'ignore':
+				t=FreeCAD.ParamGet('User parameter:Plugins/'+k)
+				pluginlist.append(k)
+				say("--")
+				say(k)
+				say(self.config[k])
+				say(self.config[k]["name"])
+				t.SetString("name",self.config[k]["name"])
+				if self.config[k].has_key("author"): t.SetString("author",self.config[k]["author"])
+				t.SetString("destination",self.config[k]["destdir"])
+				t.SetInt('installed',1)
+				itemlist=[]
+				if self.config[k].has_key('menuitems'):
+					for menu in self.config[k]['menuitems'].keys():
+						say(menu)
+						itemlist.append(menu)
+						tm=FreeCAD.ParamGet('User parameter:Plugins/'+k+'/'+menu)
+						tm.SetString("exec",self.config[k]['menuitems'][menu]['exec'])
+				else:
+					say("keine menuitmes")
+				if self.config[k].has_key('menu'):
+					menu=self.config[k]['menu']
 					say(menu)
 					itemlist.append(menu)
 					tm=FreeCAD.ParamGet('User parameter:Plugins/'+k+'/'+menu)
-					tm.SetString("exec",self.config[k]['menuitems'][menu]['exec'])
-			else:
-				say("keine menuitmes")
-			if self.config[k].has_key('menu'):
-				menu=self.config[k]['menu']
-				say(menu)
-				itemlist.append(menu)
-				tm=FreeCAD.ParamGet('User parameter:Plugins/'+k+'/'+menu)
-				tm.SetString("exec",self.config[k]['exec'])
-			ms=";".join(itemlist)
-			if ms <>"":
-				t.SetString("menulist",ms)
+					tm.SetString("exec",self.config[k]['exec'])
+				ms=";".join(itemlist)
+				if ms <>"":
+					t.SetString("menulist",ms)
 		ps=";".join(pluginlist)
 		ta.SetString("pluginlist",ps)
 
 	def getParams(self):
 		for k in self.config.keys():
-			t=FreeCAD.ParamGet('User parameter:Plugins/'+k)
-			status=t.GetInt('installed')
-			say(k + " -- Status " + str(status))
-			menues=t.GetString("menulist").split(';')
-			for menu in menues:
-				say("!"+menu)
-				if menu =="":
-					continue
-				tm=FreeCAD.ParamGet('User parameter:Plugins/'+k+'/'+menu)
-				method=tm.GetString("exec")
-				say(method)
-				self.registerPlugin(menu,method)
-				say("done")
+			if not self.config[k]['status'] == 'ignore':
+				t=FreeCAD.ParamGet('User parameter:Plugins/'+k)
+				status=t.GetInt('installed')
+				say(k + " -- Status " + str(status))
+				menues=t.GetString("menulist").split(';')
+				for menu in menues:
+					say("!"+menu)
+					if menu =="":
+						continue
+					tm=FreeCAD.ParamGet('User parameter:Plugins/'+k+'/'+menu)
+					method=tm.GetString("exec")
+					say(method)
+					self.registerPlugin(menu,method)
+					say("done")
+
+
+def starty(*args):
+	say("starty ....")
+	plulo=PluginLoader()
+	say("2")
+	plulo.setParams()
+	say("3")
+	plulo.getParams()
+	say("starty done ....")
+# plulo.start()
+
+
+
+if False: # still bugy
+	t=FreeCADGui.getMainWindow()
+	t.workbenchActivated.connect(starty)
+
+'''
+
+import pluginloader
+pluginloader.start()
+
+'''
+say("start ----------------")
+
 
 plulo=PluginLoader()
 plulo.setParams()
 plulo.getParams()
-plulo.start()

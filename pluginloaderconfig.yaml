@@ -43,7 +43,7 @@ plugins:
 
   sipoc : 
     name: sipoc
-    status: noignore
+    status: ignore
     description : Single Point Configuration
     author: microelly2
     source: https://github.com/microelly2/freecad-sipoc/archive/master.zip
@@ -70,7 +70,7 @@ plugins:
   assembly animation dropbox:
      comment: demo for dropbox download
      name: ExplodedAssemblyAnimation
-     status: noignore
+     status: ignore
      source:  https://www.dropbox.com/s/qxvtavsp4g539jq/ExplodedAssemblyAnimation.zip?dl=1
      author: JMG
      timestamp: 
@@ -80,7 +80,7 @@ plugins:
 
   assembly animation:
      name: ExplodedAssemblyAnimation
-     status: noignore
+     status: ignore
      source:  https://github.com/JMG1/FreeCAD_ExplodedAssemblyAnimationWorkbench/archive/master.zip
      author: JMG
      timestamp: 
@@ -113,7 +113,7 @@ plugins:
      sourcedir: FreeCAD-symbols-master
      destdir:  /usr/lib/freecad/Mod/plugins/FreeCAD-symbols
      backup:  /usr/lib/freecad/Mod/plugins/FreeCAD-symbols
-     menu: Drawing Symbols
+     menu: Drawing Symbols Library
      exec: fn="/usr/lib/freecad/Mod/plugins/FreeCAD-symbols/SymbolsLibrary.FCMacro";exec open(fn).read()
 
   partlib:
@@ -125,14 +125,14 @@ plugins:
      sourcedir: FreeCAD-library-master
      #destdir:  /usr/lib/freecad/Mod/plugins/FreeCAD-symbols
      destdir: /tmp/test
-     menu: Drawing Symbols
+     menu: Parts Library
      exec: fn="/usr/lib/freecad/Mod/plugins/FreeCAD-library/PartsLibrary.FCMacro";exec open(fn).read()
 
 #------------------------
 
   menutest2:
     name: sipoc
-    status: noignore
+    status: ignore
     description : Single Point Configuration
     author: microelly2
     source: https://github.com/microelly2/freecad-sipoc/archive/master.zip
@@ -152,13 +152,14 @@ plugins:
            exec:  FreeCAD.ActiveDocument.addObject("Part::Box","Box")
 
   loadtest:
+    status: ignore
     name: loader test
     source: https://github.com/microelly2/freecad-sipoc/archive/master.zip
     sourcedir: freecad-sipoc-master
     destdir: /tmp/destdir
 
   defaulttest:
-    status: noignore
+    status: ignore
 
 
 # defaults:
