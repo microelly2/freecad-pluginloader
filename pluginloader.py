@@ -97,6 +97,9 @@ class MyAction( QtGui.QAction):
 			exec(self.cmd)
 			say("done")
 
+from datetime import datetime
+#today = datetime.date.today()
+#print today
 
 class MyWidget(QtGui.QWidget):
 	def __init__(self, master,*args):
@@ -108,7 +111,7 @@ class MyWidget(QtGui.QWidget):
 		self.config=master.config
 		self.vollabel = QtGui.QLabel('1. Select Packages ...')
 		self.vollabel2 = QtGui.QLabel('2. Show Package Info ...')
-		self.lab2 = QtGui.QLabel('')
+		self.lab2 = QtGui.QLabel(str(datetime.now()))
 		self.vollabel3 = QtGui.QLabel('3. Install/Update ...')
 		self.pushButton02 = QtGui.QPushButton()
 		self.pushButton02.clicked.connect(self.on_pushButton02_clicked) 
@@ -192,8 +195,23 @@ class PluginLoader(object):
 	def start(self):
 		saye("pluginloader started ...")
 		s=MyWidget(self)
+		say(s)
 		self.widget=s
+		
 		s.show()
+		saye("widget shown")
+		#s.hide()
+		
+	def starthide(self):
+		saye("pluginloader started ...")
+		s=MyWidget(self)
+		say(s)
+		self.widget=s
+		
+		s.show()
+		saye("widget shown")
+		s.hide()
+		
 
 #check the version local against the web
 
@@ -387,7 +405,7 @@ class PluginLoader(object):
 		found=False
 		
 		w=FreeCADGui.activeWorkbench()
-		say(w.name())
+		# say(w.name())
 #		say("kkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkk")
 		#if  w.name() == 'DraftWorkbench':
 		#pname='Plugins2'
@@ -422,6 +440,8 @@ class PluginLoader(object):
 		plina =MyAction(name,t,method)
 		a=p.addAction(plina)
 		plina.triggered.connect(plina.run)
+		#p.show()
+		
 		saye("menubar done")
 
 
@@ -488,23 +508,48 @@ def starty(*args):
 	say("3")
 	plulo.getParams()
 	say("starty done ....")
-# plulo.start()
+	plulo.start()
+	say("gui started")
+	FreeCAD.plulo=plulo
+#	t=FreeCADGui.getMainWindow()
+#	t.workbenchActivated.connect(hello)
+#	t.workbenchActivated.connect(starty)
+	say("signals activated")
 
 
+def hello(*args):
+	saye("HELLO-----22------------------------------------------------------------")
+	FreeCAD.plulo.start()
+	
+	plulo=pluginloader.PluginLoader()
+	say("2")
+	plulo.setParams()
+	say("3")
+	plulo.getParams()
+	say("starty done ....")
+	
+	saye("plulo gestartet")
 
-if False: # still bugy
+
+def initreload(*args): # still bugy
+	saye("init reload")
 	t=FreeCADGui.getMainWindow()
+	t.workbenchActivated.connect(hello)
 	t.workbenchActivated.connect(starty)
+	saye("done")
 
 '''
+
 
 import pluginloader
-pluginloader.start()
+pluginloader.starty()
 
 '''
-say("start ----------------")
+say("start done")
 
-
+'''
 plulo=PluginLoader()
 plulo.setParams()
 plulo.getParams()
+'''
+
