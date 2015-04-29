@@ -13,6 +13,8 @@ from PySide.QtGui import *
 
 global QtGui
 global config3,MyAction,say,saye
+# global PluginManager
+
 __vers__='0.4'
 
 
@@ -260,7 +262,7 @@ class PluginLoader(object):
 		needUpdate = True
 
 		if needUpdate:
-				saye("Need Update")
+				saye("Need Update 3")
 		else:
 				saye("No Update")
 
@@ -280,13 +282,22 @@ class PluginLoader(object):
 				if not self.config[plugin].has_key('destdir'):
 					saye("destdir not given -- install aborted")
 					return
+				say("vor download")
+				if self.config[plugin].has_key('format') and self.config[plugin]['format']=='flatfile':
+					zipfilename=zipextract+"../a.txt"
+					say(zipfilename)
 				tg=urllib.urlretrieve(self.config[plugin]['source'],zipfilename)
 				targetfile=tg[0]
-				say(targetfile)
-				fh = open(zipfilename, 'rb')
-				zfile = zipfile.ZipFile(fh)
-				zfile.extractall(zipextract)
-
+				say("targetfile:"+targetfile)
+				if self.config[plugin].has_key('format') and self.config[plugin]['format']=='flatfile':
+					saye(" FlaT FILE")
+					zipextract=zipfilename
+				else:
+					fh = open(zipfilename, 'rb')
+					zfile = zipfile.ZipFile(fh)
+					zfile.extractall(zipextract)
+					say("extrakts")
+				
 				if self.config[plugin]['sourcedir'] =='.':
 					source=zipextract
 				else:
@@ -303,6 +314,9 @@ class PluginLoader(object):
 					except:
 						os.mkdir(destination)
 				say("move")
+				say("destination:"+destination+"!")
+				say("source:" +source+'!')
+				
 				os.rename(source, destination)
 				say("done install")
 				#os.listdir(destination)
@@ -312,6 +326,14 @@ class PluginLoader(object):
 
 	def register(self):
 		t=FreeCADGui.getMainWindow()
+		
+		#pm=FreeCAD.PluginManager
+		say("PM ssssssssss")
+		#say(pm)
+		return
+		#
+		# deaktivieren
+		#
 		pp=t.menuBar()
 		self.pp=pp
 		say(pp)
@@ -547,9 +569,11 @@ pluginloader.starty()
 '''
 say("start done")
 
-'''
-plulo=PluginLoader()
-plulo.setParams()
-plulo.getParams()
-'''
+if False:
+	plulo=PluginLoader()
+	plulo.setParams()
+	plulo.getParams()
+	plulo.start()
+
+
 

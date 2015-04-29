@@ -75,8 +75,8 @@ plugins:
     destdir: /usr/lib/freecad/Mod/plugins/plugin3
     
     # only one single menu entry
-    menu: sipoc - command3
-    exec: import plugins;plugins.plugin1.info2()
+    #menu: sipoc - command3
+    #exec: import plugins;plugins.plugin1.info2()
 
 
   workfeature:
@@ -86,7 +86,7 @@ plugins:
      timestamp: 00
      sourcedir: WorkFeature-master
      destdir: /usr/lib/freecad/Mod/plugins/WorkFeature
-     menu: workfeature macro
+     menu: Workfeature Macro
      exec: fn="/usr/lib/freecad/Mod/plugins/WorkFeature/start_WF.FCMacro";exec open(fn).read()
   
   
@@ -120,16 +120,18 @@ plugins:
      timestamp: 00
      sourcedir: BOLTS
      destdir: /usr/lib/freecad/Mod/BOLTS
-     menu: bolts
+     menu: Bolts Library
      exec: import BOLTS;BOLTS.show_widget()
      requires: pyside-tools 
    
 #------------------------
 
+
+
   symbollib:
      name: symbols
      status: noignore
-     source: https://github.com/yorikvanhavre/FreeCAD-symbols/archive/master.zip
+     source: https://github.com/FreeCAD/FreeCAD-symbols/archive/master.zip
      author: yorik
      description: symbols for drawing page
      timestamp: 00
@@ -153,6 +155,36 @@ plugins:
 
 #------------------------
 
+  circular text:
+    status: noignore
+    source: http://forum.freecadweb.org/download/file.php?id=11170
+    sourcedir: .
+    destdir: /home/microelly2/.FreeCAD/Macros/circular_text.py
+    format: flatfile
+    
+    
+    
+  screw maker:
+    status: noignore
+    source: http://forum.freecadweb.org/download/file.php?id=5449
+    sourcedir: .
+    destdir: /home/microelly2/.FreeCAD/Macros/screw_maker.py
+    format: zipfile
+
+#------------------------
+#
+#  FreeCAD macrolib
+#
+#--------------------------
+
+  FreeCAD-makros:
+    status: noignore
+    source:  https://github.com/FreeCAD/FreeCAD-macros/archive/master.zip
+    sourcedir: FreeCAD-macros-master
+    destdir: /tmp/FreeCAD-macros
+    format: zip
+
+#----------------------------
   menutest2:
     name: sipoc
     status: ignore
@@ -200,7 +232,8 @@ defaults:
     timestime: https://github.com/microelly2/plugin_defaults/timestamp
     menu: defaults
     exec: import FreeCAD;FreeCAD.Console.PrintWarning('******************default Method\n')
-    backup: /tmp/bak_ 
+    backup: /tmp/bak_
+    format: zipdir 
  
  
  # base:
