@@ -127,7 +127,7 @@ class MyDock(QtGui.QDockWidget):
 
 	def genlabels(self):
 		cf=self.pluginloader.config
-		for k in cf.keys():
+		for k in sorted(cf.keys()):
 			say(k)
 			#say(cf[k])
 			if False:
@@ -140,8 +140,12 @@ class MyDock(QtGui.QDockWidget):
 					
 					menu=cf[k]['menu']
 					cmd=cf[k]['exec']
+					if cf[k].has_key('icon'):
+						icon=cf[k]['icon'] # /usr/lib/freecad/Mod/plugins/icons/master.png
+					else:
+						icon="/usr/lib/freecad/Mod/plugins/icons/sun.png"
 					if menu <> 'defaults':
-						self.pushButton = QtGui.QPushButton(QtGui.QIcon('/usr/lib/freecad/Mod/mylib/icons/sun.png'),menu)
+						self.pushButton = QtGui.QPushButton(QtGui.QIcon(icon),menu)
 						#self.pushButton.setGeometry(10, 20,140, 30)
 						yy=MyAction2(cmd)
 						#say(yy)

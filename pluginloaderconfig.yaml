@@ -40,6 +40,9 @@ plugins:
     
     destdir: /home/microelly2/.FreeCAD/Mod/assembly2
     backup: /home/microelly2/.FreeCAD/Mod/assembly2
+    menu: Assembyl2 Workbench
+    exec: FreeCADGui.activateWorkbench("Assembly2Workbench")
+    icon: /usr/lib/freecad/Mod/plugins/icons/assembly2.png
 
 
   drawing dimensioning : 
@@ -62,7 +65,9 @@ plugins:
 
     # installation for all users
     #destdir: /usr/lib/freecad/Mod/plugins/drawing_dimensioning
-    
+    menu: Drawing Dimensioning Workbench
+    exec: FreeCADGui.activateWorkbench("DrawingDimensioningWorkbench")
+    icon: /usr/lib/freecad/Mod/plugins/icons/drawing_dim.png
 
   sipoc : 
     name: sipoc
@@ -88,6 +93,7 @@ plugins:
      destdir: /usr/lib/freecad/Mod/plugins/WorkFeature
      menu: Workfeature Macro
      exec: fn="/usr/lib/freecad/Mod/plugins/WorkFeature/start_WF.FCMacro";exec open(fn).read()
+     icon: /usr/lib/freecad/Mod/plugins/icons/WF_wf.png
   
   
   assembly animation dropbox:
@@ -109,6 +115,9 @@ plugins:
      timestamp: 
      sourcedir: FreeCAD_ExplodedAssemblyAnimationWorkbench-master
      destdir: /home/microelly2/.FreeCAD/Mod/ExplodedAssemblyAnimation
+     menu: Assembly Animation Workbench
+     exec: FreeCADGui.activateWorkbench("ExplodedAnimation")
+     icon: /usr/lib/freecad/Mod/plugins/icons/icon_createroute.png
 
 
 
@@ -122,6 +131,7 @@ plugins:
      destdir: /usr/lib/freecad/Mod/BOLTS
      menu: Bolts Library
      exec: import BOLTS;BOLTS.show_widget()
+     icon: /usr/lib/freecad/Mod/plugins/icons/bolts.png
      requires: pyside-tools 
    
 #------------------------
@@ -140,6 +150,7 @@ plugins:
      backup:  /usr/lib/freecad/Mod/plugins/FreeCAD-symbols
      menu: Drawing Symbols Library
      exec: fn="/usr/lib/freecad/Mod/plugins/FreeCAD-symbols/SymbolsLibrary.FCMacro";exec open(fn).read()
+     icon: /usr/lib/freecad/Mod/plugins/icons/first_angle.png
 
   partlib:
      name: partlib
@@ -152,6 +163,7 @@ plugins:
      destdir: /tmp/test
      menu: Parts Library
      exec: fn="/usr/lib/freecad/Mod/plugins/FreeCAD-library/PartsLibrary.FCMacro";exec open(fn).read()
+     icon: /usr/lib/freecad/Mod/plugins/icons/master.png
 
 #------------------------
 
@@ -161,6 +173,9 @@ plugins:
     sourcedir: .
     destdir: /home/microelly2/.FreeCAD/Macros/circular_text.py
     format: flatfile
+    menu: Circular Text Macro
+    exec: fn="/usr/lib/freecad/Mod/plugins/FreeCAD-library/PartsLibrary.FCMacro";exec open(fn).read()
+    icon: /usr/lib/freecad/Mod/plugins/icons/circulartext.png
     
     
     

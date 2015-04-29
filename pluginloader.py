@@ -39,6 +39,7 @@ except:
 from os.path import expanduser
 home = expanduser("~")
 __dir__=home+ '/.FreeCAD/Mod/pluginloader'
+__dir__="/usr/lib/freecad/Mod/plugins"
 
 def dlge(msg):
 	diag = QtGui.QMessageBox(QtGui.QMessageBox.Critical,u"Plugin Loader Error",msg )
@@ -130,6 +131,7 @@ class MyWidget(QtGui.QWidget):
 				item = QtGui.QListWidgetItem(k)
 				self.listWidget.addItem(item)
 		layout = QtGui.QGridLayout()
+		self.setStyleSheet("QListWidget,QPushButton {background-color: lightblue;} ")
 		line=4
 		layout.addWidget(self.vollabel, 0, 0)
 		line=3
@@ -326,98 +328,10 @@ class PluginLoader(object):
 
 	def register(self):
 		t=FreeCADGui.getMainWindow()
-		
-		#pm=FreeCAD.PluginManager
-		say("PM ssssssssss")
-		#say(pm)
 		return
 		#
 		# deaktivieren
 		#
-		pp=t.menuBar()
-		self.pp=pp
-		say(pp)
-		say("register menu 4")
-		found=False
-		say("q")
-		w=FreeCADGui.activeWorkbench()
-		say("q2")
-		say(w)
-		try:
-			say(w.name())
-		except:
-			say("no workbench name")
-		say("q3")
-		'''
-#		say("kkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkk")
-		if  w.name() == 'DraftWorkbench':
-			pname='Plugins2'
-		else:
-			pname='Plugins'
-		for c in pp.children():
-			try:
-				if c.title() == pname:
-				#if c.title() == "Help":
-					found=c
-					#c.hide()
-					#found=False
-					#break
-			except:
-				pass
-		#found=False
-		#self.Menu=None
-		w=FreeCADGui.activeWorkbench()
-		say(w.name())
-		say("kkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkk")
-		if  w.name() == 'DraftWorkbench':
-			# found=False
-			say("QQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQ")
-		if not found:
-			saye("Plugins not found")
-			p=pp.addMenu(pname)
-			saye(p)
-			saye("-------------------------------xxxxxxxxxxxxxxxxxxxxxx")
-			self.Menu=p
-		else: 
-			saye("Plugins found")
-			p=found
-			self.Menu=p
-		'''
-		
-		t=FreeCADGui.getMainWindow()
-		pp=t.menuBar()
-		say(pp)
-		say("register menu 2")
-		found=False
-		for c in pp.children():
-			say(c)
-			try:
-				print c.title() 
-				if c.title() == "Plugins":
-					h=c
-					found=c
-			except:
-				pass
-		say("a")
-		p=pp.addMenu("Plugins")
-		if found:
-			say("b")
-			for c in h.actions():
-				p.addAction(c)
-				pp.show()
-				h.deleteLater()
-		say("c")
-		for c in p.actions():
-			if c.text() == 'pluginloader':
-				say("replace action")
-				p.removeAction(c)
-				break;
-		say("d")
-		plina = QtGui.QAction(QtGui.QIcon('/usr/lib/freecad/Mod/mylib/icons/mars.png'),'pluginloader', t)
-		a=p.addAction(plina)
-		plina.triggered.connect(self.start)
-		p.addSeparator()
-		
 		saye("register menu done")
 
 	def registerPlugin(self,name,method):
@@ -427,11 +341,6 @@ class PluginLoader(object):
 		found=False
 		
 		w=FreeCADGui.activeWorkbench()
-		# say(w.name())
-#		say("kkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkk")
-		#if  w.name() == 'DraftWorkbench':
-		#pname='Plugins2'
-		#else:
 		pname='Plugins'
 		
 		for c in pp.children():
