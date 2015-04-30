@@ -1,2 +1,0 @@
-import pluginloader
-reload(pluginloader)
