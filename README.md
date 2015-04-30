@@ -3,28 +3,30 @@
 
 
 Install
+-------
 
-create directory ~/.FreeCAD/pluginloader
+create /usr/lib/freecad/Mod/plugins
 
-cp pluginloader.py, pluginloaderconfig.yaml into this directory
+cp pluginloader.py, pluginloaderconfig.yaml, InitGui.py  into this directory
 
 modify pluginloaderconfig.yaml
 
 
 Use
+---
 
 start FreeCAD
 
-Python console:
+A dockwindow will arise.
 
-import pluginloader
-
-A dialog will arise.
+The first item starts the installer dialog
  
 Select the plugins you want to install
 
 Click Button install/update
 
+Configure
+---------
 
 The configruation file pluginloaderconfig.yaml
 
