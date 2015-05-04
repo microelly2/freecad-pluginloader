@@ -66,11 +66,7 @@ def dlgyn(msg):
 import yaml,urllib
 
 
-fn=__dir__+"/pluginloaderconfig.yaml"
 
-stream = open(fn, 'r')
-config3 = yaml.load(stream)
-say(config3)
 
 def set_defaults(conf):
 	for key in conf['plugins'].keys():
@@ -84,7 +80,24 @@ def set_defaults(conf):
 				conf['plugins'][key][att]=conf['defaults'][att]
 	return(conf)
 
-config3=set_defaults(config3)
+
+ta=FreeCAD.ParamGet('User parameter:Plugins')
+fn=ta.GetString("configfile")
+if not fn:
+	fn=__dir__+"/pluginloaderconfig.yaml"
+	ta.SetString("configfile",fn)
+
+config3={}
+
+try:
+	saye("try open config file "+ fn)
+	stream = open(fn, 'r')
+	config3 = yaml.load(stream)
+	say(config3)
+
+	config3=set_defaults(config3)
+except:
+	dlge("Cannot load configfile " +fn +"\nread console log for details " )
 
 
 class MyAction( QtGui.QAction):

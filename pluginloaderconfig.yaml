@@ -109,7 +109,7 @@ plugins:
 
   assembly animation:
      name: ExplodedAssemblyAnimation
-     status: ignore
+     status: noignore
      source:  https://github.com/JMG1/FreeCAD_ExplodedAssemblyAnimationWorkbench/archive/master.zip
      author: JMG
      timestamp: 
@@ -251,8 +251,8 @@ defaults:
     format: zipdir 
  
  
- # base:
- # configurations of the plugin itself 
+# base:
+# configurations of the plugin itself 
  
 base:
   # verzeichnis temp zum zwischenspeichern und auspacken
