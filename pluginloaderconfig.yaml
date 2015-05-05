@@ -26,7 +26,35 @@
 #
 
 
+
 plugins:
+
+# 04.05.2015 pcb, cura engine
+  pcb:
+    status: noignore
+    source: http://sourceforge.net/projects/eaglepcb2freecad/files/latest/download?source=files
+    #source: http://sourceforge.net/projects/eaglepcb2freecad/files/3.5/PCB.7z/download
+    sourcedir: .
+    destdir: UserAppData/Mod/PCB
+    menu: PCB Workbench
+    exec: FreeCADGui.activateWorkbench("PCB")
+    icon: UserAppData/Mod/PCB/data/board.svg
+
+    method: 7z
+    
+    
+
+  curaengin:
+    status: noignore
+    source: https://github.com/cblt2l/FreeCAD-CuraEngine-Plugin/archive/master.zip
+    destdir: UserAppData/Mod/curaengine
+    backup: UserAppData/Mod/curaengine
+    sourcedir: FreeCAD-CuraEngine-Plugin-master
+    menu: Cura Engine Workbench
+    # exec: FreeCADGui.activateWorkbench("TDPrinting")
+
+
+
   assembly2:
     name: assembly2
     status: noignore
@@ -38,8 +66,8 @@ plugins:
     method: zip
     sourcedir: FreeCAD_assembly2-master
     
-    destdir: /home/microelly2/.FreeCAD/Mod/assembly2
-    backup: /home/microelly2/.FreeCAD/Mod/assembly2
+    destdir: UserAppData/Mod/assembly2
+    backup: UserAppData/Mod/assembly2
     menu: Assembyl2 Workbench
     exec: FreeCADGui.activateWorkbench("Assembly2Workbench")
     icon: /usr/lib/freecad/Mod/plugins/icons/assembly2.png
@@ -61,7 +89,7 @@ plugins:
     timestamp: https://github.com/hamish2014/FreeCAD_assembly2/master/release
 
     # local installation
-    destdir: /home/microelly2/.FreeCAD/Mod/drawing_dimensioning
+    destdir: UserAppData/Mod/drawing_dimensioning
 
     # installation for all users
     #destdir: /usr/lib/freecad/Mod/plugins/drawing_dimensioning
@@ -104,8 +132,8 @@ plugins:
      author: JMG
      timestamp: 
      sourcedir: ExplodedAssemblyAnimation
-     destdir: /home/microelly2/.FreeCAD/Mod/ExplodedAssemblyAnimation
-     backup: /home/microelly2/.FreeCAD/Mod/ExplodedAssemblyAnimation
+     destdir: UserAppData/Mod/ExplodedAssemblyAnimation
+     backup: UserAppData/Mod/ExplodedAssemblyAnimation
 
   assembly animation:
      name: ExplodedAssemblyAnimation
@@ -114,7 +142,7 @@ plugins:
      author: JMG
      timestamp: 
      sourcedir: FreeCAD_ExplodedAssemblyAnimationWorkbench-master
-     destdir: /home/microelly2/.FreeCAD/Mod/ExplodedAssemblyAnimation
+     destdir: UserAppData/Mod/ExplodedAssemblyAnimation
      menu: Assembly Animation Workbench
      exec: FreeCADGui.activateWorkbench("ExplodedAnimation")
      icon: /usr/lib/freecad/Mod/plugins/icons/icon_createroute.png
@@ -171,7 +199,7 @@ plugins:
     status: noignore
     source: http://forum.freecadweb.org/download/file.php?id=11170
     sourcedir: .
-    destdir: /home/microelly2/.FreeCAD/Macros/circular_text.py
+    destdir: UserAppData/Macros/circular_text.py
     format: flatfile
     menu: Circular Text Macro
     exec: fn="/usr/lib/freecad/Mod/plugins/FreeCAD-library/PartsLibrary.FCMacro";exec open(fn).read()
@@ -183,7 +211,7 @@ plugins:
     status: noignore
     source: http://forum.freecadweb.org/download/file.php?id=5449
     sourcedir: .
-    destdir: /home/microelly2/.FreeCAD/Macros/screw_maker.py
+    destdir: UserAppData/Macros/screw_maker.py
     format: zipfile
 
 #------------------------
@@ -222,11 +250,16 @@ plugins:
            exec:  FreeCAD.ActiveDocument.addObject("Part::Box","Box")
 
   loadtest:
-    status: ignore
+    status: noignore
     name: loader test
     source: https://github.com/microelly2/freecad-sipoc/archive/master.zip
     sourcedir: freecad-sipoc-master
-    destdir: /tmp/destdir
+
+    #destdir: /tmp/destdir
+    destdir: UserAppData/Mod/testdir
+    #destdir: UserHomePath/testdir
+    #destdir: AppHomePath/Mod/testdir
+
 
   defaulttest:
     status: ignore
@@ -236,7 +269,7 @@ plugins:
 # if you don not specify parameters for your package
 # the following defaults will be used
 
-defaults:
+defaults: &defaults
     name: defaultName
     description: no description 
     author: noname
@@ -249,6 +282,7 @@ defaults:
     exec: import FreeCAD;FreeCAD.Console.PrintWarning('******************default Method\n')
     backup: /tmp/bak_
     format: zipdir 
+    method: zip
  
  
 # base:
@@ -256,7 +290,6 @@ defaults:
  
 base:
   # verzeichnis temp zum zwischenspeichern und auspacken
-  zipex: /tmp/yyya
-  tmprelease: /tmp/release
-
+  zipex: UserHomePath/tmp/yyya
+  tmprelease: UserHomePath/tmp/release
 

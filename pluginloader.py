@@ -19,6 +19,7 @@ __vers__='0.4'
 
 
 import sys, os, zipfile
+import sys, traceback
 
 def say(s):
 	FreeCAD.Console.PrintMessage(str(s)+"\n")
@@ -55,6 +56,23 @@ def dlgyn(msg):
 	m=QtGui.QWidget()
 	dial = QtGui.QMessageBox.question( m,'Message',  msg, QtGui.QMessageBox.Yes |     QtGui.QMessageBox.No, QtGui.QMessageBox.No)
 
+
+
+def sayexc(mess=''):
+	exc_type, exc_value, exc_traceback = sys.exc_info()
+	ttt=repr(traceback.format_exception(exc_type, exc_value,exc_traceback))
+	lls=eval(ttt)
+	saye(mess + "\n" +"-->  ".join(lls))
+
+def dlgexc(mess=''):
+	exc_type, exc_value, exc_traceback = sys.exc_info()
+	ttt=repr(traceback.format_exception(exc_type, exc_value,exc_traceback))
+	lls=eval(ttt)
+	msg=mess + "\n" +"-->  ".join(lls)
+	diag = QtGui.QMessageBox(QtGui.QMessageBox.Critical,u"Plugin Loader Error",msg )
+	diag.setWindowFlags(PySide.QtCore.Qt.WindowStaysOnTopHint)
+	diag.exec_()
+
 #----------------
 #
 # Plugin loader  - install macros, libraries and extra workbenches 
@@ -64,20 +82,34 @@ def dlgyn(msg):
 
 # read from file and converted to python
 import yaml,urllib
+import re
 
+def pathMacro(s):
+	'''
+	replace shortname by os path
+	'''
+	for k in ["UserHomePath","UserAppData","AppHomePath"]:
+		pat=r"^"+k+"/"+"(.*)"
+		m = re.match(pat, s)
+		if m:
+			# m.group(0)       # The entire match
+			post=m.group(1)       # The first parenthesized subgroup.
+			pre=FreeCAD.ConfigGet(k)
+			if k == "UserHomePath":
+				s2=pre+"/"+post
+			else:
+				s2=pre+post
+			return s2
+	return s
 
 
 
 def set_defaults(conf):
 	for key in conf['plugins'].keys():
-		say(key)
-		say("----")
 		for att in conf['defaults'].keys():
-			say(att)
 			if not conf['plugins'][key].has_key(att):
-				say('***')
-				say(conf['defaults'][att])
 				conf['plugins'][key][att]=conf['defaults'][att]
+		conf['plugins'][key]['destdir']=pathMacro(conf['plugins'][key]['destdir'])
 	return(conf)
 
 
@@ -93,12 +125,16 @@ try:
 	saye("try open config file "+ fn)
 	stream = open(fn, 'r')
 	config3 = yaml.load(stream)
-	say(config3)
+	#say(config3)
 
 	config3=set_defaults(config3)
 except:
-	dlge("Cannot load configfile " +fn +"\nread console log for details " )
+	dlgexc("Cannot load configfile " +fn +"\nread console log for details " )
+	
 
+
+
+# say(config3['plugins']['loadtest'])
 
 class MyAction( QtGui.QAction):
 	def __init__(self, name,t,method,*args):
@@ -234,7 +270,8 @@ class PluginLoader(object):
 
 	def getwebVersionDate(self,plugin):
 		# get the date of the last update of the master
-		fn=self.base['tmprelease']
+		fn=pathMacro(self.base['tmprelease'])
+		say(fn)
 		try:
 			tg=urllib.urlretrieve(self.config[plugin]['timestamp'],fn)
 			f = open(fn)
@@ -282,8 +319,17 @@ class PluginLoader(object):
 				saye("No Update")
 
 		zipextract=self.base['zipex']
+		zipextract=pathMacro(zipextract)
+		zipextract2=zipextract
 		say(zipextract)
-		zipfilename=zipextract+".zip"
+
+		directory=zipextract+"/.."
+		if not os.path.exists(directory):
+			os.makedirs(directory)
+		if self.config[plugin]['method']=='7z':
+			zipfilename=zipextract+".7z"
+		else:
+			zipfilename=zipextract+".zip"
 		say(zipfilename)
 		zipextract += '/'
 		if needUpdate:
@@ -308,11 +354,17 @@ class PluginLoader(object):
 					saye(" FlaT FILE")
 					zipextract=zipfilename
 				else:
-					fh = open(zipfilename, 'rb')
-					zfile = zipfile.ZipFile(fh)
-					zfile.extractall(zipextract)
+					if self.config[plugin]['method']=='7z':
+						import subprocess
+						# problem geht nicht 
+						#subprocess.call(['7z', 'x', zipfilename, zipextract2])
+						os.system("cd /home/thomas/tmp; 7z x "+zipfilename+" PCB >/tmp/aa")
+						zipextract="/home/thomas/tmp/PCB"
+					else:
+						fh = open(zipfilename, 'rb')
+						zfile = zipfile.ZipFile(fh)
+						zfile.extractall(zipextract)
 					say("extrakts")
-				
 				if self.config[plugin]['sourcedir'] =='.':
 					source=zipextract
 				else:
@@ -491,7 +543,7 @@ pluginloader.starty()
 '''
 say("start done")
 
-if False:
+if 0 or False:
 	plulo=PluginLoader()
 	plulo.setParams()
 	plulo.getParams()

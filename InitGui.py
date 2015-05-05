@@ -22,11 +22,14 @@
 
 import FreeCAD
 
-FreeCAD.Console.PrintError("mod/plugins/InitGui start"+"\n")
+FreeCAD.Console.PrintError("mod/plugins/InitGui start A"+"\n")
 
 App=FreeCAD
 
-import FreeCAD,PySide,os,FreeCADGui,time
+global sys,traceback
+import FreeCAD,os,FreeCADGui,time,sys,traceback
+
+import PySide
 from PySide import QtCore, QtGui, QtSvg
 from PySide.QtGui import * 
 
@@ -39,6 +42,9 @@ def myDialog(msg):
 
 def say(s):
 		App.Console.PrintMessage(str(s)+"\n")
+
+global __version__
+__version__='0.5 (2015/05/06) '
 
 global MyAction2
 class MyAction2():
@@ -62,7 +68,7 @@ class MyDock(QtGui.QDockWidget):
 		self.labels={}
 		self.setMinimumSize(200, 185)
 		master.addDockWidget(QtCore.Qt.RightDockWidgetArea, dock)
-		self.setWindowTitle('Pluginloader as Dock')
+		self.setWindowTitle('Community Plugins')
 		self.setObjectName('Pluginloader')
 		self.centralWidget = QtGui.QWidget(dock)
 		self.centralWidget.setStyleSheet(
@@ -79,7 +85,7 @@ class MyDock(QtGui.QDockWidget):
 		self.lilayout=QtGui.QVBoxLayout()
 		self.liste.setLayout(self.lilayout)
 		
-		self.pushButton01 = QtGui.QPushButton(QtGui.QIcon('/usr/lib/freecad/Mod/mylib/icons/mars.png'),"Plugin Loader Dialog")
+		self.pushButton01 = QtGui.QPushButton(QtGui.QIcon('/usr/lib/freecad/Mod/mylib/icons/mars.png'),"Plugin Loader     Version " + __version__)
 		#self.pushButton01.setGeometry(10, 10,140, 50)
 		self.pushButton01.clicked.connect(self.start) 
 		#self.pushButton01.setText()
@@ -163,19 +169,11 @@ class MyDock(QtGui.QDockWidget):
 			textArea = QtGui.QTextEdit()
 			textArea.setGeometry(150, 10,240,100)
 			textArea.setObjectName("cqCodeArea")
-			textArea.setText("Test\nmultiline")
+			textArea.setText("")
 			self.lilayout.addWidget(textArea)
 
 
 		say("done")
-
-#		def closeEvent(self,event):
-#			say("closeevent")
-#		#	if self.canExit():
-#		#		event.accept() # let the window close
-#			event.ignore()
-# http://www.freecadweb.org/wiki/index.php?title=Embedding_FreeCADGui
-
 
 #------------------------ main --------------------------
 
@@ -187,9 +185,9 @@ try:
 except:
 	pass
 
+
 PluginManager=MyDock(FreeCAD.Gui.getMainWindow())
 FreeCAD.PluginManager=PluginManager
-
 
 import pluginloader
 t=pluginloader.PluginLoader()
@@ -198,7 +196,5 @@ PluginManager.pluginloaderCMD=t.start
 PluginManager.pluginloader=t
 PluginManager.show()
 
-FreeCAD.Console.PrintError("mod/plugins/InitGui.py 1done"+"\n")
-
-
+FreeCAD.Console.PrintError("mod/plugins/InitGui.py done"+"\n")
 PluginManager.genlabels()
