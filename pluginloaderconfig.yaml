@@ -263,7 +263,11 @@ plugins:
 
   defaulttest:
     status: ignore
-
+    destdir:
+      Linux: UserAppData/Mod/testdir
+      Windows: c:/haha
+    backup: UserHomePath/tmp/bak_
+    icon: AppHomePath/Mod/plugins/icons/master.png
 
 # defaults:
 # if you don not specify parameters for your package
@@ -279,10 +283,11 @@ defaults: &defaults
     destdir: /tmp/destdir
     timestime: https://github.com/microelly2/plugin_defaults/timestamp
     menu: defaults
-    exec: import FreeCAD;FreeCAD.Console.PrintWarning('******************default Method\n')
-    backup: /tmp/bak_
+    exec: import FreeCAD;FreeCAD.Console.PrintWarning('*****default Method FreeCAD-Dir=AppHomePath/! HOME-Dir=UserHomePath/!  UserData-Dir=UserAppData/!\n')
+    backup: UserHomePath/tmp/bak_
     format: zipdir 
     method: zip
+    icon: AppHomePath/Mod/plugins/icons/master.png
  
  
 # base:

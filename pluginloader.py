@@ -89,17 +89,19 @@ def pathMacro(s):
 	replace shortname by os path
 	'''
 	for k in ["UserHomePath","UserAppData","AppHomePath"]:
-		pat=r"^"+k+"/"+"(.*)"
+		pat=r"(.*)"+k+"/"+"(.*)"
 		m = re.match(pat, s)
 		if m:
 			# m.group(0)       # The entire match
-			post=m.group(1)       # The first parenthesized subgroup.
-			pre=FreeCAD.ConfigGet(k)
+			pre=m.group(1)
+			post=m.group(2)       # The first parenthesized subgroup.
+			inn=FreeCAD.ConfigGet(k)
 			if k == "UserHomePath":
-				s2=pre+"/"+post
+				s2=pre+inn+"/"+post
 			else:
-				s2=pre+post
-			return s2
+				s2=pre+inn+post
+			#return s2
+			s=s2
 	return s
 
 
@@ -109,7 +111,7 @@ def set_defaults(conf):
 		for att in conf['defaults'].keys():
 			if not conf['plugins'][key].has_key(att):
 				conf['plugins'][key][att]=conf['defaults'][att]
-		conf['plugins'][key]['destdir']=pathMacro(conf['plugins'][key]['destdir'])
+		### conf['plugins'][key]['destdir']=pathMacro(conf['plugins'][key]['destdir'])
 	return(conf)
 
 
@@ -131,7 +133,35 @@ try:
 except:
 	dlgexc("Cannot load configfile " +fn +"\nread console log for details " )
 	
+#---------------------
 
+import platform
+os=platform.system()
+
+import pprint
+# pprint.pprint(config3)
+
+for plin in config3['plugins'].keys():
+	#print "p",plin
+	for k in config3['plugins'][plin].keys():
+		#print "k",k
+		#if config3['plugins'][plin][k]:
+			#print config3['plugins'][plin][k].__class__
+		if config3['plugins'][plin][k] and config3['plugins'][plin][k].__class__ == dict:
+			print "dict"
+			print config3['plugins'][plin][k]
+			if os in config3['plugins'][plin][k].keys():
+				# replace
+				config3['plugins'][plin][k]=config3['plugins'][plin][k][os]
+			
+	for att in ['destdir','exec','icon','backup']:
+		config3['plugins'][plin][att]=pathMacro(config3['plugins'][plin][att])
+	if plin=='defaulttest':
+		pprint.pprint(config3['plugins'][plin])
+
+
+
+#-----------------
 
 
 # say(config3['plugins']['loadtest'])
@@ -170,7 +200,7 @@ class MyWidget(QtGui.QWidget):
 		self.pushButton02.setText("Display ")
 		self.pushButton03 = QtGui.QPushButton()
 		self.pushButton03.clicked.connect(self.on_pushButton03_clicked) 
-		self.pushButton03.setText("Run 2")
+		self.pushButton03.setText("Run")
 		self.listWidget = QtGui.QListWidget() 
 		self.listWidget.setSelectionMode(QtGui.QAbstractItemView.MultiSelection)
 		kl=self.config.keys()
@@ -550,4 +580,5 @@ if 0 or False:
 	plulo.start()
 
 
-
+pprint.pprint(config3)
+#pprint.pprint(config3['plugins']['defaulttest'])
