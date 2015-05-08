@@ -42,6 +42,7 @@ home = expanduser("~")
 __dir__=home+ '/.FreeCAD/Mod/pluginloader'
 __dir__="/usr/lib/freecad/Mod/plugins"
 
+
 def dlge(msg):
 	diag = QtGui.QMessageBox(QtGui.QMessageBox.Critical,u"Plugin Loader Error",msg )
 	diag.setWindowFlags(PySide.QtCore.Qt.WindowStaysOnTopHint)
@@ -117,6 +118,11 @@ def set_defaults(conf):
 
 ta=FreeCAD.ParamGet('User parameter:Plugins')
 fn=ta.GetString("configfile")
+
+# __dir__="e:/FreeCAD_0.16.4924_x86_dev_bin/Mod/plugins"
+
+fn=0
+
 if not fn:
 	fn=__dir__+"/pluginloaderconfig.yaml"
 	ta.SetString("configfile",fn)
@@ -271,6 +277,7 @@ class PluginLoader(object):
 		say("init")
 		self.config=config3['plugins']
 		self.base=config3['base']
+		self.config3=config3
 		self.keys=self.config.keys
 		self.register()
 

@@ -68,7 +68,7 @@ plugins:
     
     destdir: UserAppData/Mod/assembly2
     backup: UserAppData/Mod/assembly2
-    menu: Assembyl2 Workbench
+    menu: Assembly2 Workbench
     exec: FreeCADGui.activateWorkbench("Assembly2Workbench")
     icon: /usr/lib/freecad/Mod/plugins/icons/assembly2.png
 
@@ -135,7 +135,7 @@ plugins:
      destdir: UserAppData/Mod/ExplodedAssemblyAnimation
      backup: UserAppData/Mod/ExplodedAssemblyAnimation
 
-  assembly animation:
+  assembly animation: &yy
      name: ExplodedAssemblyAnimation
      status: noignore
      source:  https://github.com/JMG1/FreeCAD_ExplodedAssemblyAnimationWorkbench/archive/master.zip
@@ -210,9 +210,12 @@ plugins:
   screw maker:
     status: noignore
     source: http://forum.freecadweb.org/download/file.php?id=5449
+    author: ulrich brammer
     sourcedir: .
     destdir: UserAppData/Macros/screw_maker.py
     format: zipfile
+    menu: Screw Maker Macro
+    exec: fn="/home/microelly2/.FreeCAD/Macros/screw_maker1_7.py";exec open(fn).read()
 
 #------------------------
 #
@@ -230,13 +233,14 @@ plugins:
 #----------------------------
   menutest2:
     name: sipoc
-    status: ignore
+    status: noignore
     description : Single Point Configuration
     author: microelly2
     source: https://github.com/microelly2/freecad-sipoc/archive/master.zip
     sourcedir: freecad-sipoc-master
     timestamp: https://raw.githubusercontent.com/microelly2/freecad-sipoc/master/release
     destdir: /usr/lib/freecad/Mod/plugins/plugin3
+    menu: Single Point Configuration Macro
     
      # install this module with 3 menu items
     menuitems:
@@ -248,7 +252,12 @@ plugins:
         # its possible to add useful commands too
         menu tes - fun:
            exec:  FreeCAD.ActiveDocument.addObject("Part::Box","Box")
-
+  animation:
+    status: noignore
+    menu: Animation Workbench
+    icon: /usr/lib/freecad/Mod/Animation/icons/animation.png
+  
+  
   loadtest:
     status: noignore
     name: loader test
@@ -298,3 +307,51 @@ base:
   zipex: UserHomePath/tmp/yyya
   tmprelease: UserHomePath/tmp/release
 
+
+
+
+
+
+
+
+
+
+
+# database of buttons
+data:
+  PartWorkbench: &Part
+    exec: FreeCADGui.activateWorkbench("PartWorkbench")
+    icon:  /usr/lib/freecad/Mod/plugins/icons/part.png
+  FEMWorkbench: &FEM
+    exec: FreeCADGui.activateWorkbench("FemWorkbench")
+    icon:  /usr/lib/freecad/Mod/plugins/icons/fem.png
+  ShipWorkbench: &Ship
+    exec: FreeCADGui.activateWorkbench("ShipWorkbench")
+    icon:  /usr/lib/freecad/Mod/plugins/icons/ship.png
+  RobotWorkbench: &Robot
+    exec: FreeCADGui.activateWorkbench("RobotWorkbench")
+    icon:  /usr/lib/freecad/Mod/plugins/icons/robot.png
+
+# tabs of the manager window
+tabs:
+  My Favorites:
+    Part: *Part
+    # deactivate entry ...
+    #Robot:*Robot
+    FEM: *FEM
+
+  Other Workbenches: 
+    # reuse entries by links 
+    1 Part: *Part
+    2 Ship: *Ship
+    3 Robot: *Robot
+    # create individual entries outside the database
+    4 Dummy: 
+      exec: import FreeCAD;FreeCAD.Console.PrintWarning("Nothing to do!")
+      icon:  /usr/lib/freecad/Mod/plugins/icons/master.png
+    6 Greeting: 
+      exec: FreeCAD.Console.PrintWarning("Hello World!")
+      icon:  /usr/lib/freecad/Mod/plugins/icons/sun.png
+    5 Create Box:
+      exec:  FreeCAD.ActiveDocument.addObject("Part::Box","Box")
+      icon:  /usr/lib/freecad/Mod/plugins/icons/part.png

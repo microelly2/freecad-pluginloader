@@ -32,6 +32,8 @@ import FreeCAD,os,FreeCADGui,time,sys,traceback
 import PySide
 from PySide import QtCore, QtGui, QtSvg
 from PySide.QtGui import * 
+from PySide.QtCore import * 
+
 
 global QtGui,QtCore
 global myDialog,say
@@ -44,16 +46,14 @@ def say(s):
 		App.Console.PrintMessage(str(s)+"\n")
 
 global __version__
-__version__='0.5 (2015/05/06) '
+__version__='0.7 (2015/05/08) '
 
 global MyAction2
 class MyAction2():
 	def __init__(self,method):
-		#QtGui.QWidget.__init__(self, *args)
-		# QtGui.QAction.__init__(self,QtGui.QIcon('/usr/lib/freecad/Mod/mylib/icons/sun.png'),name, t)
 		self.cmd="say('hallo')"
 		self.cmd=method
-		
+
 	def run(self):
 			say("run")
 			say("!"+self.cmd+"!")
@@ -133,6 +133,50 @@ class MyDock(QtGui.QDockWidget):
 
 	def genlabels(self):
 		cf=self.pluginloader.config
+		##+
+		if self.pluginloader.config3.has_key("tabs"):
+			say("tabs sind da            ----------------------")
+			tabs= QtGui.QTabWidget()
+			for ky in sorted(self.pluginloader.config3["tabs"].keys()):
+				say(ky)
+				tab1= QtGui.QWidget()
+				tabs.addTab(tab1,ky)
+				vBoxlayout	= QtGui.QVBoxLayout()
+				vBoxlayout.setAlignment(QtCore.Qt.AlignTop)
+				for fun in sorted(self.pluginloader.config3["tabs"][ky].keys()):
+					
+					
+					ff=self.pluginloader.config3["tabs"][ky][fun]
+					if ff.has_key('icon'):
+						pushButton1 = QtGui.QPushButton(QtGui.QIcon(ff['icon']),fun)
+					else:
+						pushButton1 = QtGui.QPushButton(fun)
+#					say(ff)
+					try:
+						cmd=ff['exec']
+					except:
+						cmd="say('"+str(ff)+"')"
+#					say("cmd="+cmd)
+					yy=MyAction2(cmd)
+					pushButton1.yy=yy
+					pushButton1.clicked.connect(yy.run) 
+					vBoxlayout.addWidget(pushButton1)
+				tab1.setLayout(vBoxlayout)   
+
+
+# runde 2
+		plugintab	= QtGui.QWidget()
+		tabs.addTab(plugintab,"Plugins")
+		self.plugintab=plugintab
+		pluginlayout	= QtGui.QVBoxLayout()
+		pluginlayout.setAlignment(QtCore.Qt.AlignTop)
+		plugintab.setLayout(pluginlayout) 
+		self.lilayout.addWidget(tabs)
+		say("------------done------------------")
+		##-
+		
+		cf=self.pluginloader.config
+		
 		for k in sorted(cf.keys()):
 			say(k)
 			#say(cf[k])
@@ -142,6 +186,7 @@ class MyDock(QtGui.QDockWidget):
 				#self.pushButton03.clicked.connect(fun3) 
 				self.pushButton.setText("!"+k)
 				self.lilayout.addWidget(self.pushButton)
+				pluginlayout.addWidget(self.pushButton)
 			if cf[k].has_key('menu'):
 					
 					menu=cf[k]['menu']
@@ -163,9 +208,10 @@ class MyDock(QtGui.QDockWidget):
 						#	say("fhelr")
 						self.pushButton.clicked.connect(yy.run) 
 						self.pushButton.setText(menu)
-						self.lilayout.addWidget(self.pushButton)
+						## self.lilayout.addWidget(self.pushButton)
+						pluginlayout.addWidget(self.pushButton)
 						self.labels[menu]=yy
-		if True:
+		if False:
 			textArea = QtGui.QTextEdit()
 			textArea.setGeometry(150, 10,240,100)
 			textArea.setObjectName("cqCodeArea")
@@ -187,6 +233,7 @@ except:
 
 
 PluginManager=MyDock(FreeCAD.Gui.getMainWindow())
+PluginManager.setWindowFlags(QtCore.Qt.WindowStaysOnTopHint)
 FreeCAD.PluginManager=PluginManager
 
 import pluginloader
@@ -194,7 +241,14 @@ t=pluginloader.PluginLoader()
 
 PluginManager.pluginloaderCMD=t.start
 PluginManager.pluginloader=t
+
 PluginManager.show()
+
+if FreeCAD.ParamGet('User parameter:Plugins').GetBool('showdock'):
+	PluginManager.show()
+
 
 FreeCAD.Console.PrintError("mod/plugins/InitGui.py done"+"\n")
 PluginManager.genlabels()
+
+#
