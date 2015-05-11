@@ -46,7 +46,7 @@ def say(s):
 		App.Console.PrintMessage(str(s)+"\n")
 
 global __version__
-__version__='0.7 (2015/05/08) '
+__version__='0.8 (2015/05/11) '
 
 global MyAction2
 class MyAction2():
@@ -143,6 +143,7 @@ class MyDock(QtGui.QDockWidget):
 				tabs.addTab(tab1,ky)
 				vBoxlayout	= QtGui.QVBoxLayout()
 				vBoxlayout.setAlignment(QtCore.Qt.AlignTop)
+
 				for fun in sorted(self.pluginloader.config3["tabs"][ky].keys()):
 					
 					

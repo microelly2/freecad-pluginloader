@@ -166,6 +166,12 @@ for plin in config3['plugins'].keys():
 		pprint.pprint(config3['plugins'][plin])
 
 
+for plin in config3['data'].keys():
+	for att in ['destdir','exec','icon','backup']:
+		if config3['data'][plin].has_key(att):
+			config3['data'][plin][att]=pathMacro(config3['data'][plin][att])
+
+
 
 #-----------------
 
@@ -359,15 +365,21 @@ class PluginLoader(object):
 		zipextract=pathMacro(zipextract)
 		zipextract2=zipextract
 		say(zipextract)
-
 		directory=zipextract+"/.."
+		import os
+		try:
+			say(os.path.exists(directory))
+		except:
+			saye("fehelr hier")
 		if not os.path.exists(directory):
+			say("create dir " + directory)
 			os.makedirs(directory)
 		if self.config[plugin]['method']=='7z':
 			zipfilename=zipextract+".7z"
 		else:
 			zipfilename=zipextract+".zip"
-		say(zipfilename)
+		
+		say("zipfile: " + zipfilename)
 		zipextract += '/'
 		if needUpdate:
 			if not self.config[plugin].has_key('source'):
