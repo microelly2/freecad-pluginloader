@@ -227,8 +227,9 @@ plugins:
     status: noignore
     source:  https://github.com/FreeCAD/FreeCAD-macros/archive/master.zip
     sourcedir: FreeCAD-macros-master
-    destdir: /tmp/FreeCAD-macros
+    destdir: AppHomePath/Mod/plugins/FreeCAD-macros
     format: zip
+    
 
 #----------------------------
   menutest2:
@@ -355,8 +356,10 @@ data:
     exec: FreeCADGui.activateWorkbench("ReverseEngineeringWorkbench")
   Robot: &Robo
     exec: FreeCADGui.activateWorkbench("RobotWorkbench")
+    icon:  AppHomePath/Mod/plugins/icons/robot.png
   Ship: &Ship
     exec: FreeCADGui.activateWorkbench("ShipWorkbench")
+    icon:  AppHomePath/Mod/plugins/icons/ship.png
   Sketcher: &Sket
     exec: FreeCADGui.activateWorkbench("SketcherWorkbench")
   Spreedsheet: &Calc
@@ -376,23 +379,30 @@ data:
   FEMWorkbench: &FEM
     exec: FreeCADGui.activateWorkbench("FemWorkbench")
     icon:  AppHomePath/Mod/plugins/icons/fem.png
-#  ShipWorkbench: &Ship
-#    exec: FreeCADGui.activateWorkbench("ShipWorkbench")
-#    icon:  AppHomePath/Mod/plugins/icons/ship.png
-#  RobotWorkbench: &Robot
-#    exec: FreeCADGui.activateWorkbench("RobotWorkbench")
-#    icon:  AppHomePath/Mod/plugins/icons/robot.png
+
+  sweep: &Sweep
+      exec: fn="AppHomePath/Mod/plugins/FreeCAD-macros/SolidSweep.FCMacro";exec open(fn).read()
+      icon: AppHomePath/Mod/plugins/icons/mars.png
+  Unfold: &Unfold
+      exec: fn="AppHomePath/Mod/plugins/FreeCAD-macros/SheetMetalUnfolder.FCMacro";exec open(fn).read()
+      icon: AppHomePath/Mod/plugins/icons/mars.png
+  MyMacro: &Mymacro
+      exec: fn="AppHomePath/Mod/plugins/FreeCAD-macros/myMacroDir/myMacro.py";exec open(fn).read();main()
+      icon: AppHomePath/Mod/plugins/icons/mars.png
+      
+ 
+
 
 # tabs of the manager window
 tabs:
-  My Favorites:
+  1 My Favorites:
     PartDesign: *PartDesign
     Part: *Part
     # deactivate entry ...
     #Robot:*Robot
     FEM: *FEM
 
-  Other Workbenches: 
+  2 Other Workbenches: 
     # reuse entries by links 
     1 Part: *Part
     2 Ship: *Ship
@@ -407,7 +417,7 @@ tabs:
     5 Create Box:
       exec:  FreeCAD.ActiveDocument.addObject("Part::Box","Box")
       icon:  AppHomePath/Mod/plugins/icons/part.png
-  WB2:
+  3 WB2:
     Animat: *Anim
     Arch: *Arch
     Assembyl2: *Ass2
@@ -418,7 +428,7 @@ tabs:
     Image: *Imag
     Inspection: *Insp
     Mesh: *Mesh
-  WB3:
+  4 WB3:
     OpenSCAD: *Scad
     Plot: *Plot
     Points: *Poin
@@ -434,4 +444,8 @@ tabs:
     Test: *Test
     Web: *Web
 
-
+  5 FreeCAD Macros Lib:
+    1. Solid Sweep: *Sweep
+    2. Sheet Metal Unfolder: *Unfold
+    9. My Test Macro: *Mymacro
+ 

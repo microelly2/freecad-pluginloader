@@ -45,8 +45,20 @@ def myDialog(msg):
 def say(s):
 		App.Console.PrintMessage(str(s)+"\n")
 
+
 global __version__
 __version__='0.8 (2015/05/11) '
+
+global sayexc
+
+def sayexc(mess=''):
+	#FreeCAD.Console.PrintMessage("Fehler")
+	exc_type, exc_value, exc_traceback = sys.exc_info()
+	ttt=repr(traceback.format_exception(exc_type, exc_value,exc_traceback))
+	lls=eval(ttt)
+	#FreeCAD.Console.PrintMessage("Fehler")
+	FreeCAD.Console.PrintError(mess + "\n" +"-->  ".join(lls))
+
 
 global MyAction2
 class MyAction2():
@@ -55,10 +67,14 @@ class MyAction2():
 		self.cmd=method
 
 	def run(self):
-			say("run")
+			#say("run")
 			say("!"+self.cmd+"!")
-			exec(self.cmd)
-			say("done")
+			try:
+				exec(self.cmd)
+			except:
+				#FreeCAD.Console.PrintMessage("Fehler")
+				sayexc(self.cmd)
+			#say("done")
 
 class MyDock(QtGui.QDockWidget):
 	def __init__(self,master):
@@ -242,6 +258,7 @@ t=pluginloader.PluginLoader()
 
 PluginManager.pluginloaderCMD=t.start
 PluginManager.pluginloader=t
+t.setParams()
 
 PluginManager.show()
 
