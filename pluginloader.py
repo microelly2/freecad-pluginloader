@@ -15,6 +15,8 @@ global QtGui
 global config3,MyAction,say,saye
 # global PluginManager
 
+
+import WebGui
 __vers__='0.4'
 
 
@@ -259,6 +261,12 @@ class MyWidget(QtGui.QWidget):
 			say(text)
 			text += "\n"
 		self.lab2.setText(text)
+		say("web ..")
+		if self.config[sel.text()].has_key('web'):
+			say("has")
+			WebGui.openBrowser( str(self.config[sel.text()]['web']))
+		say("done")
+
 
 	def on_pushButton03_clicked(self):
 		seli=[]

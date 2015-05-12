@@ -26,7 +26,6 @@
 #
 
 
-
 plugins:
 
 # 04.05.2015 pcb, cura engine
@@ -39,10 +38,7 @@ plugins:
     menu: PCB Workbench
     exec: FreeCADGui.activateWorkbench("PCB")
     icon: UserAppData/Mod/PCB/data/board.svg
-
     method: 7z
-    
-    
 
   curaengin:
     status: noignore
@@ -51,9 +47,7 @@ plugins:
     backup: UserAppData/Mod/curaengine
     sourcedir: FreeCAD-CuraEngine-Plugin-master
     menu: Cura Engine Workbench
-    # exec: FreeCADGui.activateWorkbench("TDPrinting")
-
-
+    exec: FreeCADGui.activateWorkbench("TDPrinting")
 
   assembly2:
     name: assembly2
@@ -77,7 +71,7 @@ plugins:
     status: noignore
     name: drawing Dimsioning
     description : Drawing Dim ...
-    
+    web: https://github.com/hamish2014/FreeCAD_drawing_dimensioning/blob/master/README.md
     # display information about this package
     info: https://github.com/hamish2014/FreeCAD_drawing_dimensioning/blob/master/README.md
     
@@ -101,6 +95,7 @@ plugins:
     name: sipoc
     status: ignore
     description : Single Point Configuration
+    web: http://freecadbuch.de/doku.php?id=Sipoc
     author: microelly2
     source: https://github.com/microelly2/freecad-sipoc/archive/master.zip
     sourcedir: freecad-sipoc-master
@@ -116,6 +111,7 @@ plugins:
      name: workfeature 
      status: noignore
      source: https://github.com/Rentlau/WorkFeature/archive/master.zip
+     web: http://www.freecadweb.org/wiki/index.php?title=Macro_WorkFeatures
      timestamp: 00
      sourcedir: WorkFeature-master
      destdir: AppHomePath/Mod/plugins/WorkFeature
@@ -154,6 +150,7 @@ plugins:
      name: bolts 
      status: noignore
      source: http://www.bolts-library.org/de/downloads/freecad/BOLTS_FreeCAD_0.3_lgpl2.1+.zip
+     web: http://www.bolts-library.org/de/index.html
      timestamp: 00
      sourcedir: BOLTS
      destdir: AppHomePath/Mod/BOLTS
@@ -183,6 +180,7 @@ plugins:
   partlib:
      name: partlib
      status: noignore
+     web: http://yorik.uncreated.net/guestblog.php?2014=19
      source: https://github.com/yorikvanhavre/FreeCAD-library/archive/master.zip
      author: yorik
      timestamp: 00
@@ -195,7 +193,7 @@ plugins:
 
 #------------------------
 
-  circular text:
+  circular text: &cirtex
     status: noignore
     source: http://forum.freecadweb.org/download/file.php?id=11170
     sourcedir: .
@@ -211,6 +209,7 @@ plugins:
     status: noignore
     source: http://forum.freecadweb.org/download/file.php?id=5449
     author: ulrich brammer
+    web: http://forum.freecadweb.org/viewtopic.php?t=6558
     sourcedir: .
     destdir: UserAppData/Macros/screw_maker.py
     format: zipfile
@@ -225,6 +224,7 @@ plugins:
 
   FreeCAD-makros:
     status: noignore
+    web: http://www.freecadweb.org/wiki/index.php?title=Macros_recipes
     source:  https://github.com/FreeCAD/FreeCAD-macros/archive/master.zip
     sourcedir: FreeCAD-macros-master
     destdir: AppHomePath/Mod/plugins/FreeCAD-macros
@@ -256,12 +256,14 @@ plugins:
   animation:
     status: noignore
     menu: Animation Workbench
+    web: http://freecadbuch.de/doku.php?id=Animation%20Wokbench
     icon: AppHomePath/Mod/Animation/icons/animation.png
   
   
   loadtest:
     status: noignore
     name: loader test
+    web: http://www.gimp.org
     source: https://github.com/microelly2/freecad-sipoc/archive/master.zip
     sourcedir: freecad-sipoc-master
 
@@ -372,7 +374,7 @@ data:
     exec: FreeCADGui.activateWorkbench("WebWorkbench")
   PartDesignWorkbench: &PartDesign
     exec: FreeCADGui.activateWorkbench("PartDesignWorkbench")
-    icon:  AppHomePath/Mod/plugins/icons/part.png
+    icon:  AppHomePath/Mod/plugins/icons/partdesign.png
   PartWorkbench: &Part
     exec: FreeCADGui.activateWorkbench("PartWorkbench")
     icon:  AppHomePath/Mod/plugins/icons/part.png
@@ -444,8 +446,9 @@ tabs:
     Test: *Test
     Web: *Web
 
-  5 FreeCAD Macros Lib:
+  5 Macros:
     1. Solid Sweep: *Sweep
     2. Sheet Metal Unfolder: *Unfold
+    3. Circular Text: *cirtex
     9. My Test Macro: *Mymacro
  
