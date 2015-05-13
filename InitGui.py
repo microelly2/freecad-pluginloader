@@ -175,7 +175,15 @@ class MyDock(QtGui.QDockWidget):
 		if self.pluginloader.config3.has_key("tabs"):
 			say("tabs sind da            ----------------------")
 			tabs= QtGui.QTabWidget()
-			for ky in sorted(self.pluginloader.config3["tabs"].keys()):
+			kl=sorted(self.pluginloader.config3["tabs"].keys())
+			
+			# where to place the tabs -  still hard coded
+			mode="west"
+			if mode =="west":
+				tabs.setTabPosition(QtGui.QTabWidget.West)
+				kl.reverse()
+			
+			for ky in kl:
 				say(ky)
 				tab1= QtGui.QWidget()
 				tabs.addTab(tab1,ky)
