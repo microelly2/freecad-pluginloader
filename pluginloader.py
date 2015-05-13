@@ -95,7 +95,7 @@ def pathMacro(s):
 # if True:
 	kk=('Linux', 'Arch', '4.0.1-1-ARCH', '#1 SMP PREEMPT Wed Apr 29 12:00:26 CEST 2015', 'x86_64')
 	import os
-	#kk=os.uname()
+	kk=os.uname()
 	match = re.search('ARCH', kk[2])
 	if match:
 		arch=True
