@@ -313,6 +313,8 @@ base:
   # verzeichnis temp zum zwischenspeichern und auspacken
   zipex: UserHomePath/tmp/yyya
   tmprelease: UserHomePath/tmp/release
+  # location of the tabs
+  tablocation: west
 
 
 
@@ -427,6 +429,9 @@ data:
       exec: import FreeCAD;FreeCAD.Console.PrintWarning("I'm the Exporter!")
       icon: AppHomePath/Mod/plugins/icons/raytrace_exportproject.png
 
+  Test: &Test2
+    icon: AppHomePath/Mod/plugins/icons/freecad.png
+    exec: import FreeCAD;FreeCAD.Console.PrintWarning('*****default Method FreeCAD-Dir=AppHomePath/! HOME-Dir=UserHomePath/!  UserData-Dir=UserAppData/!\n')
 
 
 # tabs of the manager window
@@ -439,6 +444,7 @@ tabs:
     DrawingDim: *Ddim
     FEM: *FEM
     Cura Engine: *cura
+    Test PM: *Test2
 #---------------------------------------------------------------
   1 Pre: # activities before CAD
     3 Image WB: *Imag
@@ -527,11 +533,11 @@ tabs:
 
 # two toolbars - examples faster than menues
 toolbars:
-   toolbar1:
+   toolbarA:
        FEM: *FEM
        PCB: *pcb
        Cura Engine: *cura
-   toolbar2:
+   toolbarB:
       Solid Sweep: *Sweep
       Sheet Metal Unfolder: *Unfold
       Circular Text: *cirtex

@@ -157,14 +157,20 @@ class MyDock(QtGui.QDockWidget):
 				say(ky)
 				mw=FreeCAD.Gui.getMainWindow()
 				toolbarBox = QtGui.QToolBar(mw)
-				toolbarBox.setWindowTitle("ky")
+				toolbarBox.setWindowTitle(ky)
 				mw.addToolBar(QtCore.Qt.TopToolBarArea, toolbarBox)
 				for tool in sorted(self.pluginloader.config3["toolbars"][ky].keys()):
+					say(tool)
 					yy=self.pluginloader.config3["toolbars"][ky][tool]
 					myAction2= QtGui.QAction(QtGui.QIcon(yy['icon']),tool ,mw)
 					myAction2.setToolTip(tool)
 					toolbarBox.addAction(myAction2)
+				say("ok")
 				toolbarBox.show()
+				
+				# say(toolbarBox.Title())
+				#self.toolbarBox=toolbarBox
+				self.toolbars.append(toolbarBox)
 				say("ky done "+ky)
 
 
@@ -178,11 +184,15 @@ class MyDock(QtGui.QDockWidget):
 			kl=sorted(self.pluginloader.config3["tabs"].keys())
 			
 			# where to place the tabs -  still hard coded
-			mode="west"
+			mode="north"
+			if self.pluginloader.config3['base'].has_key('tablocation'):
+				mode= self.pluginloader.config3['base']['tablocation']
 			if mode =="west":
 				tabs.setTabPosition(QtGui.QTabWidget.West)
 				kl.reverse()
-			
+			if mode =="east":
+				tabs.setTabPosition(QtGui.QTabWidget.East)
+				kl.reverse()
 			for ky in kl:
 				say(ky)
 				tab1= QtGui.QWidget()
@@ -293,6 +303,8 @@ PluginManager.pluginloader=t
 t.setParams()
 
 PluginManager.show()
+PluginManager.toolbar=False
+PluginManager.toolbars=[]
 
 if FreeCAD.ParamGet('User parameter:Plugins').GetBool('showdock'):
 	PluginManager.show()
@@ -301,8 +313,11 @@ FreeCAD.Console.PrintError("mod/plugins/InitGui.py done"+"\n")
 PluginManager.genlabels()
 
 def runme():
-	PluginManager.gentoolbars()
-	FreeCAD.Console.PrintError("RUN ME  mod/plugins/InitGui.py done"+"\n")
+	if not PluginManager.toolbar:
+		PluginManager.gentoolbars()
+		FreeCAD.Console.PrintError("RUN ME  mod/plugins/InitGui.py done"+"\n")
+	PluginManager.toolbar=True
+
 
 t=FreeCADGui.getMainWindow()
 t.workbenchActivated.connect(runme)

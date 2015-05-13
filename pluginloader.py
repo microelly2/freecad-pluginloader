@@ -86,24 +86,44 @@ def dlgexc(mess=''):
 # read from file and converted to python
 import yaml,urllib
 import re
+import os
 
 def pathMacro(s):
 	'''
 	replace shortname by os path
 	'''
+# if True:
+	kk=('Linux', 'Arch', '4.0.1-1-ARCH', '#1 SMP PREEMPT Wed Apr 29 12:00:26 CEST 2015', 'x86_64')
+	import os
+	#kk=os.uname()
+	match = re.search('ARCH', kk[2])
+	if match:
+		arch=True
+	else:
+		arch=False
+	
 	for k in ["UserHomePath","UserAppData","AppHomePath"]:
 		pat=r"(.*)"+k+"/"+"(.*)"
 		m = re.match(pat, s)
 		if m:
-			# m.group(0)       # The entire match
 			pre=m.group(1)
-			post=m.group(2)       # The first parenthesized subgroup.
+			post=m.group(2)
 			inn=FreeCAD.ConfigGet(k)
-			if k == "UserHomePath":
-				s2=pre+inn+"/"+post
+			if arch:
+				if k == "AppHomePath": #Force sensible Plugin folder
+					if inn == "/usr/":
+						inn=inn+"share/freecad/"
+					if inn == "/usr/bin/":
+						inn="/usr/share/freecad/"
+				if k == "UserHomePath":
+					s2=pre+inn+"/"+post
+				else:
+					s2=pre+inn+post
 			else:
-				s2=pre+inn+post
-			#return s2
+				if k == "UserHomePath":
+					s2=pre+inn+"/"+post
+				else:
+					s2=pre+inn+post
 			s=s2
 	return s
 
