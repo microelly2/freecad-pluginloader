@@ -84,7 +84,7 @@ class MyDock(QtGui.QDockWidget):
 		self.labels={}
 		self.setMinimumSize(200, 185)
 		master.addDockWidget(QtCore.Qt.RightDockWidgetArea, dock)
-		self.setWindowTitle('Community Plugins')
+		self.setWindowTitle('Plugin Manager')
 		self.setObjectName('Pluginloader')
 		self.centralWidget = QtGui.QWidget(dock)
 		self.centralWidget.setStyleSheet(
@@ -147,6 +147,28 @@ class MyDock(QtGui.QDockWidget):
 		self.pluginloaderCMD()
 		exec 'say("super ende")'
 
+
+	def gentoolbars(self):
+		cf=self.pluginloader.config
+		say("gentoolbars ...")
+		if self.pluginloader.config3.has_key("toolbars"):
+			say("toolbars sind da            ----------------------")
+			for ky in sorted(self.pluginloader.config3["toolbars"].keys()):
+				say(ky)
+				mw=FreeCAD.Gui.getMainWindow()
+				toolbarBox = QtGui.QToolBar(mw)
+				toolbarBox.setWindowTitle("ky")
+				mw.addToolBar(QtCore.Qt.TopToolBarArea, toolbarBox)
+				for tool in sorted(self.pluginloader.config3["toolbars"][ky].keys()):
+					yy=self.pluginloader.config3["toolbars"][ky][tool]
+					myAction2= QtGui.QAction(QtGui.QIcon(yy['icon']),tool ,mw)
+					myAction2.setToolTip(tool)
+					toolbarBox.addAction(myAction2)
+				toolbarBox.show()
+				say("ky done "+ky)
+
+
+
 	def genlabels(self):
 		cf=self.pluginloader.config
 		##+
@@ -179,6 +201,8 @@ class MyDock(QtGui.QDockWidget):
 					pushButton1.clicked.connect(yy.run) 
 					vBoxlayout.addWidget(pushButton1)
 				tab1.setLayout(vBoxlayout)   
+
+
 
 
 # runde 2
@@ -265,8 +289,12 @@ PluginManager.show()
 if FreeCAD.ParamGet('User parameter:Plugins').GetBool('showdock'):
 	PluginManager.show()
 
-
 FreeCAD.Console.PrintError("mod/plugins/InitGui.py done"+"\n")
 PluginManager.genlabels()
 
-#
+def runme():
+	PluginManager.gentoolbars()
+	FreeCAD.Console.PrintError("RUN ME  mod/plugins/InitGui.py done"+"\n")
+
+t=FreeCADGui.getMainWindow()
+t.workbenchActivated.connect(runme)

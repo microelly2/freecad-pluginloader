@@ -29,7 +29,7 @@
 plugins:
 
 # 04.05.2015 pcb, cura engine
-  pcb:
+  pcb: &pcb
     status: noignore
     source: http://sourceforge.net/projects/eaglepcb2freecad/files/latest/download?source=files
     #source: http://sourceforge.net/projects/eaglepcb2freecad/files/3.5/PCB.7z/download
@@ -40,8 +40,9 @@ plugins:
     icon: UserAppData/Mod/PCB/data/board.svg
     method: 7z
 
-  curaengin:
+  curaengin: &cura
     status: noignore
+    web: http://forum.freecadweb.org/viewtopic.php?f=22&t=5466&start=80
     source: https://github.com/cblt2l/FreeCAD-CuraEngine-Plugin/archive/master.zip
     destdir: UserAppData/Mod/curaengine
     backup: UserAppData/Mod/curaengine
@@ -49,9 +50,10 @@ plugins:
     menu: Cura Engine Workbench
     exec: FreeCADGui.activateWorkbench("TDPrinting")
 
-  assembly2:
+  assembly2: &asbly2
     name: assembly2
     status: noignore
+    web: https://github.com/hamish2014/FreeCAD_assembly2/blob/master/README.md
     description: Assembly Workbench in python
     author: hamish2914
     
@@ -91,7 +93,7 @@ plugins:
     exec: FreeCADGui.activateWorkbench("DrawingDimensioningWorkbench")
     icon: AppHomePath/Mod/plugins/icons/drawing_dim.png
 
-  sipoc : 
+  sipoc : &sipoc
     name: sipoc
     status: ignore
     description : Single Point Configuration
@@ -107,7 +109,7 @@ plugins:
     #exec: import plugins;plugins.plugin1.info2()
 
 
-  workfeature:
+  workfeature: &wofe
      name: workfeature 
      status: noignore
      source: https://github.com/Rentlau/WorkFeature/archive/master.zip
@@ -131,8 +133,9 @@ plugins:
      destdir: UserAppData/Mod/ExplodedAssemblyAnimation
      backup: UserAppData/Mod/ExplodedAssemblyAnimation
 
-  assembly animation: &yy
+  assembly animation: &asani
      name: ExplodedAssemblyAnimation
+     web: http://forum.freecadweb.org/viewtopic.php?t=9028
      status: noignore
      source:  https://github.com/JMG1/FreeCAD_ExplodedAssemblyAnimationWorkbench/archive/master.zip
      author: JMG
@@ -146,7 +149,7 @@ plugins:
 
 
 
-  bolts:
+  bolts: &bolt
      name: bolts 
      status: noignore
      source: http://www.bolts-library.org/de/downloads/freecad/BOLTS_FreeCAD_0.3_lgpl2.1+.zip
@@ -163,12 +166,13 @@ plugins:
 
 
 
-  symbollib:
+  symbollib: &symli
      name: symbols
      status: noignore
      source: https://github.com/FreeCAD/FreeCAD-symbols/archive/master.zip
      author: yorik
      description: symbols for drawing page
+     web: http://forum.freecadweb.org/viewtopic.php?f=9&t=10641&hilit=symbol+lib
      timestamp: 00
      sourcedir: FreeCAD-symbols-master
      destdir:  AppHomePath/Mod/plugins/FreeCAD-symbols
@@ -177,7 +181,7 @@ plugins:
      exec: fn="AppHomePath/Mod/plugins/FreeCAD-symbols/SymbolsLibrary.FCMacro";exec open(fn).read()
      icon: AppHomePath/Mod/plugins/icons/first_angle.png
 
-  partlib:
+  partlib: &pali
      name: partlib
      status: noignore
      web: http://yorik.uncreated.net/guestblog.php?2014=19
@@ -205,7 +209,7 @@ plugins:
     
     
     
-  screw maker:
+  screw maker: &screw
     status: noignore
     source: http://forum.freecadweb.org/download/file.php?id=5449
     author: ulrich brammer
@@ -324,38 +328,55 @@ base:
 data:
   Animat: &Anim
     exec: FreeCADGui.activateWorkbench("AnimationWorkbench")
+    icon: AppHomePath/Mod/Animation/icons/animation.png
   Arch: &Arch
     exec: FreeCADGui.activateWorkbench("ArchWorkbench")
+    icon: AppHomePath/Mod/plugins/icons/16px-Arch.png
   Assembyl2: &Ass2
     exec: FreeCADGui.activateWorkbench("Assembly2Workbench")
+    icon: AppHomePath/Mod/plugins/icons/assembly2.png
   Draft: &Draft
     exec: FreeCADGui.activateWorkbench("DraftWorkbench")
+    icon: AppHomePath/Mod/plugins/icons/16px-Workbench_Draft.png
   Drawing: &Dang
     exec: FreeCADGui.activateWorkbench("DrawingWorkbench")
+    icon: AppHomePath/Mod/plugins/icons/drawing-orthoviews.png
   DrawingDim: &Ddim
     exec: FreeCADGui.activateWorkbench("DrawingDimensioningWorkbench")
+    icon: AppHomePath/Mod/plugins/icons/drawing_dim.png
   Exploded: &Exan
     exec: FreeCADGui.activateWorkbench("ExplodedAnimation")
+    icon: AppHomePath/Mod/plugins/icons/icon_createroute.png
   Image: &Imag
     exec: FreeCADGui.activateWorkbench("ImageWorkbench")
+    icon: AppHomePath/Mod/plugins/icons/16px-Workbench_Image.png
   Inspection: &Insp
     exec: FreeCADGui.activateWorkbench("InspectionWorkbench")
+    icon: AppHomePath/Mod/plugins/icons/view-zoom-fit.png
   Mesh: &Mesh
     exec: FreeCADGui.activateWorkbench("MeshWorkbench")
+    icon: AppHomePath/Mod/plugins/icons/16px-Workbench_Mesh.png
   OpenSCAD: &Scad
     exec: FreeCADGui.activateWorkbench("OpenSCADWorkbench")
+    icon: AppHomePath/Mod/plugins/icons/16px-Workbench_OpenSCAD.png
   Plot: &Plot
     exec: FreeCADGui.activateWorkbench("PlotWorkbench")
+    icon: AppHomePath/Mod/plugins/icons/16px-Plot_Save.png
   Points: &Poin
     exec: FreeCADGui.activateWorkbench("PointsWorkbench")
+    icon: AppHomePath/Mod/plugins/icons/points_import_point_cloud.png
   PCB: &Pcb
     exec: FreeCADGui.activateWorkbench("PCB")
+    icon: AppHomePath/Mod/plugins/icons/board.svg
   Raytraicing: &Rayt
     exec: FreeCADGui.activateWorkbench("RaytracingWorkbench")
+    icon: AppHomePath/Mod/plugins/icons/preferences-raytracing.png
   Reference: &Refe
     exec: FreeCADGui.activateWorkbench("ReferenceWorkbench")
+    icon: AppHomePath/Mod/plugins/icons/16px-Arch.png
   Reverse: &Rein
     exec: FreeCADGui.activateWorkbench("ReverseEngineeringWorkbench")
+    icon: AppHomePath/Mod/plugins/icons/16px-Arch.png
   Robot: &Robo
     exec: FreeCADGui.activateWorkbench("RobotWorkbench")
     icon:  AppHomePath/Mod/plugins/icons/robot.png
@@ -364,14 +385,19 @@ data:
     icon:  AppHomePath/Mod/plugins/icons/ship.png
   Sketcher: &Sket
     exec: FreeCADGui.activateWorkbench("SketcherWorkbench")
+    icon: AppHomePath/Mod/plugins/icons/16px-Workbench_Sketcher.png
   Spreedsheet: &Calc
     exec: FreeCADGui.activateWorkbench("SpreadsheetWorkbench")
+    icon: AppHomePath/Mod/plugins/icons/16px-Spreadsheet_Create.png
   Start: &Start
     exec: FreeCADGui.activateWorkbench("StartWorkbench")
+    icon: AppHomePath/Mod/plugins/icons/freecad.png
   Test: &Test
     exec: FreeCADGui.activateWorkbench("TestWorkbench")
+    icon: AppHomePath/Mod/plugins/icons/part_measure_step_done.png
   Web: &Web
     exec: FreeCADGui.activateWorkbench("WebWorkbench")
+    icon: AppHomePath/Mod/plugins/icons/web-browser.png
   PartDesignWorkbench: &PartDesign
     exec: FreeCADGui.activateWorkbench("PartDesignWorkbench")
     icon:  AppHomePath/Mod/plugins/icons/partdesign.png
@@ -382,6 +408,7 @@ data:
     exec: FreeCADGui.activateWorkbench("FemWorkbench")
     icon:  AppHomePath/Mod/plugins/icons/fem.png
 
+# FreeCAD-macros calls
   sweep: &Sweep
       exec: fn="AppHomePath/Mod/plugins/FreeCAD-macros/SolidSweep.FCMacro";exec open(fn).read()
       icon: AppHomePath/Mod/plugins/icons/mars.png
@@ -391,64 +418,121 @@ data:
   MyMacro: &Mymacro
       exec: fn="AppHomePath/Mod/plugins/FreeCAD-macros/myMacroDir/myMacro.py";exec open(fn).read();main()
       icon: AppHomePath/Mod/plugins/icons/mars.png
-      
  
+  Import WB: &Impo
+      exec: import FreeCAD;FreeCAD.Console.PrintWarning("I'm the Importer!")
+      icon: AppHomePath/Mod/plugins/icons/image-import.png
+
+  Export WB: &Expo
+      exec: import FreeCAD;FreeCAD.Console.PrintWarning("I'm the Exporter!")
+      icon: AppHomePath/Mod/plugins/icons/raytrace_exportproject.png
+
 
 
 # tabs of the manager window
 tabs:
-  1 My Favorites:
+  0 My Favorites:
     PartDesign: *PartDesign
     Part: *Part
-    # deactivate entry ...
-    #Robot:*Robot
-    FEM: *FEM
-
-  2 Other Workbenches: 
-    # reuse entries by links 
-    1 Part: *Part
-    2 Ship: *Ship
-    3 Robot: *Robo
-    # create individual entries outside the database
-    4 Dummy: 
-      exec: import FreeCAD;FreeCAD.Console.PrintWarning("Nothing to do!")
-      icon:  AppHomePath/Mod/plugins/icons/master.png
-    6 Greeting: 
-      exec: FreeCAD.Console.PrintWarning("Hello World!")
-      icon:  AppHomePath/Mod/plugins/icons/sun.png
-    5 Create Box:
-      exec:  FreeCAD.ActiveDocument.addObject("Part::Box","Box")
-      icon:  AppHomePath/Mod/plugins/icons/part.png
-  3 WB2:
-    Animat: *Anim
-    Arch: *Arch
-    Assembyl2: *Ass2
     Draft: *Draft
     Drawing: *Dang
     DrawingDim: *Ddim
-    Exploded: *Exan
-    Image: *Imag
-    Inspection: *Insp
-    Mesh: *Mesh
-  4 WB3:
-    OpenSCAD: *Scad
-    Plot: *Plot
-    Points: *Poin
-    PCB: *Pcb
-    Raytraicing: *Rayt
-    Reference: *Refe
-    Reverse: *Rein
-    Robot: *Robo
-    Ship: *Ship
-    Sketcher: *Sket
-    Spreedsheet: *Calc
-    Start: *Start
-    Test: *Test
-    Web: *Web
+    FEM: *FEM
+    Cura Engine: *cura
+#---------------------------------------------------------------
+  1 Pre: # activities before CAD
+    3 Image WB: *Imag
+    2 Reverse WB: *Rein
+    1 Import WB: *Impo
 
-  5 Macros:
-    1. Solid Sweep: *Sweep
-    2. Sheet Metal Unfolder: *Unfold
-    3. Circular Text: *cirtex
+  2 CAD:
+    # workbenches
+    1 PartDesign WB: *PartDesign
+    2 Part WB: *Part
+    3 Draft WB: *Draft
+    7 Assembly2 WB: *Ass2
+    4 OpenSCAD WB: *Scad
+    5 Mesh WB: *Mesh
+    # macros
+    0 Workfeature : *wofe
+    # add objects
+    A Bolts Lib: *bolt
+    B Screw maker Macro: *screw
+    C Part Lib : *pali
+
+    Create Box:
+      exec:  FreeCAD.ActiveDocument.addObject("Part::Box","Box")
+      icon:  AppHomePath/Mod/plugins/icons/part.png
+    Solid Sweep Macro: *Sweep
+    Circular Text Macro: *cirtex
+
+  3 Simulation: # after CAD - Test the model
+    # Analyse
+    1 FEM WB: *FEM
+    3 Animation WB : *Anim
+    2 Inspection WB: *Insp
+
+  4 Post: # after CAD - produce documentation 
+    1 Drawing WB: *Dang
+    3 DrawingDim WB: *Ddim
+    2 Symbol Lib: *symli
+    4 Exploded Assembly Animation: *Exan
+    5 Raytraicing WB: *Rayt
+    6 Plot WB: *Plot
+    7 Points WB: *Poin
+
+  5 CAM: # production interface
+    Export WB: *Expo
+    Cura Engine WB: *cura
+    Path WB:
+      exec: import FreeCAD;FreeCAD.Console.PrintWarning("I'm the Path workbench!")
+
+
+  6 Config: # spiritual design
+    Spreedsheet WB: *Calc
+    Sipoc Macro: *sipoc
+  
+  7 Special: # branches
+    Architecture WB: *Arch # Architecture
+    PCB WB: *pcb
+    Ship WB: *Ship
+    Robot WB: *Robo
+    #Sheet Metal ...
+    Sheet Metal Unfolder Macro: *Unfold
+    School WB:
+      exec: import FreeCAD;FreeCAD.Console.PrintWarning("I'm the School workbench!")
+
+  
+  8 Helper: # not realy needed in production workflow
+    Sketcher WB: *Sket
+    Start WB: *Start
+    Test WB: *Test
+    Web WB: *Web
+    
+  9 Not Categorized: # dont know where to place
+    Reference WB: *Refe
+
+  #Other Workbenches: 
+    # reuse entries by links 
+    # create individual entries outside the database
+    
+  My Tests:
+    4 Dummy Macro: 
+      exec: import FreeCAD;FreeCAD.Console.PrintWarning("Nothing to do!")
+      icon:  AppHomePath/Mod/plugins/icons/master.png
+    6 Greeting Macro : 
+      exec: FreeCAD.Console.PrintWarning("Hello World!")
+      icon:  AppHomePath/Mod/plugins/icons/sun.png
     9. My Test Macro: *Mymacro
- 
+
+# two toolbars - examples faster than menues
+toolbars:
+   toolbar1:
+       FEM: *FEM
+       PCB: *pcb
+       Cura Engine: *cura
+   toolbar2:
+      Solid Sweep: *Sweep
+      Sheet Metal Unfolder: *Unfold
+      Circular Text: *cirtex
+
