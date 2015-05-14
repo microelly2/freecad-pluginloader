@@ -141,9 +141,15 @@ def set_defaults(conf):
 ta=FreeCAD.ParamGet('User parameter:Plugins')
 fn=ta.GetString("configfile")
 
-# __dir__="e:/FreeCAD_0.16.4924_x86_dev_bin/Mod/plugins"
-
-fn=0
+# where am I ?
+where=ta.GetString("whereAmI")
+if where == 'stick':
+	__dir__="e:/FreeCAD_0.16.4924_x86_dev_bin/Mod/plugins"
+	saye("I am on my windows stick")
+if where == 'home':
+	saye('I am at home')
+	fn=0
+#------------------------------
 
 if not fn:
 	fn=__dir__+"/pluginloaderconfig.yaml"
