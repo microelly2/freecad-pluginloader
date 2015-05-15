@@ -29,6 +29,7 @@ App=FreeCAD
 global sys,traceback
 import FreeCAD,os,FreeCADGui,time,sys,traceback
 
+
 import PySide
 from PySide import QtCore, QtGui, QtSvg
 from PySide.QtGui import * 
@@ -39,7 +40,7 @@ global QtGui,QtCore
 global myDialog,say
 
 def myDialog(msg):
-    diag = QtGui.QMessageBox(QtGui.QMessageBox.Information,"My Dialog",msg )
+    diag = QtGui.QMessageBox(QtGui.QMessageBox.Information,"Plugin Manager",msg )
     diag.exec_()
 
 def say(s):
@@ -69,6 +70,14 @@ class MyAction2():
 	def run(self):
 			#say("run")
 			say("!"+self.cmd+"!")
+			import re 
+			pat=r"FreeCADGui.activateWorkbench\(\"(.*)\"\)"
+			m = re.match(pat, self.cmd)
+			if m:
+				pre=m.group(1)
+				if not pre in FreeCADGui.listWorkbenches():
+					myDialog("The Workbench \n\n*** " + pre + " ***\n\nis not available \nplease \n\n1. install it and \n2. restart FreeCAD!") 
+					return
 			try:
 				exec(self.cmd)
 			except:
