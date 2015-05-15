@@ -37,10 +37,14 @@ from PySide.QtCore import *
 
 
 global QtGui,QtCore
-global myDialog,say
+global myDialog,say,myDialoge
 
 def myDialog(msg):
     diag = QtGui.QMessageBox(QtGui.QMessageBox.Information,"Plugin Manager",msg )
+    diag.exec_()
+
+def myDialoge(msg):
+    diag = QtGui.QMessageBox(QtGui.QMessageBox.Critical,"Plugin Manager Error",msg )
     diag.exec_()
 
 def say(s):
@@ -76,7 +80,7 @@ class MyAction2():
 			if m:
 				pre=m.group(1)
 				if not pre in FreeCADGui.listWorkbenches():
-					myDialog("The Workbench \n\n*** " + pre + " ***\n\nis not available \nplease \n\n1. install it and \n2. restart FreeCAD!") 
+					myDialoge("The Workbench \n\n*** " + pre + " ***\n\nis not available \nplease \n\n1. install it and \n2. restart FreeCAD!") 
 					return
 			try:
 				exec(self.cmd)
