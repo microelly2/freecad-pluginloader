@@ -100,17 +100,20 @@ class MyDock(QtGui.QDockWidget):
 		self.setWindowTitle('Plugin Manager')
 		self.setObjectName('Pluginloader')
 		self.centralWidget = QtGui.QWidget(dock)
-		self.centralWidget.setStyleSheet(
-				"QPushButton { margin-right:10px;margin-left:20px;\
-				background-color: lightblue;text-align:left;;padding:10px;padding-left:8px }")
+		self.centralWidget.setStyleSheet("\
+				QWidget { background-color: lightblue}\
+				QPushButton { margin-right:0px;margin-left:0px;margin:0 px;padding:0px;;\
+				background-color: lightblue;text-align:left;;padding:6px;padding-left:4px }\
+								\
+				")
 		self.centralWidget.setObjectName("centralWidget")
 		self.centralWidget.setGeometry(10,10, 150,100 )
 		layout = QtGui.QVBoxLayout()
 		self.centralWidget.setLayout(layout)
 		
 		self.liste=QtGui.QWidget()
-		self.liste.setStyleSheet("QPushButton { margin-left:10px;margin-right:0px;\
-				background-color: lightblue;text-align:left;padding:4px;padding-left:8px }");
+		#self.liste.setStyleSheet("QPushButton { margin-left:0px;margin-right:0px;\
+		#		background-color: lightblue;text-align:left;padding:1px;padding-left:2px }");
 		self.lilayout=QtGui.QVBoxLayout()
 		self.liste.setLayout(self.lilayout)
 		
@@ -214,8 +217,6 @@ class MyDock(QtGui.QDockWidget):
 				vBoxlayout.setAlignment(QtCore.Qt.AlignTop)
 
 				for fun in sorted(self.pluginloader.config3["tabs"][ky].keys()):
-					
-					
 					ff=self.pluginloader.config3["tabs"][ky][fun]
 					if ff.has_key('icon'):
 						pushButton1 = QtGui.QPushButton(QtGui.QIcon(ff['icon']),fun)
@@ -230,7 +231,25 @@ class MyDock(QtGui.QDockWidget):
 					yy=MyAction2(cmd)
 					pushButton1.yy=yy
 					pushButton1.clicked.connect(yy.run) 
-					vBoxlayout.addWidget(pushButton1)
+					# vBoxlayout.addWidget(pushButton1)
+					#---------------
+					hWid= QtGui.QWidget()
+					hBoxlayout	= QtGui.QHBoxLayout()
+					hWid.setLayout(hBoxlayout)
+					pushButt_1 = QtGui.QPushButton(fun)
+					hBoxlayout.addWidget(pushButton1)
+					if ff.has_key('man'):
+						pushButt_2 = QtGui.QPushButton(QtGui.QIcon('/usr/lib/freecad/Mod/plugins/icons/help.png'),'')
+						cmdh='say(' +ff['man']+')'
+						cmdh='import WebGui; WebGui.openBrowser( "' +ff['man'] + '")'
+						
+						yh=MyAction2(cmdh)
+						pushButt_2.yh=yh
+						pushButt_2.clicked.connect(yh.run) 
+						hBoxlayout.addWidget(pushButt_2)
+					hBoxlayout.setAlignment(QtCore.Qt.AlignLeft)
+					vBoxlayout.addWidget(hWid)
+					#---------------
 				tab1.setLayout(vBoxlayout)   
 
 

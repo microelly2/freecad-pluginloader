@@ -423,6 +423,7 @@ data:
   sweep: &Sweep
       exec: fn="AppHomePath/Mod/plugins/FreeCAD-macros/SolidSweep.FCMacro";exec open(fn).read()
       icon: AppHomePath/Mod/plugins/icons/mars.png
+      man: http://www.freecadweb.org
   Unfold: &Unfold
       exec: fn="AppHomePath/Mod/plugins/FreeCAD-macros/SheetMetalUnfolder.FCMacro";exec open(fn).read()
       icon: AppHomePath/Mod/plugins/icons/mars.png
@@ -432,6 +433,7 @@ data:
   Foto: &Foto
       exec: fn="AppHomePath/Mod/plugins/FreeCAD-macros/Foto.FCMacro";exec open(fn).read()
       icon: AppHomePath/Mod/plugins/icons/camera-photo.png
+      man: http://freecadbuch.de/doku.php?id=blog:massgerechte_fotos_vom_3d_fenster_erstellen
 
   Rectellipse: &Rectellipse
       exec: fn="AppHomePath/Mod/plugins/FreeCAD-macros/Rectellipse.FCMacro";exec open(fn).read()
@@ -486,6 +488,7 @@ tabs:
     Create Box:
       exec:  FreeCAD.ActiveDocument.addObject("Part::Box","Box")
       icon:  AppHomePath/Mod/plugins/icons/part.png
+      man: http://www.freecadweb.org
     Solid Sweep Macro: *Sweep
     Circular Text Macro: *cirtex
 
@@ -544,9 +547,11 @@ tabs:
     4 Dummy Macro: 
       exec: import FreeCAD;FreeCAD.Console.PrintWarning("Nothing to do!")
       icon:  AppHomePath/Mod/plugins/icons/master.png
+      man: http://www.freecadweb.org
     6 Greeting Macro : 
       exec: FreeCAD.Console.PrintWarning("Hello World!")
       icon:  AppHomePath/Mod/plugins/icons/sun.png
+      man: http://www.freecadweb.org
     9. My Test Macro: *Mymacro
     Foto: *Foto
     Rectellipse: *Rectellipse
