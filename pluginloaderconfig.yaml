@@ -227,6 +227,7 @@ plugins:
     format: zipfile
     menu: Screw Maker Macro
     exec: fn="UserAppData/Macros/screw_maker1_7.py";exec open(fn).read()
+    exec: fn="AppHomePath/Mod/plugins/FreeCAD-macros/ScrewMaker.FCMacro";exec open(fn).read()
 
 #------------------------
 #
@@ -428,7 +429,15 @@ data:
   MyMacro: &Mymacro
       exec: fn="AppHomePath/Mod/plugins/FreeCAD-macros/myMacroDir/myMacro.py";exec open(fn).read();main()
       icon: AppHomePath/Mod/plugins/icons/mars.png
- 
+  Foto: &Foto
+      exec: fn="AppHomePath/Mod/plugins/FreeCAD-macros/Foto.FCMacro";exec open(fn).read()
+      icon: AppHomePath/Mod/plugins/icons/camera-photo.png
+
+  Rectellipse: &Rectellipse
+      exec: fn="AppHomePath/Mod/plugins/FreeCAD-macros/Rectellipse.FCMacro";exec open(fn).read()
+      icon: AppHomePath/Mod/plugins/icons/rectellipse.png
+      man: http://www.freecadweb.org/wiki/index.php?title=Macro_Rectellipse
+
   Import WB: &Impo
       exec: import FreeCAD;FreeCAD.Console.PrintWarning("I'm the Importer!")
       icon: AppHomePath/Mod/plugins/icons/image-import.png
@@ -539,6 +548,8 @@ tabs:
       exec: FreeCAD.Console.PrintWarning("Hello World!")
       icon:  AppHomePath/Mod/plugins/icons/sun.png
     9. My Test Macro: *Mymacro
+    Foto: *Foto
+    Rectellipse: *Rectellipse
 
 # two toolbars - examples faster than menues
 toolbars:
