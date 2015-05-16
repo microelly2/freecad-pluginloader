@@ -52,7 +52,7 @@ def say(s):
 
 
 global __version__
-__version__='0.10 (2015/05/12) '
+__version__='0.11 (2015/05/16) '
 
 global sayexc
 
@@ -100,6 +100,7 @@ class MyDock(QtGui.QDockWidget):
 		self.setWindowTitle('Plugin Manager')
 		self.setObjectName('Pluginloader')
 		self.centralWidget = QtGui.QWidget(dock)
+		self.centralWidget.setMaximumHeight(800)
 		self.centralWidget.setStyleSheet("\
 				QWidget { background-color: lightblue}\
 				QPushButton { margin-right:0px;margin-left:0px;margin:0 px;padding:0px;;\
@@ -211,103 +212,140 @@ class MyDock(QtGui.QDockWidget):
 				kl.reverse()
 			for ky in kl:
 				say(ky)
+				import re
 				tab1= QtGui.QWidget()
-				tabs.addTab(tab1,ky)
+				pat=r"[0123456789]+ +(.*)"
+				m = re.match(pat, ky)
+				if m:
+					kyk=m.group(1)
+				else:
+					kyk=ky
+				tabs.addTab(tab1,kyk)
+#				tabs.setStyleSheet("QWidget {background-color: green;margin:0px;padding:2px;}")
 				vBoxlayout	= QtGui.QVBoxLayout()
 				vBoxlayout.setAlignment(QtCore.Qt.AlignTop)
 
 				for fun in sorted(self.pluginloader.config3["tabs"][ky].keys()):
 					ff=self.pluginloader.config3["tabs"][ky][fun]
-					if ff.has_key('icon'):
-						pushButton1 = QtGui.QPushButton(QtGui.QIcon(ff['icon']),fun)
+					say(fun)
+					import re
+					pat=r"[0123456789]+[\.]? +(.*)"
+					m = re.match(pat, fun)
+					if m:
+						funk=m.group(1)
 					else:
-						pushButton1 = QtGui.QPushButton(fun)
-#					say(ff)
+						funk=fun
+#					funk=fun
+					if ff.has_key('icon'):
+						pushButton1 = QtGui.QPushButton(QtGui.QIcon(ff['icon']),funk)
+					else:
+						pushButton1 = QtGui.QPushButton(QtGui.QIcon('/usr/lib/freecad/Mod/plugins/icons/sun.png'),funk)
+					say(pushButton1)
+					say("!!" + fun + " ->" + funk + "<-")
+					
 					try:
 						cmd=ff['exec']
 					except:
 						cmd="say('"+str(ff)+"')"
-#					say("cmd="+cmd)
+					say("cmd="+cmd)
 					yy=MyAction2(cmd)
 					pushButton1.yy=yy
 					pushButton1.clicked.connect(yy.run) 
-					# vBoxlayout.addWidget(pushButton1)
-					#---------------
-					hWid= QtGui.QWidget()
-					hBoxlayout	= QtGui.QHBoxLayout()
-					hWid.setLayout(hBoxlayout)
-					pushButt_1 = QtGui.QPushButton(fun)
-					hBoxlayout.addWidget(pushButton1)
-					if ff.has_key('man'):
-						pushButt_2 = QtGui.QPushButton(QtGui.QIcon('/usr/lib/freecad/Mod/plugins/icons/help.png'),'')
-						cmdh='say(' +ff['man']+')'
-						cmdh='import WebGui; WebGui.openBrowser( "' +ff['man'] + '")'
-						
-						yh=MyAction2(cmdh)
-						pushButt_2.yh=yh
-						pushButt_2.clicked.connect(yh.run) 
-						hBoxlayout.addWidget(pushButt_2)
-					hBoxlayout.setAlignment(QtCore.Qt.AlignLeft)
-					vBoxlayout.addWidget(hWid)
-					#---------------
-				tab1.setLayout(vBoxlayout)   
-
-
-
-
-# runde 2
-		plugintab	= QtGui.QWidget()
-		tabs.addTab(plugintab,"Plugins")
-		self.plugintab=plugintab
-		pluginlayout	= QtGui.QVBoxLayout()
-		pluginlayout.setAlignment(QtCore.Qt.AlignTop)
-		plugintab.setLayout(pluginlayout) 
-		self.lilayout.addWidget(tabs)
-		say("------------done------------------")
-		##-
-		
-		cf=self.pluginloader.config
-		
-		for k in sorted(cf.keys()):
-			say(k)
-			#say(cf[k])
-			if False:
-				self.pushButton = QtGui.QPushButton()
-				self.pushButton.setGeometry(10, 20,140, 50)	
-				#self.pushButton03.clicked.connect(fun3) 
-				self.pushButton.setText("!"+k)
-				self.lilayout.addWidget(self.pushButton)
-				pluginlayout.addWidget(self.pushButton)
-			if cf[k].has_key('menu'):
 					
-					menu=cf[k]['menu']
-					cmd=cf[k]['exec']
-					if cf[k].has_key('icon'):
-						icon=cf[k]['icon'] # /usr/lib/freecad/Mod/plugins/icons/master.png
+#					pushButtonx = QtGui.QPushButton("fun")
+#					vBoxlayout.addWidget(pushButtonx)
+#					pushButtony = QtGui.QPushButton("fun")
+#					vBoxlayout.addWidget(pushButtony)
+					if False:
+						vBoxlayout.addWidget(pushButton1)
 					else:
-						icon="/usr/lib/freecad/Mod/plugins/icons/sun.png"
-					if menu <> 'defaults':
-						self.pushButton = QtGui.QPushButton(QtGui.QIcon(icon),menu)
-						#self.pushButton.setGeometry(10, 20,140, 30)
-						yy=MyAction2(cmd)
-						#say(yy)
-						#say(yy.run)
-						#say(cmd)
-						#try:
-						#	yy.run()
-						#except:
-						#	say("fhelr")
-						self.pushButton.clicked.connect(yy.run) 
-						self.pushButton.setText(menu)
-						## self.lilayout.addWidget(self.pushButton)
-						pluginlayout.addWidget(self.pushButton)
-						self.labels[menu]=yy
+						#---------------
+						hWid= QtGui.QWidget()
+						hBoxlayout	= QtGui.QHBoxLayout()
+						hBoxlayout.setContentsMargins(0, 0, 0, 0)
+						hWid.setLayout(hBoxlayout)
+#						hWid.setStyleSheet("background-color: red;padding:2px;margin:0px;")
+					#	\
+					#QPushButton { margin-right:0px;margin-left:0px;margin:0 px;padding:0px;;\
+					#background-color: lightblue;text-align:left;;padding:6px;padding-left:4px }\
+				#					\
+				#	")
+						say("funk " + funk)
+						pushButt_1 = QtGui.QPushButton(funk)
+						hBoxlayout.addWidget(pushButton1)
+						if ff.has_key('man'):
+							pushButt_2 = QtGui.QPushButton(QtGui.QIcon('/usr/lib/freecad/Mod/plugins/icons/help.png'),'')
+							cmdh='say(' +ff['man']+')'
+							cmdh='import WebGui; WebGui.openBrowser( "' +ff['man'] + '")'
+							
+							yh=MyAction2(cmdh)
+							pushButt_2.yh=yh
+							pushButt_2.clicked.connect(yh.run) 
+							hBoxlayout.addWidget(pushButt_2)
+							pushButton1.setFixedWidth(250)
+						else:
+							pushButton1.setFixedWidth(290)
+						hBoxlayout.setAlignment(QtCore.Qt.AlignLeft)
+						vBoxlayout.addWidget(hWid)
+					#---------------
+				
+				#	\
+				tab1.setLayout(vBoxlayout)   
+		self.lilayout.addWidget(tabs)
+# runde 2
 		if False:
-			textArea = QtGui.QTextEdit()
-			textArea.setGeometry(150, 10,240,100)
-			textArea.setObjectName("cqCodeArea")
-			textArea.setText("")
-			self.lilayout.addWidget(textArea)
+			plugintab	= QtGui.QWidget()
+			tabs.addTab(plugintab,"Plugins")
+			self.plugintab=plugintab
+			pluginlayout	= QtGui.QVBoxLayout()
+			pluginlayout.setAlignment(QtCore.Qt.AlignTop)
+			plugintab.setLayout(pluginlayout) 
+			self.lilayout.addWidget(tabs)
+			say("------------done------------------")
+			##-
+			
+			cf=self.pluginloader.config
+			
+			for k in sorted(cf.keys()):
+				say(k)
+				#say(cf[k])
+				if False:
+					self.pushButton = QtGui.QPushButton()
+					self.pushButton.setGeometry(10, 20,140, 50)	
+					#self.pushButton03.clicked.connect(fun3) 
+					self.pushButton.setText("!"+k)
+					self.lilayout.addWidget(self.pushButton)
+					pluginlayout.addWidget(self.pushButton)
+				if cf[k].has_key('menu'):
+						
+						menu=cf[k]['menu']
+						cmd=cf[k]['exec']
+						if cf[k].has_key('icon'):
+							icon=cf[k]['icon'] # /usr/lib/freecad/Mod/plugins/icons/master.png
+						else:
+							icon="/usr/lib/freecad/Mod/plugins/icons/sun.png"
+						if menu <> 'defaults':
+							self.pushButton = QtGui.QPushButton(QtGui.QIcon(icon),menu)
+							#self.pushButton.setGeometry(10, 20,140, 30)
+							yy=MyAction2(cmd)
+							#say(yy)
+							#say(yy.run)
+							#say(cmd)
+							#try:
+							#	yy.run()
+							#except:
+							#	say("fhelr")
+							self.pushButton.clicked.connect(yy.run) 
+							self.pushButton.setText(menu)
+							## self.lilayout.addWidget(self.pushButton)
+							pluginlayout.addWidget(self.pushButton)
+							self.labels[menu]=yy
+			if False:
+				textArea = QtGui.QTextEdit()
+				textArea.setGeometry(150, 10,240,100)
+				textArea.setObjectName("cqCodeArea")
+				textArea.setText("")
+				self.lilayout.addWidget(textArea)
 
 
 		say("done")

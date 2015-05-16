@@ -455,7 +455,7 @@ data:
 
 # tabs of the manager window
 tabs:
-  0 My Favorites:
+  0 Favorites:
     PartDesign: *PartDesign
     Part: *Part
     Draft: *Draft
@@ -481,9 +481,9 @@ tabs:
     # macros
     0 Workfeature : *wofe
     # add objects
-    A Bolts Lib: *bolt
-    B Screw maker Macro: *screw
-    C Part Lib : *pali
+    81 Bolts Lib: *bolt
+    82 Screw maker Macro: *screw
+    83 Part Lib : *pali
 
     Create Box:
       exec:  FreeCAD.ActiveDocument.addObject("Part::Box","Box")
@@ -492,7 +492,7 @@ tabs:
     Solid Sweep Macro: *Sweep
     Circular Text Macro: *cirtex
 
-  3 Simulation: # after CAD - Test the model
+  3 Simu: # after CAD - Test the model
     # Analyse
     1 FEM WB: *FEM
     3 Animation WB : *Anim
@@ -514,11 +514,11 @@ tabs:
       exec: import FreeCAD;FreeCAD.Console.PrintWarning("I'm the Path workbench!")
 
 
-  6 Config: # spiritual design
+  6 Conf: # spiritual design
     Spreedsheet WB: *Calc
     Sipoc Macro: *sipoc
   
-  7 Special: # branches
+  7 Speci: # branches
     Architecture WB: *Arch # Architecture
     PCB WB: *pcb
     Ship WB: *Ship
@@ -529,13 +529,13 @@ tabs:
       exec: import FreeCAD;FreeCAD.Console.PrintWarning("I'm the School workbench!")
 
   
-  8 Helper: # not realy needed in production workflow
+  8 Aux: # not realy needed in production workflow
     Sketcher WB: *Sket
     Start WB: *Start
     Test WB: *Test
     Web WB: *Web
     
-  9 Not Categorized: # dont know where to place
+  9 Other: # dont know where to place
     Reference WB: *Refe
     sheet metal: *Sheetm
 
@@ -543,7 +543,7 @@ tabs:
     # reuse entries by links 
     # create individual entries outside the database
     
-  My Tests:
+  My Test:
     4 Dummy Macro: 
       exec: import FreeCAD;FreeCAD.Console.PrintWarning("Nothing to do!")
       icon:  AppHomePath/Mod/plugins/icons/master.png
