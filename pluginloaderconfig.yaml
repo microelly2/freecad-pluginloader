@@ -136,6 +136,7 @@ plugins:
   assembly animation: &asani
      name: ExplodedAssemblyAnimation
      web: http://forum.freecadweb.org/viewtopic.php?t=9028
+     man: http://forum.freecadweb.org/viewtopic.php?t=9028
      status: noignore
      source:  https://github.com/JMG1/FreeCAD_ExplodedAssemblyAnimationWorkbench/archive/master.zip
      author: JMG
@@ -352,9 +353,11 @@ data:
   Drawing: &Dang
     exec: FreeCADGui.activateWorkbench("DrawingWorkbench")
     icon: AppHomePath/Mod/plugins/icons/drawing-orthoviews.png
+    man: http://www.freecadweb.org/wiki/index.php?title=Drawing_Module
   DrawingDim: &Ddim
     exec: FreeCADGui.activateWorkbench("DrawingDimensioningWorkbench")
     icon: AppHomePath/Mod/plugins/icons/drawing_dim.png
+    
   Exploded: &Exan
     exec: FreeCADGui.activateWorkbench("ExplodedAnimation")
     icon: AppHomePath/Mod/plugins/icons/icon_createroute.png
@@ -373,6 +376,8 @@ data:
   Plot: &Plot
     exec: FreeCADGui.activateWorkbench("PlotWorkbench")
     icon: AppHomePath/Mod/plugins/icons/16px-Plot_Save.png
+    info: Plot Workbench
+    man: http://www.freecadweb.org/wiki/index.php?title=Plot_Module
   Points: &Poin
     exec: FreeCADGui.activateWorkbench("PointsWorkbench")
     icon: AppHomePath/Mod/plugins/icons/points_import_point_cloud.png
@@ -434,6 +439,7 @@ data:
       exec: fn="AppHomePath/Mod/plugins/FreeCAD-macros/Foto.FCMacro";exec open(fn).read()
       icon: AppHomePath/Mod/plugins/icons/camera-photo.png
       man: http://freecadbuch.de/doku.php?id=blog:massgerechte_fotos_vom_3d_fenster_erstellen
+      info: create a well sized foto of the selected object from top view
 
   Rectellipse: &Rectellipse
       exec: fn="AppHomePath/Mod/plugins/FreeCAD-macros/Rectellipse.FCMacro";exec open(fn).read()
@@ -471,7 +477,10 @@ tabs:
     1 Import WB: *Impo
 
   2 CAD:
-    # workbenches
+    info: |
+      Workbenches and tools for the core design 
+      process, Libraries with technical parts,
+      Object generators
     1 PartDesign WB: *PartDesign
     2 Part WB: *Part
     3 Draft WB: *Draft
@@ -479,30 +488,37 @@ tabs:
     4 OpenSCAD WB: *Scad
     5 Mesh WB: *Mesh
     # macros
-    0 Workfeature : *wofe
+    0 Workfeature Macro: *wofe
     # add objects
     81 Bolts Lib: *bolt
     82 Screw maker Macro: *screw
-    83 Part Lib : *pali
+    80 Part Lib : *pali
 
-    Create Box:
-      exec:  FreeCAD.ActiveDocument.addObject("Part::Box","Box")
-      icon:  AppHomePath/Mod/plugins/icons/part.png
-      man: http://www.freecadweb.org
-    Solid Sweep Macro: *Sweep
-    Circular Text Macro: *cirtex
+#    Create Box:
+#      exec:  FreeCAD.ActiveDocument.addObject("Part::Box","Box")
+#      icon:  AppHomePath/Mod/plugins/icons/part.png
+#      man: http://www.freecadweb.org
+    91 Solid Sweep Macro: *Sweep
+    92 Circular Text Macro: *cirtex
 
-  3 Simu: # after CAD - Test the model
-    # Analyse
+  3 Simu:  # after CAD - Test the model
+    info: |
+     Analyse the created model
+     Simulate physics
     1 FEM WB: *FEM
     3 Animation WB : *Anim
     2 Inspection WB: *Insp
 
   4 Post: # after CAD - produce documentation 
+    info: |
+      create drawings and
+      assembly animation
+      prepare for rendering
+      and generate data for post processing
     1 Drawing WB: *Dang
     3 DrawingDim WB: *Ddim
     2 Symbol Lib: *symli
-    4 Exploded Assembly Animation: *Exan
+    4 Exploded Assembly Animation: *asani
     5 Raytraicing WB: *Rayt
     6 Plot WB: *Plot
     7 Points WB: *Poin
@@ -539,15 +555,17 @@ tabs:
     Reference WB: *Refe
     sheet metal: *Sheetm
 
-  #Other Workbenches: 
-    # reuse entries by links 
-    # create individual entries outside the database
     
   My Test:
+    info: |
+      This is my test tab
+      Here I can change and examine
+      whatever I want
     4 Dummy Macro: 
       exec: import FreeCAD;FreeCAD.Console.PrintWarning("Nothing to do!")
       icon:  AppHomePath/Mod/plugins/icons/master.png
       man: http://www.freecadweb.org
+      info: A simple template 
     6 Greeting Macro : 
       exec: FreeCAD.Console.PrintWarning("Hello World!")
       icon:  AppHomePath/Mod/plugins/icons/sun.png
@@ -555,15 +573,22 @@ tabs:
     9. My Test Macro: *Mymacro
     Foto: *Foto
     Rectellipse: *Rectellipse
-
+    1. Create Toolbars:
+       exec: PluginManager.gentoolbars()
+       info: Create some toolbars for faster access
+ 
 # two toolbars - examples faster than menues
 toolbars:
-   toolbarA:
+   My Toolbar:
        FEM: *FEM
        PCB: *pcb
        Cura Engine: *cura
-   toolbarB:
+   FirstMacros:
       Solid Sweep: *Sweep
       Sheet Metal Unfolder: *Unfold
       Circular Text: *cirtex
+      Rectellipse: *Rectellipse
+      Foto: *Foto
+      Switch to Drawing Workbench: *Dang
+      
 

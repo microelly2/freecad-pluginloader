@@ -52,7 +52,7 @@ def say(s):
 
 
 global __version__
-__version__='0.11 (2015/05/16) '
+__version__='0.12 (2015/05/17) '
 
 global sayexc
 
@@ -179,8 +179,18 @@ class MyDock(QtGui.QDockWidget):
 				for tool in sorted(self.pluginloader.config3["toolbars"][ky].keys()):
 					say(tool)
 					yy=self.pluginloader.config3["toolbars"][ky][tool]
-					myAction2= QtGui.QAction(QtGui.QIcon(yy['icon']),tool ,mw)
+					myAction2=QtGui.QAction(QtGui.QIcon(yy['icon']),tool ,mw)
 					myAction2.setToolTip(tool)
+					
+					try:
+						cmd=yy['exec']
+					except:
+						cmd="say('"+str(yy)+"')"
+					say("cmd="+cmd)
+					yy=MyAction2(cmd)
+					myAction2.yy=yy
+					myAction2.triggered.connect(yy.run) 
+					
 					toolbarBox.addAction(myAction2)
 				say("ok")
 				toolbarBox.show()
@@ -221,13 +231,27 @@ class MyDock(QtGui.QDockWidget):
 				else:
 					kyk=ky
 				tabs.addTab(tab1,kyk)
+				
+				
 #				tabs.setStyleSheet("QWidget {background-color: green;margin:0px;padding:2px;}")
 				vBoxlayout	= QtGui.QVBoxLayout()
 				vBoxlayout.setAlignment(QtCore.Qt.AlignTop)
+				head=QtGui.QLabel(kyk.upper())
+				vBoxlayout.addWidget(head)
+				head.setStyleSheet("QWidget { font: bold 18px;letter-spacing: 14px;}")
+				#font=QtGui.QFont;
+				#font.setLetterSpacing(QtGui.QFont.AbsoluteSpacing,10);    
+				#head.setFont(font);
+				#head.setLetterSpacing(QFont.Expanded,2.0)
+				if self.pluginloader.config3['tabs'][ky].has_key("info"):
+					info=QtGui.QLabel(self.pluginloader.config3['tabs'][ky]["info"])
+					vBoxlayout.addWidget(info)
 
 				for fun in sorted(self.pluginloader.config3["tabs"][ky].keys()):
 					ff=self.pluginloader.config3["tabs"][ky][fun]
 					say(fun)
+					if fun == 'info':
+						continue
 					import re
 					pat=r"[0123456789]+[\.]? +(.*)"
 					m = re.match(pat, fun)
@@ -242,7 +266,8 @@ class MyDock(QtGui.QDockWidget):
 						pushButton1 = QtGui.QPushButton(QtGui.QIcon('/usr/lib/freecad/Mod/plugins/icons/sun.png'),funk)
 					say(pushButton1)
 					say("!!" + fun + " ->" + funk + "<-")
-					
+					if ff.has_key('info'): 
+						pushButton1.setToolTip(ff['info'])
 					try:
 						cmd=ff['exec']
 					except:
@@ -275,6 +300,7 @@ class MyDock(QtGui.QDockWidget):
 						hBoxlayout.addWidget(pushButton1)
 						if ff.has_key('man'):
 							pushButt_2 = QtGui.QPushButton(QtGui.QIcon('/usr/lib/freecad/Mod/plugins/icons/help.png'),'')
+							pushButt_2.setToolTip('See WebSite Documentation')
 							cmdh='say(' +ff['man']+')'
 							cmdh='import WebGui; WebGui.openBrowser( "' +ff['man'] + '")'
 							
