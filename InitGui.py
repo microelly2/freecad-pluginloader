@@ -165,20 +165,50 @@ class MyDock(QtGui.QDockWidget):
 		exec 'say("super ende")'
 
 
-	def gentoolbars(self):
+	def gentoolbars(self,workbench='init'):
 		cf=self.pluginloader.config
 		say("gentoolbars ...")
-		if self.pluginloader.config3.has_key("toolbars"):
-			say("toolbars sind da            ----------------------")
-			for ky in sorted(self.pluginloader.config3["toolbars"].keys()):
+
+		if self.pluginloader.config3["toolbars"].has_key(workbench):
+			say("toolbars sind da            ----------------------" + workbench)
+			for ky in sorted(self.pluginloader.config3["toolbars"][workbench].keys()):
 				say(ky)
-				mw=FreeCAD.Gui.getMainWindow()
-				toolbarBox = QtGui.QToolBar(mw)
-				toolbarBox.setWindowTitle(ky)
-				mw.addToolBar(QtCore.Qt.TopToolBarArea, toolbarBox)
-				for tool in sorted(self.pluginloader.config3["toolbars"][ky].keys()):
+				try:
+					mw=FreeCAD.Gui.getMainWindow()
+					
+					#toolbarBox = mw.addToolBar('Exit TB')
+					#self.toolbar.addAction(exitAction)
+
+					#toolbarBox = QtGui.QToolBar(mw)
+					#toolbarBox.setWindowTitle(ky)
+					
+					#mw.addToolBar(QtCore.Qt.TopToolBarArea, toolbarBox)
+					
+					say("2")
+					#se=FreeCAD.Gui.getMainWindow()
+					#exitAction = QtGui.QAction('Exit 2', se)
+					#exitAction.setShortcut('Ctrl+Q')
+					#exitAction.triggered.connect(QtGui.qApp.quit)
+					say("3")
+					mw.toolbar = mw.addToolBar(workbench +': ' + ky)
+					mw.toolbar.setWindowTitle("Personal " + workbench +': ' +ky)
+					#mw.toolbar.addAction(exitAction)
+					mw.toolbar.show()
+					say("4")
+					#self.tb=se.toolbar
+					#self.ac=exitAction
+					say("5")
+					#FreeeCAD.tb=se.toolbar
+					say("6")
+					toolbarBox=mw.toolbar
+				except Exception:
+					say("ERRRRRRRRRRRRRRRR")
+					say(Exception)
+				# say(self.tb)
+				
+				for tool in sorted(self.pluginloader.config3["toolbars"][workbench][ky].keys()):
 					say(tool)
-					yy=self.pluginloader.config3["toolbars"][ky][tool]
+					yy=self.pluginloader.config3["toolbars"][workbench][ky][tool]
 					myAction2=QtGui.QAction(QtGui.QIcon(yy['icon']),tool ,mw)
 					myAction2.setToolTip(tool)
 					
@@ -238,7 +268,7 @@ class MyDock(QtGui.QDockWidget):
 				vBoxlayout.setAlignment(QtCore.Qt.AlignTop)
 				head=QtGui.QLabel(kyk.upper())
 				vBoxlayout.addWidget(head)
-				head.setStyleSheet("QWidget { font: bold 18px;letter-spacing: 14px;}")
+				head.setStyleSheet("QWidget { font: bold 18px;}")
 				#font=QtGui.QFont;
 				#font.setLetterSpacing(QtGui.QFont.AbsoluteSpacing,10);    
 				#head.setFont(font);
@@ -399,7 +429,7 @@ PluginManager.pluginloader=t
 t.setParams()
 
 PluginManager.show()
-PluginManager.toolbar=False
+PluginManager.toolbar=0
 PluginManager.toolbars=[]
 
 if FreeCAD.ParamGet('User parameter:Plugins').GetBool('showdock'):
@@ -408,12 +438,60 @@ if FreeCAD.ParamGet('User parameter:Plugins').GetBool('showdock'):
 FreeCAD.Console.PrintError("mod/plugins/InitGui.py done"+"\n")
 PluginManager.genlabels()
 
+global re
+import re
 def runme():
-	if not PluginManager.toolbar:
-		PluginManager.gentoolbars()
-		FreeCAD.Console.PrintError("RUN ME  mod/plugins/InitGui.py done"+"\n")
-	PluginManager.toolbar=True
+	FreeCAD.Console.PrintError("RUN ME  mod/plugins/InitGui.py started "+ str( PluginManager.toolbar)+"\n")
+	if PluginManager.toolbar >= 0:
+		FreeCAD.Console.PrintError("RUN ME  mod/plugins/InitGui.py gentooolbars started"+"\n")
+		try:
+			say("1")
+			t=FreeCADGui.getMainWindow()
+			say("2")
+			wb=FreeCADGui.activeWorkbench()
+			say("3")
+			say(wb)
+			name="TEST"
+			FreeCAD.wb=wb
+			try:
+				say(FreeCADGui.activeWorkbench().name())
+				say(wb.name)
+				say(wb.name())
+				say("!!")
+				name=wb.name()
+				pass
+			except:
+				sayexc("except 1")
+				wbs='a'+ str(wb)
+				say("ex2")
+				say(wbs)
+				pat=r".*\.(.+) inst.*"
+				say(pat)
+				import re
+				m = re.match(pat, wbs)
+				say(m)
+				if m:
+					name=m.group(1)
+					say("!"+name +"!")
+					say("m good")
+					name=m.group(1)
+			say(name)
+			say("weiter gentoolbars")
+			PluginManager.gentoolbars(name)
+			say("5")
+		except:
+			sayexc("except 2")
+			say("schiefgegangen")
+			PluginManager.gentoolbars("Robot")
+		FreeCAD.Console.PrintError("RUN ME  mod/plugins/InitGui.py gentoolbars done "+"\n")
+	PluginManager.toolbar +=1
+	self=FreeCAD.Gui.getMainWindow()
+	self.show()
+	FreeCAD.Console.PrintError("RUN ME  mod/plugins/InitGui.py finished"+"\n")
 
 
 t=FreeCADGui.getMainWindow()
 t.workbenchActivated.connect(runme)
+
+
+

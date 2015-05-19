@@ -585,19 +585,62 @@ tabs:
     1. Create Toolbars:
        exec: PluginManager.gentoolbars()
        info: Create some toolbars for faster access
+    94 MakeCircle3Points:
+       exec: fn="/usr/lib/freecad/Mod/plugins/FreeCAD-macros/ObjectCreation/MakeCircle3Points.FCMacro";exec open(fn).read()
+       icon: /usr/lib/freecad/Mod/plugins/icons/circle-3points.png
+    95 DraftCircle3Points:
+       exec: fn="/usr/lib/freecad/Mod/plugins/FreeCAD-macros/ObjectCreation/Draft_Circle_3_Points.FCMacro";exec open(fn).read()
+       icon: /usr/lib/freecad/Mod/plugins/icons/circle-3points.png
+    96 DraftCircle3PointsImproved:
+       exec: fn="/usr/lib/freecad/Mod/plugins/FreeCAD-macros/ObjectCreation/Draft_Circle_3_Points_improved.FCMacro";exec open(fn).read()
+       icon: /usr/lib/freecad/Mod/plugins/icons/circle-3points.png
+    911 Ellipse-Center+2Points:
+       exec: fn="/usr/lib/freecad/Mod/plugins/FreeCAD-macros/ObjectCreation/Ellipse-Center+2Points.FCMacro";exec open(fn).read()
+       icon: /usr/lib/freecad/Mod/plugins/icons/ellipse-center+2points.png
+    921 Airfoil_Import_and_Scale:
+       exec: fn="/usr/lib/freecad/Mod/plugins/FreeCAD-macros/ObjectCreation/Airfoil_Import_and_Scale.FCMacro";exec open(fn).read()
+       icon: /usr/lib/freecad/Mod/plugins/icons/airfoil.png
+
+
  
-# two toolbars - examples faster than menues
+# toolbars - examples faster than menues
+
 toolbars:
-   My Toolbar:
+   PartWorkbench:
+     My Workbenches:
        FEM: *FEM
        PCB: *pcb
        Cura Engine: *cura
-   FirstMacros:
+     My Macros:
       Solid Sweep: *Sweep
-      Sheet Metal Unfolder: *Unfold
+      #Sheet Metal Unfolder: *Unfold
       Circular Text: *cirtex
       Rectellipse: *Rectellipse
       Foto: *Foto
       Switch to Drawing Workbench: *Dang
       
+   FemWorkbench: 
+     My FEM Toolbar:
+       PCB: *pcb
+       Cura Engine: *cura
+       Rectellipse: *Rectellipse
+       Foto: *Foto
+       Switch to Drawing Workbench: *Dang
+       Switch to Part: *Part
 
+       
+   PCB: &yy # anchor for reuse 
+      PCB1:
+       Foto: *Foto
+      PCB2:
+       Switch to Drawing Workbench: *Dang
+       Switch to FEM: *FEM
+       
+# some workbenches with the same add on toolbars like PCB
+   RobotWorkbench: *yy
+   ShipWorkbench: *yy
+   PartDesignWorkbench: *yy
+   
+   
+   
+ 
