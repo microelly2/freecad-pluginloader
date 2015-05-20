@@ -32,8 +32,6 @@ def saye(s):
 
 try:
 	__dir__ = os.path.dirname(__file__)
-	say(__dir__)
-	say(__file__)
 except:
 	from os.path import expanduser
 	home = expanduser("~")
@@ -71,7 +69,11 @@ def dlgexc(mess=''):
 	exc_type, exc_value, exc_traceback = sys.exc_info()
 	ttt=repr(traceback.format_exception(exc_type, exc_value,exc_traceback))
 	lls=eval(ttt)
-	msg=mess + "\n" +"-->  ".join(lls)
+	lls2=eval(ttt)
+	l=len(lls)
+	l2=lls[(l-1):]
+	FreeCAD.Console.PrintError(mess + "\n" +"-->  ".join(lls2))
+	msg=mess + "\n\n" +"-->  ".join(l2)
 	diag = QtGui.QMessageBox(QtGui.QMessageBox.Critical,u"Plugin Loader Error",msg )
 	diag.setWindowFlags(PySide.QtCore.Qt.WindowStaysOnTopHint)
 	diag.exec_()
@@ -101,7 +103,6 @@ def pathMacro(s):
 		arch=True
 	else:
 		arch=False
-	
 	for k in ["UserHomePath","UserAppData","AppHomePath"]:
 		pat=r"(.*)"+k+"/"+"(.*)"
 		m = re.match(pat, s)
@@ -127,16 +128,12 @@ def pathMacro(s):
 			s=s2
 	return s
 
-
-
 def set_defaults(conf):
 	for key in conf['plugins'].keys():
 		for att in conf['defaults'].keys():
 			if not conf['plugins'][key].has_key(att):
 				conf['plugins'][key][att]=conf['defaults'][att]
-		### conf['plugins'][key]['destdir']=pathMacro(conf['plugins'][key]['destdir'])
 	return(conf)
-
 
 ta=FreeCAD.ParamGet('User parameter:Plugins')
 fn=ta.GetString("configfile")
@@ -158,15 +155,13 @@ if not fn:
 config3={}
 
 try:
-	saye("try open config file "+ fn)
+	say("pluginmanager config file "+ fn)
 	stream = open(fn, 'r')
 	config3 = yaml.load(stream)
-	#say(config3)
-
 	config3=set_defaults(config3)
 except:
 	dlgexc("Cannot load configfile " +fn +"\nread console log for details " )
-	
+
 #---------------------
 
 import platform
@@ -176,18 +171,13 @@ import pprint
 # pprint.pprint(config3)
 
 for plin in config3['plugins'].keys():
-	#print "p",plin
 	for k in config3['plugins'][plin].keys():
-		#print "k",k
-		#if config3['plugins'][plin][k]:
-			#print config3['plugins'][plin][k].__class__
 		if config3['plugins'][plin][k] and config3['plugins'][plin][k].__class__ == dict:
 			print "dict"
 			print config3['plugins'][plin][k]
 			if os in config3['plugins'][plin][k].keys():
 				# replace
 				config3['plugins'][plin][k]=config3['plugins'][plin][k][os]
-			
 	for att in ['destdir','exec','icon','backup']:
 		config3['plugins'][plin][att]=pathMacro(config3['plugins'][plin][att])
 	if plin=='defaulttest':
@@ -198,13 +188,6 @@ for plin in config3['data'].keys():
 	for att in ['destdir','exec','icon','backup']:
 		if config3['data'][plin].has_key(att):
 			config3['data'][plin][att]=pathMacro(config3['data'][plin][att])
-
-
-
-#-----------------
-
-
-# say(config3['plugins']['loadtest'])
 
 class MyAction( QtGui.QAction):
 	def __init__(self, name,t,method,*args):
@@ -278,7 +261,6 @@ class MyWidget(QtGui.QWidget):
 			say(text)
 			say(self.config[sel.text()])
 			say("ok")
-			
 			text += "\n" + str(self.config[sel.text()]['author'])
 			say(text)
 			text += "\n" + str(self.config[sel.text()]['source'])
@@ -314,7 +296,6 @@ class PluginLoader(object):
 
 	def __init__(self):
 		global say
-		say("init")
 		self.config=config3['plugins']
 		self.base=config3['base']
 		self.config3=config3
@@ -323,25 +304,9 @@ class PluginLoader(object):
 
 
 	def start(self):
-		saye("pluginloader started ...")
 		s=MyWidget(self)
-		say(s)
 		self.widget=s
-		
 		s.show()
-		saye("widget shown")
-		#s.hide()
-		
-	def starthide(self):
-		saye("pluginloader started ...")
-		s=MyWidget(self)
-		say(s)
-		self.widget=s
-		
-		s.show()
-		saye("widget shown")
-		s.hide()
-		
 
 #check the version local against the web
 
@@ -532,10 +497,10 @@ class PluginLoader(object):
 			if not self.config[k]['status'] == 'ignore':
 				t=FreeCAD.ParamGet('User parameter:Plugins/'+k)
 				pluginlist.append(k)
-				say("--")
-				say(k)
-				say(self.config[k])
-				say(self.config[k]["name"])
+				#say("--")
+				#say(k)
+				#say(self.config[k])
+				#say(self.config[k]["name"])
 				t.SetString("name",self.config[k]["name"])
 				if self.config[k].has_key("author"): t.SetString("author",self.config[k]["author"])
 				t.SetString("destination",self.config[k]["destdir"])
@@ -543,15 +508,16 @@ class PluginLoader(object):
 				itemlist=[]
 				if self.config[k].has_key('menuitems'):
 					for menu in self.config[k]['menuitems'].keys():
-						say(menu)
+						#say(menu)
 						itemlist.append(menu)
 						tm=FreeCAD.ParamGet('User parameter:Plugins/'+k+'/'+menu)
 						tm.SetString("exec",self.config[k]['menuitems'][menu]['exec'])
 				else:
-					say("keine menuitmes")
+					#say("keine menuitmes")
+					pass
 				if self.config[k].has_key('menu'):
 					menu=self.config[k]['menu']
-					say(menu)
+					#say(menu)
 					itemlist.append(menu)
 					tm=FreeCAD.ParamGet('User parameter:Plugins/'+k+'/'+menu)
 					tm.SetString("exec",self.config[k]['exec'])
@@ -617,21 +583,6 @@ def initreload(*args): # still bugy
 	t.workbenchActivated.connect(starty)
 	saye("done")
 
-'''
 
-
-import pluginloader
-pluginloader.starty()
-
-'''
-say("start done")
-
-if 0 or False:
-	plulo=PluginLoader()
-	plulo.setParams()
-	plulo.getParams()
-	plulo.start()
-
-
-pprint.pprint(config3)
+#pprint.pprint(config3)
 #pprint.pprint(config3['plugins']['defaulttest'])

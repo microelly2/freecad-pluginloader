@@ -582,9 +582,6 @@ tabs:
     91 Rectellipse: *Rectellipse
     92 GeodesicDome: *GeoDo
     93 HalfHull: *Hahu
-    1. Create Toolbars:
-       exec: PluginManager.gentoolbars()
-       info: Create some toolbars for faster access
     94 MakeCircle3Points:
        exec: fn="/usr/lib/freecad/Mod/plugins/FreeCAD-macros/ObjectCreation/MakeCircle3Points.FCMacro";exec open(fn).read()
        icon: /usr/lib/freecad/Mod/plugins/icons/circle-3points.png
@@ -602,11 +599,13 @@ tabs:
        icon: /usr/lib/freecad/Mod/plugins/icons/airfoil.png
 
 
- 
+
 # toolbars - examples faster than menues
 
-toolbars:
+# my toolbars for workbenches 
+mytoolbars: &mytoolbars
    PartWorkbench:
+   # Part will get two extra toolbars: My Workbenches and My Macros ...
      My Workbenches:
        FEM: *FEM
        PCB: *pcb
@@ -618,29 +617,41 @@ toolbars:
       Rectellipse: *Rectellipse
       Foto: *Foto
       Switch to Drawing Workbench: *Dang
-      
-   FemWorkbench: 
+   
+   FemWorkbench: &FEM1
+   # FEM gets this toolbar with 6 items
      My FEM Toolbar:
        PCB: *pcb
        Cura Engine: *cura
        Rectellipse: *Rectellipse
        Foto: *Foto
        Switch to Drawing Workbench: *Dang
-       Switch to Part: *Part
-
+       Switch to Part Workbench: *Part
        
-   PCB: &yy # anchor for reuse 
+   PCB: &yy 
+   # anchor for reuse to other workbenches 
       PCB1:
        Foto: *Foto
       PCB2:
        Switch to Drawing Workbench: *Dang
        Switch to FEM: *FEM
        
-# some workbenches with the same add on toolbars like PCB
+   # here some workbenches with the same addon toolbars like PCB
    RobotWorkbench: *yy
    ShipWorkbench: *yy
    PartDesignWorkbench: *yy
-   
-   
+
+
+anOtherToolbars: &anOtherToolbars
+   PartWorkbench: *FEM1
+   PartDesignWorkbench: *yy
+
+#
+#  use one predefined toolbar 
+#  (uncomment only your favorite)
+
+toolbars: *mytoolbars
+#toolbars: *anOtherToolbars
+
    
  
