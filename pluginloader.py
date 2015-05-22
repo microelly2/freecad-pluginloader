@@ -97,7 +97,10 @@ def pathMacro(s):
 # if True:
 	kk=('Linux', 'Arch', '4.0.1-1-ARCH', '#1 SMP PREEMPT Wed Apr 29 12:00:26 CEST 2015', 'x86_64')
 	import os
-	kk=os.uname()
+	try:
+		kk=os.uname()
+	except:
+		kk="NOUNAME"
 	match = re.search('ARCH', kk[2])
 	if match:
 		arch=True
@@ -427,12 +430,21 @@ class PluginLoader(object):
 						say("backup")
 						os.rename(destination,self.config[plugin]['backup']+".bak."+str(time.time()))
 					except:
-						os.mkdir(destination)
+						if self.config[plugin].has_key('format') and self.config[plugin]['format']=='flatfile':
+							pass
+						else:
+							os.mkdir(destination)
 				say("move")
 				say("destination:"+destination+"!")
 				say("source:" +source+'!')
-				
-				os.rename(source, destination)
+				if self.config[plugin].has_key('format') and self.config[plugin]['format']=='flatfile':
+					import shutil
+					say("move by shutil")
+					#src = "C:\\steve_test\\Test_xp\\added"
+					#dst = "C:\\steve_test\\Test_xp\\moved"
+					shutil.move(source, destination)
+				else:
+					os.rename(source, destination)
 				say("done install")
 				#os.listdir(destination)
 		self.widget.lab2.setText(str(item) + " install fertig ----")

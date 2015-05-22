@@ -28,6 +28,7 @@
 
 plugins:
 
+
 # 04.05.2015 pcb, cura engine
   pcb: &pcb
     status: noignore
@@ -107,6 +108,20 @@ plugins:
     # only one single menu entry
     #menu: sipoc - command3
     #exec: import plugins;plugins.plugin1.info2()
+
+
+  selectiontoolbar : &setobar
+    name: selection toolbar 
+    status: noignore
+    description : Single Point Configuration
+    #web: http://freecadbuch.de/doku.php?id=Sipoc
+    author: microelly2
+    source: https://raw.githubusercontent.com/microelly2/freecad-dynamictools/master/selectiontoolbar.py
+    
+    #timestamp: https://raw.githubusercontent.com/microelly2/freecad-sipoc/master/release
+    destdir: AppHomePath/Mod/plugins/selectiontoolbar.py
+    format: flatfile
+    sourcedir: .
 
 
   workfeature: &wofe
@@ -248,7 +263,7 @@ plugins:
 #----------------------------
   menutest2:
     name: sipoc
-    status: noignore
+    status: ignore
     description : Single Point Configuration
     author: microelly2
     source: https://github.com/microelly2/freecad-sipoc/archive/master.zip
@@ -275,7 +290,7 @@ plugins:
   
   
   loadtest:
-    status: noignore
+    status: ignore
     name: loader test
     web: http://www.gimp.org
     source: https://github.com/microelly2/freecad-sipoc/archive/master.zip
@@ -597,7 +612,9 @@ tabs:
     921 Airfoil_Import_and_Scale:
        exec: fn="/usr/lib/freecad/Mod/plugins/FreeCAD-macros/ObjectCreation/Airfoil_Import_and_Scale.FCMacro";exec open(fn).read()
        icon: /usr/lib/freecad/Mod/plugins/icons/airfoil.png
-
+    100 Contextmenu by Gui.Selection:
+       exec: fn="/usr/lib/freecad/Mod/plugins/selectiontoolbar.py";exec open(fn).read()
+       icon: /usr/lib/freecad/Mod/plugins/icons/robot.png
 
 
 # toolbars - examples faster than menues
