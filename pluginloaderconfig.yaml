@@ -205,15 +205,13 @@ plugins:
   JoinFeatures: &JoinF
     name: objecttree
     status: noignore
-    icon: AppHomePath/Mod/plugins/icons/freecad.png
-    exec: fn="AppHomePath/Mod/plugins/objecttree/objecttree.py";exec open(fn).read();
-    man: https://github.com/microelly2/freecad-objecttree/blob/master/README.md
-    web: https://github.com/microelly2/freecad-objecttree/blob/master/README.md
-    description : Object Design Workflow Tree View
-    author: DEEPSOIC
+    #icon: AppHomePath/Mod/plugins/icons/freecad.png
+    man: http://forum.freecadweb.org/viewtopic.php?f=22&t=11112
+    web: http://forum.freecadweb.org/viewtopic.php?f=22&t=11112
+    description : Join Parts
+    author: DeepSOIC
     source: https://github.com/DeepSOIC/JoinFeatures/archive/master.zip
     sourcedir: JoinFeatures-master
-    #timestamp: https://raw.githubusercontent.com/microelly2//freecad-objecttree/master/release
     destdir: AppHomePath/Mod/JoinFeatures
     menu: Object Design Workflow Tree View
   
@@ -558,10 +556,15 @@ tabs:
     5 Mesh WB: *Mesh
     # macros
     0 Workfeature Macro: *wofe
+    
     # add objects
     81 Bolts Lib: *bolt
     82 Screw maker Macro: *screw
     80 Part Lib : *pali
+    901 Join Cutout:  *pcf_cutout
+    902 Join Connect:  *pcf_connect
+    903 Join Embed:  *pcf_embed
+
 
 #    Create Box:
 #      exec:  FreeCAD.ActiveDocument.addObject("Part::Box","Box")
