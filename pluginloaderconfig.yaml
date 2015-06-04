@@ -185,7 +185,40 @@ plugins:
      exec: import BOLTS;BOLTS.show_widget()
      icon: AppHomePath/Mod/plugins/icons/bolts.png
      requires: pyside-tools 
-   
+  
+  ObjTree: &ObjTree
+    name: objecttree
+    status: noignore
+    icon: AppHomePath/Mod/plugins/icons/freecad.png
+    exec: fn="AppHomePath/Mod/plugins/objecttree/objecttree.py";exec open(fn).read();
+    man: https://github.com/microelly2/freecad-objecttree/blob/master/README.md
+    web: https://github.com/microelly2/freecad-objecttree/blob/master/README.md
+    description : Object Design Workflow Tree View
+    author: microelly2
+    source: https://github.com/microelly2/freecad-objecttree/archive/master.zip
+    sourcedir: freecad-objecttree-master
+    timestamp: https://raw.githubusercontent.com/microelly2//freecad-objecttree/master/release
+    destdir: AppHomePath/Mod/plugins/objecttree
+    menu: Object Design Workflow Tree View
+  
+
+  JoinFeatures: &JoinF
+    name: objecttree
+    status: noignore
+    icon: AppHomePath/Mod/plugins/icons/freecad.png
+    exec: fn="AppHomePath/Mod/plugins/objecttree/objecttree.py";exec open(fn).read();
+    man: https://github.com/microelly2/freecad-objecttree/blob/master/README.md
+    web: https://github.com/microelly2/freecad-objecttree/blob/master/README.md
+    description : Object Design Workflow Tree View
+    author: DEEPSOIC
+    source: https://github.com/DeepSOIC/JoinFeatures/archive/master.zip
+    sourcedir: JoinFeatures-master
+    #timestamp: https://raw.githubusercontent.com/microelly2//freecad-objecttree/master/release
+    destdir: AppHomePath/Mod/JoinFeatures
+    menu: Object Design Workflow Tree View
+  
+
+  
 #------------------------
 
 
@@ -480,10 +513,24 @@ data:
     icon: AppHomePath/Mod/plugins/icons/freecad.png
     exec: import FreeCAD;FreeCAD.Console.PrintWarning('*****default Method FreeCAD-Dir=AppHomePath/! HOME-Dir=UserHomePath/!  UserData-Dir=UserAppData/!\n')
 
-
+# Join Features
+  pcf_cutout:  &pcf_cutout
+    icon: AppHomePath/Mod/JoinFeatures/PyResources/icons/Part-joinCutout.svg 
+    exec: import JoinFeatures;JoinFeatures._CommandCutoutFeature().Activated()
+  pcf_connect:  &pcf_connect
+    icon: AppHomePath/Mod/JoinFeatures/PyResources/icons/Part-joinConnect.svg 
+    exec: import JoinFeatures;JoinFeatures._CommandConnectFeature().Activated()
+  pcf_embed:  &pcf_embed
+    icon: AppHomePath/Mod/JoinFeatures/PyResources/icons/Part-joinEmbed.svg 
+    exec: import JoinFeatures;JoinFeatures._CommandEmbedFeature().Activated()
+  
 # tabs of the manager window
 tabs:
   0 Favorites:
+    01 Join Cutout:  *pcf_cutout
+    02 Join Connect:  *pcf_connect
+    03 Join Embed:  *pcf_embed
+    
     PartDesign: *PartDesign
     Part: *Part
     Draft: *Draft
@@ -612,9 +659,10 @@ tabs:
     921 Airfoil_Import_and_Scale:
        exec: fn="/usr/lib/freecad/Mod/plugins/FreeCAD-macros/ObjectCreation/Airfoil_Import_and_Scale.FCMacro";exec open(fn).read()
        icon: /usr/lib/freecad/Mod/plugins/icons/airfoil.png
-    100 Contextmenu by Gui.Selection:
+    101 Contextmenu by Gui.Selection:
        exec: fn="/usr/lib/freecad/Mod/plugins/selectiontoolbar.py";exec open(fn).read()
        icon: /usr/lib/freecad/Mod/plugins/icons/robot.png
+    100 Object Design Workflow Tree: *ObjTree
 
 
 # toolbars - examples faster than menues
@@ -634,6 +682,11 @@ mytoolbars: &mytoolbars
       Rectellipse: *Rectellipse
       Foto: *Foto
       Switch to Drawing Workbench: *Dang
+     ConnectFeatures:
+       01 Join Cutout:  *pcf_cutout
+       02 Join Connect:  *pcf_connect
+       03 Join Embed:  *pcf_embed
+
    
    FemWorkbench: &FEM1
    # FEM gets this toolbar with 6 items
