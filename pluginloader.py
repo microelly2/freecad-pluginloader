@@ -372,8 +372,9 @@ class PluginLoader(object):
 		zipextract=pathMacro(zipextract)
 		zipextract2=zipextract
 		say(zipextract)
-		directory=zipextract+"/.."
+		# directory=zipextract+"/.."
 		import os
+		directory=os.path.dirname(zipextract)
 		try:
 			say(os.path.exists(directory))
 		except:
