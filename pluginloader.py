@@ -450,7 +450,23 @@ class PluginLoader(object):
 					#dst = "C:\\steve_test\\Test_xp\\moved"
 					shutil.move(source, destination)
 				else:
-					os.rename(source, destination)
+					# os.rename(source, destination)
+					import shutil
+					say("move by shutil too v3")
+					try:
+						directory=os.path.dirname(destination)
+						base=os.path.basename(destination)
+						sdirectory=os.path.dirname(source)
+						sbase=os.path.basename(source)
+						dest2=directory+"/"+sbase
+						if not os.path.exists(directory):
+							say("create dir " + directory)
+							os.makedirs(directory)
+						shutil.move(source, dest2)
+						os.rename(dest2, destination)
+					except:
+						say("somethin wrong")
+						
 				say("done install")
 				#os.listdir(destination)
 		self.widget.lab2.setText(str(item) + " install fertig ----")
