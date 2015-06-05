@@ -12,12 +12,13 @@ from PySide import QtCore, QtGui, QtSvg
 from PySide.QtGui import * 
 
 global QtGui
-global config3,MyAction,say,saye
+# global config3
+global MyAction,say,saye
 # global PluginManager
 
 
 import WebGui
-__vers__='0.4'
+__vers__=' version 0.7c'
 
 
 import sys, os, zipfile
@@ -155,15 +156,6 @@ if not fn:
 	fn=__dir__+"/pluginloaderconfig.yaml"
 	ta.SetString("configfile",fn)
 
-config3={}
-
-try:
-	say("pluginmanager config file "+ fn)
-	stream = open(fn, 'r')
-	config3 = yaml.load(stream)
-	config3=set_defaults(config3)
-except:
-	dlgexc("Cannot load configfile " +fn +"\nread console log for details " )
 
 #---------------------
 
@@ -173,24 +165,8 @@ os=platform.system()
 import pprint
 # pprint.pprint(config3)
 
-for plin in config3['plugins'].keys():
-	for k in config3['plugins'][plin].keys():
-		if config3['plugins'][plin][k] and config3['plugins'][plin][k].__class__ == dict:
-			print "dict"
-			print config3['plugins'][plin][k]
-			if os in config3['plugins'][plin][k].keys():
-				# replace
-				config3['plugins'][plin][k]=config3['plugins'][plin][k][os]
-	for att in ['destdir','exec','icon','backup']:
-		config3['plugins'][plin][att]=pathMacro(config3['plugins'][plin][att])
-	if plin=='defaulttest':
-		pprint.pprint(config3['plugins'][plin])
 
 
-for plin in config3['data'].keys():
-	for att in ['destdir','exec','icon','backup']:
-		if config3['data'][plin].has_key(att):
-			config3['data'][plin][att]=pathMacro(config3['data'][plin][att])
 
 class MyAction( QtGui.QAction):
 	def __init__(self, name,t,method,*args):
@@ -254,7 +230,7 @@ class MyWidget(QtGui.QWidget):
 		line+=1
 		line+=1
 		self.setLayout(layout)
-		self.setWindowTitle("Plugin Loader")
+		self.setWindowTitle("Plugin Loader" + __vers__)
 
 	def on_pushButton02_clicked(self):
 		text=""
@@ -299,6 +275,35 @@ class PluginLoader(object):
 
 	def __init__(self):
 		global say
+		
+		config3={}
+		try:
+			say("pluginmanager config file "+ fn)
+			stream = open(fn, 'r')
+			config3 = yaml.load(stream)
+			config3=set_defaults(config3)
+		except:
+			dlgexc("Cannot load configfile " +fn +"\nread console log for details " )
+
+		for plin in config3['plugins'].keys():
+			for k in config3['plugins'][plin].keys():
+				if config3['plugins'][plin][k] and config3['plugins'][plin][k].__class__ == dict:
+					print "dict"
+					print config3['plugins'][plin][k]
+					if os in config3['plugins'][plin][k].keys():
+						# replace
+						config3['plugins'][plin][k]=config3['plugins'][plin][k][os]
+			for att in ['destdir','exec','icon','backup']:
+				config3['plugins'][plin][att]=pathMacro(config3['plugins'][plin][att])
+			if plin=='defaulttest':
+				pprint.pprint(config3['plugins'][plin])
+
+		for plin in config3['data'].keys():
+			for att in ['destdir','exec','icon','backup']:
+				if config3['data'][plin].has_key(att):
+					config3['data'][plin][att]=pathMacro(config3['data'][plin][att])
+
+
 		self.config=config3['plugins']
 		self.base=config3['base']
 		self.config3=config3

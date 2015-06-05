@@ -115,7 +115,11 @@ class MyDock(QtGui.QDockWidget):
 		
 		self.pushButton01 = QtGui.QPushButton(QtGui.QIcon('/usr/lib/freecad/Mod/mylib/icons/mars.png'),"Plugin Loader     Version " + __version__)
 		#self.pushButton01.setGeometry(10, 10,140, 50)
+		
 		self.pushButton01.clicked.connect(self.start) 
+		#latestart=lambda: self.start()
+		#self.pushButton01.clicked.connect(latestart) 
+		
 		#self.pushButton01.setText()
 		layout.addWidget(self.pushButton01)
 		layout.addWidget(self.liste)
@@ -125,7 +129,7 @@ class MyDock(QtGui.QDockWidget):
 	def start(self):
 			say("pluginloader started ...")
 			exec 'say("super")'
-			self.pluginloaderCMD()
+			exec "self.pluginloaderCMD()"
 			exec 'say("super ende")'
 	#		s=MyWidget(self)
 	#		say(s)
@@ -185,6 +189,11 @@ class MyDock(QtGui.QDockWidget):
 
 	def genlabels(self):
 		cf=self.pluginloader.config
+		try:
+			self.tabs.deleteLater()
+		except:
+			pass
+			
 		if self.pluginloader.config3.has_key("tabs"):
 			tabs= QtGui.QTabWidget()
 			kl=sorted(self.pluginloader.config3["tabs"].keys())
@@ -266,6 +275,19 @@ class MyDock(QtGui.QDockWidget):
 		self.lilayout.addWidget(tabs)
 		# aktiver tab
 		tabs.setCurrentIndex(10)
+		self.tabs=tabs
+	
+	def reload(self):
+		FreeCAD.Console.PrintMessage("PluginManager reload ... "+"\n")
+		import pluginloader
+		reload (pluginloader)
+		t=pluginloader.PluginLoader()
+		self.pluginloaderCMD=t.start
+		self.pluginloader=t
+		t.setParams()
+		self.genlabels()
+		FreeCAD.Console.PrintMessage("PluginManager reload done"+"\n")
+
 
 #------------------------ main --------------------------
 

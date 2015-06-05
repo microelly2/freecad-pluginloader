@@ -203,9 +203,8 @@ plugins:
   
 
   JoinFeatures: &JoinF
-    name: objecttree
+    name: JoinFeatures
     status: noignore
-    #icon: AppHomePath/Mod/plugins/icons/freecad.png
     man: http://forum.freecadweb.org/viewtopic.php?f=22&t=11112
     web: http://forum.freecadweb.org/viewtopic.php?f=22&t=11112
     description : Join Parts
@@ -537,6 +536,8 @@ tabs:
     FEM: *FEM
     Cura Engine: *cura
     Test PM: *Test2
+    Reload PluginManager:
+      exec: PluginManager.reload()
 #---------------------------------------------------------------
   1 Pre: # activities before CAD
     3 Image WB: *Imag
