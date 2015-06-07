@@ -94,6 +94,19 @@ plugins:
     exec: FreeCADGui.activateWorkbench("DrawingDimensioningWorkbench")
     icon: AppHomePath/Mod/plugins/icons/drawing_dim.png
 
+  animation : &anim
+    name: sipo
+    status: noignore
+    description : Animation
+    
+    author: microelly2
+    source: https://github.com/microelly2/Animation/archive/master.zip
+    sourcedir: Animation-master
+    timestamp: https://raw.githubusercontent.com/microelly2/Animation/master/release
+    destdir: AppHomePath/Mod/Animation
+    web: http://freecadbuch.de/doku.php?id=Animation%20Wokbench
+    icon: AppHomePath/Mod/Animation/icons/animation.png
+
   sipoc : &sipoc
     name: sipoc
     status: ignore
@@ -312,11 +325,6 @@ plugins:
         # its possible to add useful commands too
         menu tes - fun:
            exec:  FreeCAD.ActiveDocument.addObject("Part::Box","Box")
-  animation:
-    status: noignore
-    menu: Animation Workbench
-    web: http://freecadbuch.de/doku.php?id=Animation%20Wokbench
-    icon: AppHomePath/Mod/Animation/icons/animation.png
   
   
   loadtest:
