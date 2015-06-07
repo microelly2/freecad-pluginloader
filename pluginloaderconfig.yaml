@@ -266,12 +266,13 @@ plugins:
 
   circular text: &cirtex
     status: noignore
-    source: http://forum.freecadweb.org/download/file.php?id=11170
+    source: https://gist.githubusercontent.com/mario52a/a25e802498bae6959335/raw/21e57b185f34859ee4753e196001873aee27c8fe/Macro_FCCircularText.FCMacro
     sourcedir: .
-    destdir: UserAppData/Macros/circular_text.py
+    destdir: AppHomePath/Mod/plugins/Macro_FCCircularText.py
     format: flatfile
     menu: Circular Text Macro
-    exec: fn="AppHomePath/Mod/plugins/FreeCAD-library/PartsLibrary.FCMacro";exec open(fn).read()
+    exec: fn="UserAppData/Macros/circular_text.py";exec open(fn).read()
+    exec: import Macro_FCCircularText
     icon: AppHomePath/Mod/plugins/icons/circulartext.png
     
     
