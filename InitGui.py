@@ -36,7 +36,7 @@ from PySide.QtGui import *
 from PySide.QtCore import * 
 
 
-global QtGui,QtCore
+global QtGui,QtCore,QtSvg
 global myDialog,say,myDialoge
 
 def myDialog(msg):
