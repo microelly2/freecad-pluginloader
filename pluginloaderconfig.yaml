@@ -252,7 +252,9 @@ plugins:
      name: partlib
      status: noignore
      web: http://yorik.uncreated.net/guestblog.php?2014=19
-     source: https://github.com/yorikvanhavre/FreeCAD-library/archive/master.zip
+     # source: https://github.com/yorikvanhavre/FreeCAD-library/archive/master.zip
+     # until merge my local version ...
+     source: https://github.com/microelly2/FreeCAD-library/archive/master.zip
      author: yorik
      timestamp: 00
      sourcedir: FreeCAD-library-master
