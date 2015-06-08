@@ -52,7 +52,7 @@ def say(s):
 
 
 global __version__
-__version__='0.15 (2015/05/20)'
+__version__='0.16 (2015/06/08)'
 
 global sayexc
 
@@ -88,7 +88,7 @@ class MyAction2():
 class MyDock(QtGui.QDockWidget):
 	def __init__(self,master):
 		QtGui.QDockWidget.__init__(self,master)
-		self.setStyleSheet("background-color:white;")
+		self.setStyleSheet("{background-color:white;}")
 		#dock=self
 		self.labels={}
 		self.setMinimumSize(200, 185)
@@ -96,7 +96,7 @@ class MyDock(QtGui.QDockWidget):
 		self.setWindowTitle('Plugin Manager')
 		self.setObjectName('Pluginloader')
 		self.centralWidget = QtGui.QWidget(self)
-		self.centralWidget.setMaximumHeight(800)
+		self.centralWidget.setMaximumHeight(500)
 		self.centralWidget.setStyleSheet("\
 				QWidget { background-color: lightblue}\
 				QPushButton { margin-right:0px;margin-left:0px;margin:0 px;padding:0px;;\
@@ -104,16 +104,65 @@ class MyDock(QtGui.QDockWidget):
 								\
 				")
 		self.centralWidget.setObjectName("centralWidget")
-		self.centralWidget.setGeometry(10,10, 150,100 )
+		self.centralWidget.setGeometry(5,5, 150,60 )
+		
+		
 		layout = QtGui.QVBoxLayout()
 		self.centralWidget.setLayout(layout)
+		
+		self.scroll=QtGui.QScrollArea()
+		
+		
 		self.liste=QtGui.QWidget()
 		#self.liste.setStyleSheet("QPushButton { margin-left:0px;margin-right:0px;\
 		#		background-color: lightblue;text-align:left;padding:1px;padding-left:2px }");
 		self.lilayout=QtGui.QVBoxLayout()
 		self.liste.setLayout(self.lilayout)
 		
-		self.pushButton01 = QtGui.QPushButton(QtGui.QIcon('/usr/lib/freecad/Mod/mylib/icons/mars.png'),"Plugin Loader     Version " + __version__)
+		##self.layout.setSpacing(0)
+		##self.lilayout.setSpacing(0)
+		
+		
+		#myform = QtGui.QFormLayout()
+		#mygroupbox.setLayout(myform)
+		#self.scroll.setWidget(mygroupbox)
+		#self.scroll.setWidgetResizable(True)
+		#myform.addWidget(self.liste)
+		
+		#------------------
+		
+		mygroupbox = QtGui.QGroupBox()
+		mygroupbox.setStyleSheet("\
+				QWidget { background-color: lightblue;margin:0px;padding:0px;}\
+				QPushButton { margin-right:0px;margin-left:0px;margin:0 px;padding:0px;;\
+				background-color: lightblue;text-align:left;;padding:6px;padding-left:4px }\
+								\
+				")
+		
+		
+		self.mygroupbox=mygroupbox
+		myform = QtGui.QFormLayout()
+		
+		self.myform=myform
+		self.myform.setSpacing(0)
+#		labellist = []
+#		combolist = []
+#		val=20
+#		for i in range(val):
+#			labellist.append(QtGui.QLabel('mylabel'))
+#			combolist.append(QtGui.QComboBox())
+#			myform.addRow(labellist[i],combolist[i])
+		mygroupbox.setLayout(myform)
+		scroll = QtGui.QScrollArea()
+		scroll.setWidget(mygroupbox)
+		scroll.setWidgetResizable(True)
+		#scroll.setFixedHeight(400)
+		#layout = QtGui.QVBoxLayout(self)
+		self.lilayout.addWidget(scroll)
+		
+		#-----------------
+		self.pushButton00 = QtGui.QPushButton(QtGui.QIcon('icons:freecad.svg'),"Plugin Manager Version " + __version__)
+		self.pushButton01 = QtGui.QPushButton(QtGui.QIcon('/usr/lib/freecad/Mod/mylib/icons/mars.png'),"Plugin Loader"     )
 		#self.pushButton01.setGeometry(10, 10,140, 50)
 		
 		self.pushButton01.clicked.connect(self.start) 
@@ -121,8 +170,10 @@ class MyDock(QtGui.QDockWidget):
 		#self.pushButton01.clicked.connect(latestart) 
 		
 		#self.pushButton01.setText()
-		layout.addWidget(self.pushButton01)
+		layout.addWidget(self.pushButton00)
 		layout.addWidget(self.liste)
+		layout.addWidget(self.pushButton01)
+		##layout.addWidget(self.scroll)
 		self.pluginloaderCMD=self.myFunction
 		self.setWidget(self.centralWidget)
 
@@ -271,8 +322,11 @@ class MyDock(QtGui.QDockWidget):
 						pushButton1.setFixedWidth(290)
 					hBoxlayout.setAlignment(QtCore.Qt.AlignLeft)
 					vBoxlayout.addWidget(hWid)
+					vBoxlayout.setSpacing(0)
 				tab1.setLayout(vBoxlayout)   
-		self.lilayout.addWidget(tabs)
+		#self.lilayout.addWidget(tabs)
+		self.myform.addWidget(tabs)
+		
 		# aktiver tab
 		tabs.setCurrentIndex(10)
 		self.tabs=tabs
