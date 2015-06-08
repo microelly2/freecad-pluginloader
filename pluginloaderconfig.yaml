@@ -257,7 +257,7 @@ plugins:
      timestamp: 00
      sourcedir: FreeCAD-library-master
      #destdir:  AppHomePath/Mod/plugins/FreeCAD-symbols
-     destdir: /tmp/test
+     destdir: AppHomePath/Mod/plugins/FreeCAD-library
      menu: Parts Library
      exec: fn="AppHomePath/Mod/plugins/FreeCAD-library/PartsLibrary.FCMacro";exec open(fn).read()
      icon: AppHomePath/Mod/plugins/icons/master.png
@@ -266,13 +266,15 @@ plugins:
 
   circular text: &cirtex
     status: noignore
-    source: https://gist.githubusercontent.com/mario52a/a25e802498bae6959335/raw/21e57b185f34859ee4753e196001873aee27c8fe/Macro_FCCircularText.FCMacro
+    #source: https://gist.githubusercontent.com/mario52a/a25e802498bae6959335/raw/21e57b185f34859ee4753e196001873aee27c8fe/Macro_FCCircularText.FCMacro
+    # until the merge is done my version ...
+    source: https://gist.githubusercontent.com/microelly2/cea679cc7bf9da19f174/raw/3fc3ef2111d67f48a39aee1eb19d14ee44bef8fd/Macro_FCCircularText.FCMacro
     sourcedir: .
     destdir: AppHomePath/Mod/plugins/Macro_FCCircularText.py
     format: flatfile
     menu: Circular Text Macro
-    exec: fn="UserAppData/Macros/circular_text.py";exec open(fn).read()
-    exec: import Macro_FCCircularText
+    exec: fn="AppHomePath/Mod/plugins/Macro_FCCircularText.py";d={};exec(open(fn).read(),d,d)
+    #exec: import Macro_FCCircularText
     icon: AppHomePath/Mod/plugins/icons/circulartext.png
     
     
