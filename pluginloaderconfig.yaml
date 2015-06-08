@@ -141,12 +141,14 @@ plugins:
      name: workfeature 
      status: noignore
      source: https://github.com/Rentlau/WorkFeature/archive/master.zip
+     source: https://github.com/microelly2/WorkFeature/archive/master.zip
      web: http://www.freecadweb.org/wiki/index.php?title=Macro_WorkFeatures
      timestamp: 00
      sourcedir: WorkFeature-master
      destdir: AppHomePath/Mod/plugins/WorkFeature
      menu: Workfeature Macro
-     exec: fn="AppHomePath/Mod/plugins/WorkFeature/start_WF.FCMacro";exec open(fn).read()
+     #exec: fn="AppHomePath/Mod/plugins/WorkFeature/start_WF.FCMacro";exec open(fn).read()
+     exec: import sys;sys.path.append('/usr/lib/freecad/Mod/plugins/WorkFeature');import WorkFeature;reload(WorkFeature);m=WorkFeature.WorkFeatureTab() 
      icon: AppHomePath/Mod/plugins/icons/WF_wf.png
   
   
