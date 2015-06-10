@@ -402,3 +402,8 @@ def runme():
 
 t=FreeCADGui.getMainWindow()
 t.workbenchActivated.connect(runme)
+
+try:
+	import sys;sys.path.append('/usr/lib/freecad/Mod/plugins/WorkFeature');import WorkFeature;reload(WorkFeature);m=WorkFeature.WorkFeatureTab() 
+except:
+	FreeCAD.Console.PrintWarning("Work Feasture Autostart failed"+"\n")
