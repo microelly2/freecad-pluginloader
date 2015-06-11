@@ -52,7 +52,7 @@ def say(s):
 
 
 global __version__
-__version__='0.16 (2015/06/08)'
+__version__='0.17 (2015/06/11)'
 
 global sayexc
 
