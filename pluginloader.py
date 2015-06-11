@@ -18,7 +18,7 @@ global MyAction,say,saye
 
 
 import WebGui
-__vers__=' version 0.7c'
+__vers__=' version 0.7d'
 
 
 import sys, os, zipfile
@@ -349,10 +349,10 @@ class PluginLoader(object):
 		self.widget.lab2.setText("Install start")
 		self.widget.show()
 		plugin=item
-		saye("install or update "+plugin) 
+		say("---install or update !"+plugin+ "!") 
 		if plugin == 'pluginloader':
-			saye("update MYSELF --------------- "+plugin) 
-			fn="/usr/lib/freecad/Mod/plugins/pluginloader.py";d={};exec(open(fn).read(),d,d)
+			say("update MYSELF --------------- "+plugin) 
+			fn="/usr/lib/freecad/Mod/plugins/installer.py";d={};exec(open(fn).read(),d,d)
 			return
 		
 		if self.config[plugin].has_key('status') and self.config[plugin]['status'] == 'ignore':
