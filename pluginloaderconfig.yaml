@@ -27,6 +27,13 @@
 
 
 plugins:
+
+  pluginloader: &pluginloader
+    web: http://freecadbuch.de/doku.php?id=pluginmanager
+    status: noignore
+    author: microelly
+    method: zip
+
 # 11.06.
 
   sheetmetal: &sheetmetal
