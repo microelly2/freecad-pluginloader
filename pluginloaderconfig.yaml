@@ -27,6 +27,37 @@
 
 
 plugins:
+# 11.06.
+
+  sheetmetal: &sheetmetal
+    name: sheetmetal
+    status: noignore
+    web: http://forum.freecadweb.org/viewtopic.php?f=8&t=11302
+    description: Sheet metal 
+    author: shaise
+    source: https://github.com/shaise/FreeCAD_SheetMetal/archive/master.zip
+    method: zip
+    sourcedir: FreeCAD_SheetMetal-master
+    destdir: UserAppData/Mod/FreeCAD_SheetMetal
+    exec: FreeCADGui.activateWorkbench("MyWorkbench")
+    icon: UserAppData/Mod/FreeCAD_SheetMetal/Resources/icons/AddWall.svg
+ 
+
+#http://forum.freecadweb.org/viewtopic.php?f=8&t=11302	 
+#http://theseger.com/projects/2015/06/sheet-metal-addon-for-freecad/
+
+  kerkythea: &kerkythea
+     name: kerkythea exporter
+     status: noignore
+     web: http://www.freecadweb.org/wiki/index.php?title=Macro_FreeCAD_to_Kerkythea
+     source: https://github.com/marmni/FreeCAD-Kerkythea/archive/master.zip
+     author: marmni
+     sourcedir: FreeCAD-Kerkythea-master
+     destdir:  AppHomePath/Mod/plugins/FreeCAD-Kerkythea
+     menu: FreeCAD-Kerkythea
+     exec: fn="AppHomePath/Mod/plugins/FreeCAD-Kerkythea/exportToKerkythea.FCMacro";d={};exec(open(fn).read(),d,d)
+     icon: AppHomePath/Mod/plugins/icons/camera-photo.png
+
 
 
 # 04.05.2015 pcb, cura engine
@@ -539,19 +570,20 @@ data:
 # tabs of the manager window
 tabs:
   0 Favorites:
-    01 Join Cutout:  *pcf_cutout
-    02 Join Connect:  *pcf_connect
-    03 Join Embed:  *pcf_embed
-    
-    PartDesign: *PartDesign
-    Part: *Part
-    Draft: *Draft
-    Drawing: *Dang
-    DrawingDim: *Ddim
-    FEM: *FEM
-    Cura Engine: *cura
-    Test PM: *Test2
-    Reload PluginManager:
+#    01 Join Cutout:  *pcf_cutout
+#    02 Join Connect:  *pcf_connect
+#    03 Join Embed:  *pcf_embed
+    0 Object Design Workflow Tree: *ObjTree
+    13 Workfeature Macro: *wofe
+    11 PartDesign: *PartDesign
+    10 Part: *Part
+    12 Draft: *Draft
+    30 Drawing: *Dang
+    31 DrawingDim: *Ddim
+#    FEM: *FEM
+#    Cura Engine: *cura
+#    Test PM: *Test2
+    90 Reload PluginManager:
       exec: PluginManager.reload()
 #---------------------------------------------------------------
   1 Pre: # activities before CAD
@@ -678,10 +710,13 @@ tabs:
     921 Airfoil_Import_and_Scale:
        exec: fn="/usr/lib/freecad/Mod/plugins/FreeCAD-macros/ObjectCreation/Airfoil_Import_and_Scale.FCMacro";exec open(fn).read()
        icon: /usr/lib/freecad/Mod/plugins/icons/airfoil.png
-    101 Contextmenu by Gui.Selection:
+    110 Contextmenu by Gui.Selection:
        exec: fn="/usr/lib/freecad/Mod/plugins/selectiontoolbar.py";exec open(fn).read()
        icon: /usr/lib/freecad/Mod/plugins/icons/robot.png
     100 Object Design Workflow Tree: *ObjTree
+    
+    101 kerkythea: *kerkythea
+    102 sheetmetal: *sheetmetal
 
 
 # toolbars - examples faster than menues
