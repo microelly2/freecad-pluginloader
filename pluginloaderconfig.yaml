@@ -715,7 +715,9 @@ tabs:
        icon: /usr/lib/freecad/Mod/plugins/icons/robot.png
     100 Object Design Workflow Tree: *ObjTree
     
-    101 kerkythea: *kerkythea
+    101 kerkythea export: *kerkythea
+    1011 kerkythea renderapp: 
+        exec: import os;os.system("/usr/lib/freecad/Mod/plugins/Kerkythea2008/Kerkythea &")
     102 sheetmetal: *sheetmetal
 
 
