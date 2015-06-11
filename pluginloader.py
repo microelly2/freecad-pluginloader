@@ -350,6 +350,11 @@ class PluginLoader(object):
 		self.widget.show()
 		plugin=item
 		saye("install or update "+plugin) 
+		if plugin == 'pluginloader':
+			saye("update MYSELF --------------- "+plugin) 
+			fn="/usr/lib/freecad/Mod/plugins/pluginloader.py";d={};exec(open(fn).read(),d,d)
+			return
+		
 		if self.config[plugin].has_key('status') and self.config[plugin]['status'] == 'ignore':
 				saye('ignore')
 				return
