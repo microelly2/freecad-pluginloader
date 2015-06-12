@@ -726,7 +726,9 @@ tabs:
     1011 Kerkythea Renderer: 
         exec: import os;os.system("/usr/lib/freecad/Mod/plugins/Kerkythea2008/Kerkythea &")
     102 sheetmetal: *sheetmetal
-
+    103 macro manager:
+        exec: fn="/usr/lib/freecad/Mod/plugins/macromanager.py";d={};exec(open(fn).read(),d,d)
+        icon: /usr/lib/freecad/Mod/Animation/icons/manager.png
 
 # toolbars - examples faster than menues
 
