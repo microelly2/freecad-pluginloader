@@ -79,6 +79,7 @@ def dlgexc(mess=''):
 	diag.setWindowFlags(PySide.QtCore.Qt.WindowStaysOnTopHint)
 	diag.exec_()
 
+
 #----------------
 #
 # Plugin loader  - install macros, libraries and extra workbenches 

@@ -63,6 +63,7 @@ plugins:
      destdir:  AppHomePath/Mod/plugins/FreeCAD-Kerkythea
      menu: FreeCAD-Kerkythea
      exec: fn="AppHomePath/Mod/plugins/FreeCAD-Kerkythea/exportToKerkythea.FCMacro";d={};exec(open(fn).read(),d,d)
+     exec: runscript("AppHomePath/Mod/plugins/FreeCAD-Kerkythea/exportToKerkythea.FCMacro")
      icon: AppHomePath/Mod/plugins/icons/camera-photo.png
 
 

@@ -65,6 +65,19 @@ def sayexc(mess=''):
 	FreeCAD.Console.PrintError(mess + "\n" +"-->  ".join(l2))
 
 
+global runscript
+def runscript(fn):
+	import os
+	if os.path.exists(fn) and os.path.isfile(fn):
+		try:
+			d={};exec(open(fn).read(),d,d)
+		except:
+			sayexc("exec error file:" + fn ) 
+	else:
+		print ("kein zugriff auf " + fn)
+		sayexc("kein zugriff auf" + fn) 
+
+
 global MyAction2
 class MyAction2():
 	def __init__(self,method):
