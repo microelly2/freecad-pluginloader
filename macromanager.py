@@ -1,21 +1,27 @@
+# -*- coding: utf-8 -*-
+#-------------------------------------------------
+#-- macro manager
+#--
+#-- microelly 2015
+#--
+#-- GNU Lesser General Public License (LGPL)
+#-------------------------------------------------
 
 
-__Vers__ = '0.1'
+__Vers__ = '0.1b'
 __Status__ = 'alpha'
 
 import FreeCAD,PySide,os,FreeCADGui,time
 from PySide import QtCore, QtGui, QtSvg
 from PySide.QtGui import * 
+import os,re, ast, _ast 
 
-
-import ast
-import _ast
-
-# file list
-files=['myMacro.FCMacro','subdir/youzrMacro.FCMacro']
-
+from configmanager import ConfigManager
+cm=ConfigManager("MacroManager")
+dir_name=cm.get('macrodir',"/usr/lib/freecad/Mod/plugins/FreeCAD-macros")
 
 docstrings=['__Author__','__Version__','__Comment__','__Wiki__','__Icon__','__Help__']
+
 
 
 def getplugin(name=''):
@@ -35,10 +41,6 @@ __Version__ = 0.1
 __Status__ = 'alpha'
 __Requires__ = ''
 
-r=45
-t=43.2
-w=True
-__vers__= 4711
 '''
 	else:
 		content=open(name).read()
@@ -55,7 +57,7 @@ __vers__= 4711
 def getplugindata(files):
 	plugindata={}
 	for plin in files:
-		print plin
+		#print plin
 		tree=getplugin(plin)
 		doc={}
 		for id in docstrings:
@@ -76,18 +78,11 @@ def getplugindata(files):
 			except:
 				pass
 		plugindata[plin]=doc
-		print doc
 	return plugindata
 
-	
-# -----------
 
-import os,re 
-
-def findfiles():
+def findfiles(dir_name):
 	macrofiles=[]
-	dir_name="F:\FreeCAD-macros-master\FreeCAD-macros-master"
-	dir_name="/usr/lib/freecad/Mod/plugins/FreeCAD-macros"
 	for root, dirs, files in os.walk(dir_name, topdown=False):
 		print('Found directory: %s' % root)
 		for fname in files:
@@ -95,20 +90,15 @@ def findfiles():
 			if re.search('\.FCMacro$', fname):  
 				s=root+'/'+fname
 				macrofiles.append(s)
-
 	print macrofiles
 	return macrofiles
 
 
-
 def myclick(ak,n):
-	#FreeCAD.Console.PrintMessage( str(ak)+ " clicked\n")
-	#FreeCAD.Console.PrintMessage(n)
 	FreeCAD.Console.PrintMessage( str(n) + ' '+ str(ak.obj) + "\n")
 
 
-
-def layout(widget):	
+def layout(widget,files,plugindata):	
 	zz=[]
 	n=0
 	for fe in files:
@@ -117,8 +107,6 @@ def layout(widget):
 		author=plugindata[fe]['__Author__']
 		comment=plugindata[fe]['__Comment__']
 		ic=plugindata[fe]['__Icon__']
-		ic='F:/freecadbuch_2/b142_otreee/freecad-objecttree/icons/camera-photo.png'
-
 #		print fe,plugindata[fe]
 		base=os.path.basename(fe)
 		st=base.upper() + '  ------  '
@@ -133,75 +121,42 @@ def layout(widget):
 		zz.append(ak2)
 		widget.lay.addWidget(ak2)
 	return zz
-	
-
-
-
-
-files=findfiles()	
-plugindata=getplugindata(files)
-print plugindata
-
-w=QtGui.QWidget()
-liste=QtGui.QWidget()
-		#self.liste.setStyleSheet("QPushButton { margin-left:0px;margin-right:0px;\
-		#		background-color: lightblue;text-align:left;padding:1px;padding-left:2px }");
-
-lilayout=QtGui.QVBoxLayout()
-liste.setLayout(lilayout)
-
-w = QtGui.QScrollArea()
-w.setWidgetResizable(True)
-w.setStyleSheet("QPushButton { text-align:left;background-color: lightblue;text-align:left;}")
-w.lay=QtGui.QVBoxLayout()
-w.setLayout(w.lay)
 
 
 
 class Widget(QWidget):
-    
-    def __init__(self, parent= None):
-        super(Widget, self).__init__()
-        self.setStyleSheet("QPushButton { text-align:left;background-color: lightblue;text-align:left;}")
-        #self.setFixedHeight(200)
-        self.setWindowTitle("Macro Manager" + __Vers__)
-        #Container Widget       
-        widget = QWidget()
-        #Layout of Container Widget
-        layout = QVBoxLayout(self)
-        layout.setSpacing(0)
-        layout.setAlignment(QtCore.Qt.AlignTop)
-        self.lay=layout
-        #for _ in range(1):
-        #    btn = QPushButton("test")
-        #    layout.addWidget(btn)
-        widget.setLayout(layout)
 
-        #Scroll Area Properties
-        scroll = QScrollArea()
-        #scroll.setVerticalScrollBarPolicy(Qt.ScrollBarAlwaysOn)
-        #scroll.setHorizontalScrollBarPolicy(Qt.ScrollBarAlwaysOff)
-        scroll.setWidgetResizable(True)
-        scroll.setWidget(widget)
-         
-        #Scroll Area Layer add
-        vLayout = QVBoxLayout(self)
-        vLayout.addWidget(scroll)
-        self.setLayout(vLayout)
+	def __init__(self, parent= None):
+		super(Widget, self).__init__()
+		self.setStyleSheet("QPushButton { text-align:left;background-color: lightblue;text-align:left;}")
+		self.setWindowTitle("Macro Manager " + __Vers__)
+		self.setObjectName("MacroManager")
+		#Container Widget       
+		widget = QWidget()
+		#Layout of Container Widget
+		layout = QVBoxLayout(self)
+		layout.setSpacing(0)
+		layout.setAlignment(QtCore.Qt.AlignTop)
+		self.lay=layout
+		widget.setLayout(layout)
+		scroll = QScrollArea()
+		#scroll.setVerticalScrollBarPolicy(Qt.ScrollBarAlwaysOn)
+		#scroll.setHorizontalScrollBarPolicy(Qt.ScrollBarAlwaysOff)
+		scroll.setWidgetResizable(True)
+		scroll.setWidget(widget)
+		 
+		#Scroll Area Layer add
+		vLayout = QVBoxLayout(self)
+		vLayout.addWidget(scroll)
+		self.setLayout(vLayout)
 
-ww= Widget()
+def macroManager():
+		files=findfiles(dir_name)
+		plugindata=getplugindata(files)
+		print plugindata
+		ww= Widget()
+		buttonlist=layout(ww,files,plugindata)
+		ww.show()
+		return ww
 
-#		scroll = QtGui.QScrollArea()
-#		scroll.setWidget(mygroupbox)
-#		scroll.setWidgetResizable(True)
-		#scroll.setFixedHeight(400)
-		#layout = QtGui.QVBoxLayout(self)
-#		self.lilayout.addWidget(scroll)
-
-
-buttonlist=layout(ww)
-ww.show()
-
-
-
-#
+t=macroManager()
