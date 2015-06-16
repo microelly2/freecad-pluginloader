@@ -39,7 +39,9 @@ plugins:
   sheetmetal: &sheetmetal
     name: sheetmetal
     status: noignore
-    web: http://forum.freecadweb.org/viewtopic.php?f=8&t=11302
+    web: &y11 http://forum.freecadweb.org/viewtopic.php?f=8&t=11302
+    man: *y11 
+    #http://forum.freecadweb.org/viewtopic.php?f=10&t=11303
     description: Sheet metal 
     author: shaise
     source: https://github.com/shaise/FreeCAD_SheetMetal/archive/master.zip
@@ -57,12 +59,13 @@ plugins:
      name: kerkythea exporter
      status: noignore
      web: http://www.freecadweb.org/wiki/index.php?title=Macro_FreeCAD_to_Kerkythea
+     man: http://forum.freecadweb.org/viewtopic.php?f=21&t=11200&p=90105
      source: https://github.com/marmni/FreeCAD-Kerkythea/archive/master.zip
      author: marmni
      sourcedir: FreeCAD-Kerkythea-master
      destdir:  AppHomePath/Mod/plugins/FreeCAD-Kerkythea
      menu: FreeCAD-Kerkythea
-     exec: fn="AppHomePath/Mod/plugins/FreeCAD-Kerkythea/exportToKerkythea.FCMacro";d={};exec(open(fn).read(),d,d)
+#     exec: fn="AppHomePath/Mod/plugins/FreeCAD-Kerkythea/exportToKerkythea.FCMacro";d={};exec(open(fn).read(),d,d)
      exec: runscript("AppHomePath/Mod/plugins/FreeCAD-Kerkythea/exportToKerkythea.FCMacro")
      icon: AppHomePath/Mod/plugins/icons/camera-photo.png
 
@@ -188,6 +191,8 @@ plugins:
      menu: Workfeature Macro
      #exec: fn="AppHomePath/Mod/plugins/WorkFeature/start_WF.FCMacro";exec open(fn).read()
      exec: import sys;sys.path.append('/usr/lib/freecad/Mod/plugins/WorkFeature');import WorkFeature;reload(WorkFeature);m=WorkFeature.WorkFeatureTab() 
+     #exec: import sys;sys.path.append('/usr/lib/freecad/Mod/plugins/WorkFeature');import WorkFeature;reload(WorkFeature);t=FreeCADGui.getMainWindow();wf = t.findChild(QtGui.QDockWidget, "WorkFeatures");if not wf:myDialog = WorkFeatureTab()
+
      icon: AppHomePath/Mod/plugins/icons/WF_wf.png
   
   
@@ -308,7 +313,7 @@ plugins:
 #------------------------
 
   circular text: &cirtex
-    status: noignore
+    status: ignore
     #source: https://gist.githubusercontent.com/mario52a/a25e802498bae6959335/raw/21e57b185f34859ee4753e196001873aee27c8fe/Macro_FCCircularText.FCMacro
     # until the merge is done my version ...
     source: https://gist.githubusercontent.com/microelly2/cea679cc7bf9da19f174/raw/3fc3ef2111d67f48a39aee1eb19d14ee44bef8fd/Macro_FCCircularText.FCMacro
@@ -316,7 +321,7 @@ plugins:
     destdir: AppHomePath/Mod/plugins/Macro_FCCircularText.py
     format: flatfile
     menu: Circular Text Macro
-    exec: fn="AppHomePath/Mod/plugins/Macro_FCCircularText.py";d={};exec(open(fn).read(),d,d)
+    exec: fn="AppHomePath/Mod/plugins/FreeCAD-macros/ObjectCreation/Macro_FCCircularText.FCMacro";d={};exec(open(fn).read(),d,d)
     #exec: import Macro_FCCircularText
     icon: AppHomePath/Mod/plugins/icons/circulartext.png
     
@@ -433,8 +438,6 @@ base:
 
 
 
-
-
 # database of buttons
 data:
   Animat: &Anim
@@ -524,6 +527,17 @@ data:
     icon:  AppHomePath/Mod/plugins/icons/fem.png
 
 # FreeCAD-macros calls
+
+
+
+  Hyperbola: &Hyperbola
+     icon: /usr/lib/freecad/Mod/plugins/FreeCAD-macros/icons/HyperbolaIcon.png
+     exec: fn="AppHomePath/Mod/plugins/FreeCAD-macros/ObjectCreation/HyperbolaCreater.FCMacro";d={};exec(open(fn).read(),d,d)
+
+
+#16.06.2015
+
+
   HalfHull: &Hahu
       exec: fn="AppHomePath/Mod/plugins/FreeCAD-macros/ObjectCreation/HalfHull.FCMacro";exec open(fn).read()
       man: http://www.freecadweb.org/wiki/index.php?title=Macro_Half-Hull_Model
@@ -581,6 +595,7 @@ tabs:
 #    01 Join Cutout:  *pcf_cutout
 #    02 Join Connect:  *pcf_connect
 #    03 Join Embed:  *pcf_embed
+
     0 Object Design Workflow Tree: *ObjTree
     13 Workfeature Macro: *wofe
     11 PartDesign: *PartDesign
@@ -686,9 +701,9 @@ tabs:
     
   My Test:
     info: |
-      This is my test tab
-      Here I can change and examine
-      whatever I want
+      This is my test tab. Here I change and examine whatever I want
+      You can change it over Menu:  Tools -> Edit Parametrs -> PluginTabIndex ... Change Value (10 means Your(my) Favorite (will be configurable for you next), 2 means CAD)
+      In  _| MY TEST |_  I have the news/objects under development always on top of the list.
     4 Dummy Macro: 
       exec: import FreeCAD;FreeCAD.Console.PrintWarning("Nothing to do!")
       icon:  AppHomePath/Mod/plugins/icons/master.png
@@ -718,18 +733,24 @@ tabs:
     921 Airfoil_Import_and_Scale:
        exec: fn="/usr/lib/freecad/Mod/plugins/FreeCAD-macros/ObjectCreation/Airfoil_Import_and_Scale.FCMacro";exec open(fn).read()
        icon: /usr/lib/freecad/Mod/plugins/icons/airfoil.png
-    110 Contextmenu by Gui.Selection:
+    1216 Contextmenu by Gui.Selection:
        exec: fn="/usr/lib/freecad/Mod/plugins/selectiontoolbar.py";exec open(fn).read()
        icon: /usr/lib/freecad/Mod/plugins/icons/robot.png
-    100 Object Design Workflow Tree: *ObjTree
-    
-    101 Export for Kerkythea: *kerkythea
-    1011 Kerkythea Renderer: 
+    1210 Object Design Workflow Tree: *ObjTree
+    1211 Export for Kerkythea: *kerkythea
+    1212 Kerkythea Renderer: 
         exec: import os;os.system("/usr/lib/freecad/Mod/plugins/Kerkythea2008/Kerkythea &")
-    102 sheetmetal: *sheetmetal
-    103 macro manager:
+        man: http://www.kerkythea.net/cms/
+    1213 sheetmetal: *sheetmetal
+    
+    11 macro manager:
+        man: http://forum.freecadweb.org/viewtopic.php?f=21&t=10905&start=20    
         exec: fn="/usr/lib/freecad/Mod/plugins/macromanager.py";d={};exec(open(fn).read(),d,d)
         icon: /usr/lib/freecad/Mod/Animation/icons/manager.png
+    112 Workfeature Macro: *wofe
+    111 Hyperbola: *Hyperbola
+    90 Reload PluginManager:
+        exec: PluginManager.reload()
 
 # toolbars - examples faster than menues
 
@@ -752,6 +773,8 @@ mytoolbars: &mytoolbars
        01 Join Cutout:  *pcf_cutout
        02 Join Connect:  *pcf_connect
        03 Join Embed:  *pcf_embed
+       04 Hyperbola: *Hyperbola
+    
 
    
    FemWorkbench: &FEM1

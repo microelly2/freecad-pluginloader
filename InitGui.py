@@ -35,6 +35,9 @@ from PySide import QtCore, QtGui, QtSvg
 from PySide.QtGui import * 
 from PySide.QtCore import * 
 
+from configmanager import ConfigManager
+global ConfigManager
+
 
 global QtGui,QtCore,QtSvg
 global myDialog,say,myDialoge
@@ -52,7 +55,7 @@ def say(s):
 
 
 global __version__
-__version__='0.17 (2015/06/11)'
+__version__='0.18 (2015/06/12)'
 
 global sayexc
 
@@ -341,7 +344,10 @@ class MyDock(QtGui.QDockWidget):
 		self.myform.addWidget(tabs)
 		
 		# aktiver tab
-		tabs.setCurrentIndex(10)
+		cm=ConfigManager("PluginManager")
+		ix=cm.get("PluginTabIndex",0)
+		tabs.setCurrentIndex(ix) # private testing
+		# tabs.setCurrentIndex(10)  # == Favorites
 		self.tabs=tabs
 	
 	def reload(self):
@@ -416,7 +422,7 @@ def runme():
 t=FreeCADGui.getMainWindow()
 t.workbenchActivated.connect(runme)
 
-try:
-	import sys;sys.path.append('/usr/lib/freecad/Mod/plugins/WorkFeature');import WorkFeature;reload(WorkFeature);m=WorkFeature.WorkFeatureTab() 
-except:
-	FreeCAD.Console.PrintWarning("Work Feasture Autostart failed"+"\n")
+#try:
+#	import sys;sys.path.append('/usr/lib/freecad/Mod/plugins/WorkFeature');import WorkFeature;reload(WorkFeature);m=WorkFeature.WorkFeatureTab() 
+#except:
+#	FreeCAD.Console.PrintWarning("Work Feasture Autostart failed"+"\n")

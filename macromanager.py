@@ -20,7 +20,21 @@ from configmanager import ConfigManager
 cm=ConfigManager("MacroManager")
 dir_name=cm.get('macrodir',"/usr/lib/freecad/Mod/plugins/FreeCAD-macros")
 
-docstrings=['__Author__','__Version__','__Comment__','__Wiki__','__Icon__','__Help__']
+docstrings=['__Author__','__Version__','__Comment__','__Wiki__','__Icon__','__Help__','__Web__']
+
+
+
+global sayexc
+import sys,traceback
+
+def sayexc(mess=''):
+	exc_type, exc_value, exc_traceback = sys.exc_info()
+	ttt=repr(traceback.format_exception(exc_type, exc_value,exc_traceback))
+	lls=eval(ttt)
+	l=len(lls)
+	l2=lls[(l-3):]
+	FreeCAD.Console.PrintError(mess + "\n" +"-->  ".join(l2))
+
 
 
 
@@ -97,6 +111,40 @@ def findfiles(dir_name):
 def myclick(ak,n):
 	FreeCAD.Console.PrintMessage( str(n) + ' '+ str(ak.obj) + "\n")
 
+###############
+def sayexc(mess=''):
+	exc_type, exc_value, exc_traceback = sys.exc_info()
+	ttt=repr(traceback.format_exception(exc_type, exc_value,exc_traceback))
+	lls=eval(ttt)
+	l=len(lls)
+	l2=lls[(l-3):]
+	FreeCAD.Console.PrintError(mess + "\n" +"-->  ".join(l2))
+
+class MyAction2():
+	def __init__(self,method):
+		self.cmd=method
+
+
+	def run(self):
+			FreeCAD.Console.PrintMessage("!"+self.cmd+"!")
+			import re 
+			pat=r"FreeCADGui.activateWorkbench\(\"(.*)\"\)"
+			m = re.match(pat, self.cmd)
+			if m:
+				pre=m.group(1)
+				if not pre in FreeCADGui.listWorkbenches():
+					myDialoge("The Workbench \n\n*** " + pre + " ***\n\nis not available \nplease \n\n1. install it and \n2. restart FreeCAD!") 
+					return
+			try:
+				exec(self.cmd)
+			except:
+				sayexc(self.cmd)
+
+
+###############
+
+
+
 
 def layout(widget,files,plugindata):	
 	zz=[]
@@ -115,11 +163,48 @@ def layout(widget,files,plugindata):
 		if comment:
 			st += ' COMMENTS:' + comment
 		st +=  ' PATH:'  + fe
-		ak2 = QtGui.QPushButton(QtGui.QIcon(ic), st  )
-		ak2.obj=fe
-		ak2.clicked.connect(lambda ak=ak2, arg=n: myclick(ak,arg))
-		zz.append(ak2)
-		widget.lay.addWidget(ak2)
+		
+		ak0= QWidget()
+		
+		hlay=  QHBoxLayout()
+		hlay.setSpacing(0)
+		ak0.setLayout(hlay)
+		# Hilfs button
+		ak1 = QtGui.QPushButton(QtGui.QIcon('icons:freecad.svg'), ""  )
+		ak1.setMaximumWidth(20)
+		hlay.addWidget(ak1)
+		ak1.setToolTip('See WebSite Documentation')
+		cmdh='import WebGui; WebGui.openBrowser( "' +plugindata[fe]['__Wiki__']+ '")'
+		FreeCAD.Console.PrintMessage(cmdh+"!-----------------------------------\n")
+		yh=MyAction2(cmdh)
+		ak1.yh=yh
+		ak1.clicked.connect(yh.run) 
+		
+		
+		# Hilfs button
+		ak2 = QtGui.QPushButton(QtGui.QIcon('icons:freecad.svg'), ""  )
+		ak2.setMaximumWidth(20)
+		hlay.addWidget(ak2)
+		try:
+			ak2.setToolTip(plugindata[fe]['__Web__'])
+			cmdh='import WebGui; WebGui.openBrowser( "' +plugindata[fe]['__Web__']+ '")'
+			FreeCAD.Console.PrintMessage(cmdh+"!-----------------------------------\n")
+			FreeCAD.Console.PrintMessage(cmdh+"!-----------------------------------\n")
+			yh=MyAction2(cmdh)
+			ak2.yh=yh
+			ak2.clicked.connect(yh.run) 
+		except:
+			sayexc()
+			pass
+		
+		ak = QtGui.QPushButton(QtGui.QIcon(ic), st  )
+		ak.obj=fe
+		ak.clicked.connect(lambda ak=ak, arg=n: myclick(ak,arg))
+		zz.append(ak)
+		
+		hlay.addWidget(ak)
+		widget.lay.addWidget(ak0)
+		
 	return zz
 
 
