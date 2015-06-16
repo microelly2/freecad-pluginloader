@@ -18,7 +18,7 @@ global MyAction,say,saye
 
 
 import WebGui
-__vers__=' version 0.7d'
+__vers__=' version 0.8'
 
 
 import sys, os, zipfile
@@ -427,6 +427,7 @@ class PluginLoader(object):
 						fh = open(zipfilename, 'rb')
 						zfile = zipfile.ZipFile(fh)
 						zfile.extractall(zipextract)
+						fh.close()
 					say("extrakts")
 				if self.config[plugin]['sourcedir'] =='.':
 					source=zipextract
@@ -439,13 +440,22 @@ class PluginLoader(object):
 				# hier muss fehlerhandlich verbessert werden !!
 				if self.config[plugin].has_key('backup'):
 					try:
-						say("backup")
-						os.rename(destination,self.config[plugin]['backup']+".bak."+str(time.time()))
+						say("backup " + destination)
+						
+						say(" to " + self.config[plugin]['backup']+"/bak."+str(time.time()))
+						if not os.path.exists(self.config[plugin]['backup']):
+							say("create dir " + self.config[plugin]['backup'])
+							os.makedirs(self.config[plugin]['backup'])
+						# os.rename(destination,"c:/windows/temp/bak"+str(time.time()))
+						os.rename(destination,self.config[plugin]['backup']+"/bak."+str(time.time()))
 					except:
+						sayexc("hier")
 						if self.config[plugin].has_key('format') and self.config[plugin]['format']=='flatfile':
 							pass
 						else:
-							os.mkdir(destination)
+							pass
+							#if not os.path.exists(directory):
+							#	os.makedirs(destination)
 				say("move")
 				say("destination:"+destination+"!")
 				say("source:" +source+'!')
@@ -459,19 +469,36 @@ class PluginLoader(object):
 					# os.rename(source, destination)
 					import shutil
 					say("move by shutil too v3")
+					if os.path.exists(directory):
+						say("exists dir " + directory)
+						
 					try:
 						directory=os.path.dirname(destination)
 						base=os.path.basename(destination)
 						sdirectory=os.path.dirname(source)
 						sbase=os.path.basename(source)
 						dest2=directory+"/"+sbase
+						say(directory)
+						say(sdirectory)
+						say(dest2)
+						say(base)
+						
 						if not os.path.exists(directory):
 							say("create dir " + directory)
 							os.makedirs(directory)
+						say("move "+source+" to "+dest2)
 						shutil.move(source, dest2)
-						os.rename(dest2, destination)
+						say ("rename " +dest2+" to "+destination)
+						try: 
+							os.rename(dest2, destination)
+						except:
+							sayexc("1")
+							os.rename(destination,destination+".err")
+							say("exc 2")
+							os.rename(dest2, destination)
+							shutil.rmtree(destination+".err")
 					except:
-						say("somethin wrong")
+						sayexc("somethin wrong")
 						
 				say("done install")
 				#os.listdir(destination)

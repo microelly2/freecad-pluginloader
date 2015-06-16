@@ -18,7 +18,7 @@ import os,re, ast, _ast
 
 from configmanager import ConfigManager
 cm=ConfigManager("MacroManager")
-dir_name=cm.get('macrodir',FreeCAD.ConfigGet(AppHomePath)+"/Mod/plugins/FreeCAD-macros")
+dir_name=cm.get('macrodir',FreeCAD.ConfigGet('AppHomePath')+"/Mod/plugins/FreeCAD-macros")
 
 docstrings=['__Author__','__Version__','__Comment__','__Wiki__','__Icon__','__Help__','__Web__']
 
@@ -168,6 +168,7 @@ def layout(widget,files,plugindata):
 		
 		hlay=  QHBoxLayout()
 		hlay.setSpacing(0)
+		
 		ak0.setLayout(hlay)
 		# Hilfs button
 		ak1 = QtGui.QPushButton(QtGui.QIcon('icons:Tree_Annotation.svg'), ""  )
@@ -221,15 +222,19 @@ class Widget(QWidget):
 
 	def __init__(self, parent= None):
 		super(Widget, self).__init__()
-		self.setStyleSheet("QPushButton { text-align:left;background-color: lightblue;text-align:left;}")
+		self.setStyleSheet("QPushButton { text-align:left;background-color: lightblue;text-align:left;}\
+		 {margin:0px;padding:0px;}")
 		self.setWindowTitle("Macro Manager " + __Vers__)
 		self.setObjectName("MacroManager")
+		self.setWindowFlags(QtCore.Qt.WindowStaysOnTopHint)
+		
 		#Container Widget       
 		widget = QWidget()
+		widget=QtGui.QFrame()
 		#Layout of Container Widget
 		layout = QVBoxLayout(self)
 		layout.setSpacing(0)
-		layout.setAlignment(QtCore.Qt.AlignTop)
+		###layout.setAlignment(QtCore.Qt.AlignTop)
 		self.lay=layout
 		widget.setLayout(layout)
 		scroll = QScrollArea()
@@ -240,6 +245,8 @@ class Widget(QWidget):
 		 
 		#Scroll Area Layer add
 		vLayout = QVBoxLayout(self)
+		vLayout.setSpacing(40)
+		vLayout.setAlignment(QtCore.Qt.AlignTop)
 		vLayout.addWidget(scroll)
 		self.setLayout(vLayout)
 

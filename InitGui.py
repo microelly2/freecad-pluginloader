@@ -55,7 +55,7 @@ def say(s):
 
 
 global __version__
-__version__='0.18 (2015/06/12)'
+__version__='0.19 (2015/06/16)'
 
 global sayexc
 
@@ -66,6 +66,52 @@ def sayexc(mess=''):
 	l=len(lls)
 	l2=lls[(l-3):]
 	FreeCAD.Console.PrintError(mess + "\n" +"-->  ".join(l2))
+
+	
+import re
+import os
+
+global pathMacro
+def pathMacro(s):
+	'''
+	replace shortname by os path
+	'''
+# if True:
+	kk=('Linux', 'Arch', '4.0.1-1-ARCH', '#1 SMP PREEMPT Wed Apr 29 12:00:26 CEST 2015', 'x86_64')
+	import os
+	try:
+		kk=os.uname()
+	except:
+		kk="NOUNAME"
+	match = re.search('ARCH', kk[2])
+	if match:
+		arch=True
+	else:
+		arch=False
+	for k in ["UserHomePath","UserAppData","AppHomePath"]:
+		pat=r"(.*)"+k+"/"+"(.*)"
+		m = re.match(pat, s)
+		if m:
+			pre=m.group(1)
+			post=m.group(2)
+			inn=FreeCAD.ConfigGet(k)
+			if arch:
+				if k == "AppHomePath": #Force sensible Plugin folder
+					if inn == "/usr/":
+						inn=inn+"share/freecad/"
+					if inn == "/usr/bin/":
+						inn="/usr/share/freecad/"
+				if k == "UserHomePath":
+					s2=pre+inn+"/"+post
+				else:
+					s2=pre+inn+post
+			else:
+				if k == "UserHomePath":
+					s2=pre+inn+"/"+post
+				else:
+					s2=pre+inn+post
+			s=s2
+	return s
 
 
 global runscript
@@ -217,6 +263,7 @@ class MyDock(QtGui.QDockWidget):
 
 
 	def gentoolbars(self,workbench='init'):
+		global pathMacro
 		cf=self.pluginloader.config
 		# say("gentoolbars ...")
 		if self.pluginloader.config3["toolbars"].has_key(workbench):
@@ -244,7 +291,8 @@ class MyDock(QtGui.QDockWidget):
 						cmd=yy['exec']
 					except:
 						cmd="say('"+str(yy)+"')"
-					yy=MyAction2(cmd)
+					
+					yy=MyAction2(pathMacro(cmd))
 					myAction2.yy=yy
 					myAction2.triggered.connect(yy.run) 
 					toolbarBox.addAction(myAction2)
@@ -317,6 +365,7 @@ class MyDock(QtGui.QDockWidget):
 						cmd="say('"+str(ff)+"')"
 					#say("cmd="+cmd)
 					yy=MyAction2(cmd)
+					yy=MyAction2(pathMacro(cmd))
 					pushButton1.yy=yy
 					pushButton1.clicked.connect(yy.run) 
 					hWid= QtGui.QWidget()
