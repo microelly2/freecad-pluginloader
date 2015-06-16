@@ -18,7 +18,7 @@ import os,re, ast, _ast
 
 from configmanager import ConfigManager
 cm=ConfigManager("MacroManager")
-dir_name=cm.get('macrodir',"/usr/lib/freecad/Mod/plugins/FreeCAD-macros")
+dir_name=cm.get('macrodir',FreeCAD.ConfigGet(AppHomePath)+"/Mod/plugins/FreeCAD-macros")
 
 docstrings=['__Author__','__Version__','__Comment__','__Wiki__','__Icon__','__Help__','__Web__']
 

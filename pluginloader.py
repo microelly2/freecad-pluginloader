@@ -41,7 +41,7 @@ except:
 from os.path import expanduser
 home = expanduser("~")
 __dir__=home+ '/.FreeCAD/Mod/pluginloader'
-__dir__="/usr/lib/freecad/Mod/plugins"
+__dir__=FreeCAD.ConfigGet('AppHomePath')+"/Mod/plugins"
 
 
 def dlge(msg):
@@ -172,7 +172,7 @@ import pprint
 class MyAction( QtGui.QAction):
 	def __init__(self, name,t,method,*args):
 		#QtGui.QWidget.__init__(self, *args)
-		QtGui.QAction.__init__(self,QtGui.QIcon('/usr/lib/freecad/Mod/mylib/icons/sun.png'),name, t)
+		QtGui.QAction.__init__(self,QtGui.QIcon('icons:breakpoint.svg'),name, t)
 		self.cmd="say('hallo')"
 		self.cmd=method
 		
@@ -353,7 +353,7 @@ class PluginLoader(object):
 		say("---install or update !"+plugin+ "!") 
 		if plugin == 'pluginloader':
 			say("update MYSELF --------------- "+plugin) 
-			fn="/usr/lib/freecad/Mod/plugins/installer.py";d={};exec(open(fn).read(),d,d)
+			fn=FreeCAD.ConfigGet('AppHomePath')+"/Mod/plugins/installer.py";d={};exec(open(fn).read(),d,d)
 			return
 		
 		if self.config[plugin].has_key('status') and self.config[plugin]['status'] == 'ignore':

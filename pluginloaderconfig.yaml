@@ -190,8 +190,8 @@ plugins:
      destdir: AppHomePath/Mod/plugins/WorkFeature
      menu: Workfeature Macro
      #exec: fn="AppHomePath/Mod/plugins/WorkFeature/start_WF.FCMacro";exec open(fn).read()
-     exec: import sys;sys.path.append('/usr/lib/freecad/Mod/plugins/WorkFeature');import WorkFeature;reload(WorkFeature);m=WorkFeature.WorkFeatureTab() 
-     #exec: import sys;sys.path.append('/usr/lib/freecad/Mod/plugins/WorkFeature');import WorkFeature;reload(WorkFeature);t=FreeCADGui.getMainWindow();wf = t.findChild(QtGui.QDockWidget, "WorkFeatures");if not wf:myDialog = WorkFeatureTab()
+     exec: import sys;sys.path.append('AppHomePath/Mod/plugins/WorkFeature');import WorkFeature;reload(WorkFeature);m=WorkFeature.WorkFeatureTab() 
+     #exec: import sys;sys.path.append('AppHomePath/Mod/plugins/WorkFeature');import WorkFeature;reload(WorkFeature);t=FreeCADGui.getMainWindow();wf = t.findChild(QtGui.QDockWidget, "WorkFeatures");if not wf:myDialog = WorkFeatureTab()
 
      icon: AppHomePath/Mod/plugins/icons/WF_wf.png
   
@@ -531,7 +531,7 @@ data:
 
 
   Hyperbola: &Hyperbola
-     icon: /usr/lib/freecad/Mod/plugins/FreeCAD-macros/icons/HyperbolaIcon.png
+     icon: AppHomePath/Mod/plugins/FreeCAD-macros/icons/HyperbolaIcon.png
      exec: fn="AppHomePath/Mod/plugins/FreeCAD-macros/ObjectCreation/HyperbolaCreater.FCMacro";d={};exec(open(fn).read(),d,d)
 
 
@@ -719,34 +719,34 @@ tabs:
     92 GeodesicDome: *GeoDo
     93 HalfHull: *Hahu
     94 MakeCircle3Points:
-       exec: fn="/usr/lib/freecad/Mod/plugins/FreeCAD-macros/ObjectCreation/MakeCircle3Points.FCMacro";exec open(fn).read()
-       icon: /usr/lib/freecad/Mod/plugins/icons/circle-3points.png
+       exec: fn="AppHomePath/Mod/plugins/FreeCAD-macros/ObjectCreation/MakeCircle3Points.FCMacro";exec open(fn).read()
+       icon: AppHomePath/Mod/plugins/icons/circle-3points.png
     95 DraftCircle3Points:
-       exec: fn="/usr/lib/freecad/Mod/plugins/FreeCAD-macros/ObjectCreation/Draft_Circle_3_Points.FCMacro";exec open(fn).read()
-       icon: /usr/lib/freecad/Mod/plugins/icons/circle-3points.png
+       exec: fn="AppHomePath/Mod/plugins/FreeCAD-macros/ObjectCreation/Draft_Circle_3_Points.FCMacro";exec open(fn).read()
+       icon: AppHomePath/Mod/plugins/icons/circle-3points.png
     96 DraftCircle3PointsImproved:
-       exec: fn="/usr/lib/freecad/Mod/plugins/FreeCAD-macros/ObjectCreation/Draft_Circle_3_Points_improved.FCMacro";exec open(fn).read()
-       icon: /usr/lib/freecad/Mod/plugins/icons/circle-3points.png
+       exec: fn="AppHomePath/Mod/plugins/FreeCAD-macros/ObjectCreation/Draft_Circle_3_Points_improved.FCMacro";exec open(fn).read()
+       icon: AppHomePath/Mod/plugins/icons/circle-3points.png
     911 Ellipse-Center+2Points:
-       exec: fn="/usr/lib/freecad/Mod/plugins/FreeCAD-macros/ObjectCreation/Ellipse-Center+2Points.FCMacro";exec open(fn).read()
-       icon: /usr/lib/freecad/Mod/plugins/icons/ellipse-center+2points.png
+       exec: fn="AppHomePath/Mod/plugins/FreeCAD-macros/ObjectCreation/Ellipse-Center+2Points.FCMacro";exec open(fn).read()
+       icon: AppHomePath/Mod/plugins/icons/ellipse-center+2points.png
     921 Airfoil_Import_and_Scale:
-       exec: fn="/usr/lib/freecad/Mod/plugins/FreeCAD-macros/ObjectCreation/Airfoil_Import_and_Scale.FCMacro";exec open(fn).read()
-       icon: /usr/lib/freecad/Mod/plugins/icons/airfoil.png
+       exec: fn="AppHomePath/Mod/plugins/FreeCAD-macros/ObjectCreation/Airfoil_Import_and_Scale.FCMacro";exec open(fn).read()
+       icon: AppHomePath/Mod/plugins/icons/airfoil.png
     1216 Contextmenu by Gui.Selection:
-       exec: fn="/usr/lib/freecad/Mod/plugins/selectiontoolbar.py";exec open(fn).read()
-       icon: /usr/lib/freecad/Mod/plugins/icons/robot.png
+       exec: fn="AppHomePath/Mod/plugins/selectiontoolbar.py";exec open(fn).read()
+       icon: AppHomePath/Mod/plugins/icons/robot.png
     1210 Object Design Workflow Tree: *ObjTree
     3211 Export for Kerkythea: *kerkythea
     3212 Kerkythea Renderer: 
-        exec: import os;os.system("/usr/lib/freecad/Mod/plugins/Kerkythea2008/Kerkythea &")
+        exec: import os;os.system("AppHomePath/Mod/plugins/Kerkythea2008/Kerkythea &")
         man: http://www.kerkythea.net/cms/
     313 sheetmetal: *sheetmetal
     
     11 macro manager:
         man: http://forum.freecadweb.org/viewtopic.php?f=21&t=10905&start=20    
-        exec: fn="/usr/lib/freecad/Mod/plugins/macromanager.py";d={};exec(open(fn).read(),d,d)
-        icon: /usr/lib/freecad/Mod/Animation/icons/manager.png
+        exec: fn="AppHomePath/Mod/plugins/macromanager.py";d={};exec(open(fn).read(),d,d)
+        icon: AppHomePath/Mod/Animation/icons/manager.png
     112 Workfeature Macro: *wofe
     111 Hyperbola: *Hyperbola
     90 Reload PluginManager:

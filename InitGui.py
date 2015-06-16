@@ -178,7 +178,7 @@ class MyDock(QtGui.QDockWidget):
 		
 		#-----------------
 		self.pushButton00 = QtGui.QPushButton(QtGui.QIcon('icons:freecad.svg'),"Plugin Manager Version " + __version__)
-		self.pushButton01 = QtGui.QPushButton(QtGui.QIcon('/usr/lib/freecad/Mod/mylib/icons/mars.png'),"Plugin Loader"     )
+		self.pushButton01 = QtGui.QPushButton(QtGui.QIcon(FreeCAD.ConfigGet('AppHomePath')+'/Mod/mylib/icons/mars.png'),"Plugin Loader"     )
 		#self.pushButton01.setGeometry(10, 10,140, 50)
 		
 		self.pushButton01.clicked.connect(self.start) 
@@ -307,7 +307,7 @@ class MyDock(QtGui.QDockWidget):
 					if ff.has_key('icon'):
 						pushButton1 = QtGui.QPushButton(QtGui.QIcon(ff['icon']),funk)
 					else:
-						pushButton1 = QtGui.QPushButton(QtGui.QIcon('/usr/lib/freecad/Mod/plugins/icons/sun.png'),funk)
+						pushButton1 = QtGui.QPushButton(QtGui.QIcon(FreeCAD.ConfigGet('AppHomePath')+'/Mod/plugins/icons/sun.png'),funk)
 					#say("!!" + fun + " ->" + funk + "<-")
 					if ff.has_key('info'): 
 						pushButton1.setToolTip(ff['info'])
@@ -326,7 +326,7 @@ class MyDock(QtGui.QDockWidget):
 					pushButt_1 = QtGui.QPushButton(funk)
 					hBoxlayout.addWidget(pushButton1)
 					if ff.has_key('man'):
-						pushButt_2 = QtGui.QPushButton(QtGui.QIcon('/usr/lib/freecad/Mod/plugins/icons/help.png'),'')
+						pushButt_2 = QtGui.QPushButton(QtGui.QIcon(FreeCAD.ConfigGet('AppHomePath')+'/Mod/plugins/icons/help.png'),'')
 						pushButt_2.setToolTip('See WebSite Documentation')
 						cmdh='import WebGui; WebGui.openBrowser( "' +ff['man'] + '")'
 						yh=MyAction2(cmdh)
@@ -423,6 +423,6 @@ t=FreeCADGui.getMainWindow()
 t.workbenchActivated.connect(runme)
 
 #try:
-#	import sys;sys.path.append('/usr/lib/freecad/Mod/plugins/WorkFeature');import WorkFeature;reload(WorkFeature);m=WorkFeature.WorkFeatureTab() 
+#	import sys;sys.path.append(FreeCAD.ConfigGet('AppHomePath')+'/Mod/plugins/WorkFeature');import WorkFeature;reload(WorkFeature);m=WorkFeature.WorkFeatureTab() 
 #except:
 #	FreeCAD.Console.PrintWarning("Work Feasture Autostart failed"+"\n")
