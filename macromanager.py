@@ -170,29 +170,37 @@ def layout(widget,files,plugindata):
 		hlay.setSpacing(0)
 		ak0.setLayout(hlay)
 		# Hilfs button
-		ak1 = QtGui.QPushButton(QtGui.QIcon('icons:freecad.svg'), ""  )
+		ak1 = QtGui.QPushButton(QtGui.QIcon('icons:Tree_Annotation.svg'), ""  )
 		ak1.setMaximumWidth(20)
 		hlay.addWidget(ak1)
-		ak1.setToolTip('See WebSite Documentation')
+		
 		cmdh='import WebGui; WebGui.openBrowser( "' +plugindata[fe]['__Wiki__']+ '")'
 		FreeCAD.Console.PrintMessage(cmdh+"!-----------------------------------\n")
 		yh=MyAction2(cmdh)
 		ak1.yh=yh
-		ak1.clicked.connect(yh.run) 
+		if plugindata[fe]['__Wiki__'] <>'':
+			ak1.clicked.connect(yh.run)
+			ak1.setToolTip('See WebSite Documentation')
+		else:
+			ak1.setIcon(QtGui.QIcon('icons:Tree_Dimension.svg'))
 		
 		
 		# Hilfs button
-		ak2 = QtGui.QPushButton(QtGui.QIcon('icons:freecad.svg'), ""  )
+		ak2 = QtGui.QPushButton(QtGui.QIcon('icons:Document.svg'), ""  )
 		ak2.setMaximumWidth(20)
 		hlay.addWidget(ak2)
 		try:
-			ak2.setToolTip(plugindata[fe]['__Web__'])
+			
 			cmdh='import WebGui; WebGui.openBrowser( "' +plugindata[fe]['__Web__']+ '")'
 			FreeCAD.Console.PrintMessage(cmdh+"!-----------------------------------\n")
 			FreeCAD.Console.PrintMessage(cmdh+"!-----------------------------------\n")
 			yh=MyAction2(cmdh)
 			ak2.yh=yh
-			ak2.clicked.connect(yh.run) 
+			if plugindata[fe]['__Web__'] <>'':
+				ak2.clicked.connect(yh.run) 
+				ak2.setToolTip('See Forum Thread')
+			else:
+				ak2.setIcon(QtGui.QIcon('icons:Tree_Dimension.svg'))
 		except:
 			sayexc()
 			pass

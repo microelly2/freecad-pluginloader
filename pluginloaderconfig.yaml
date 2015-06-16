@@ -737,11 +737,11 @@ tabs:
        exec: fn="/usr/lib/freecad/Mod/plugins/selectiontoolbar.py";exec open(fn).read()
        icon: /usr/lib/freecad/Mod/plugins/icons/robot.png
     1210 Object Design Workflow Tree: *ObjTree
-    1211 Export for Kerkythea: *kerkythea
-    1212 Kerkythea Renderer: 
+    3211 Export for Kerkythea: *kerkythea
+    3212 Kerkythea Renderer: 
         exec: import os;os.system("/usr/lib/freecad/Mod/plugins/Kerkythea2008/Kerkythea &")
         man: http://www.kerkythea.net/cms/
-    1213 sheetmetal: *sheetmetal
+    313 sheetmetal: *sheetmetal
     
     11 macro manager:
         man: http://forum.freecadweb.org/viewtopic.php?f=21&t=10905&start=20    
@@ -751,6 +751,9 @@ tabs:
     111 Hyperbola: *Hyperbola
     90 Reload PluginManager:
         exec: PluginManager.reload()
+    21 Part WB: *Part
+    23 Draft WB: *Draft
+
 
 # toolbars - examples faster than menues
 
