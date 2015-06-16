@@ -6,13 +6,13 @@ Install
 -------
 
 
-create the directory /usr/lib/freecad/Mod/plugins
+create the directory AppHomePath/Mod/plugins
 
 download the zipfile  of the complete project to your computer.
 
 unzip it  - you will get a directotry freecad-pluginloader-master
 
-move the content of this directory  into  /usr/lib/freecad/Mod/plugins
+move the content of this directory  into  AppHomePath/Mod/plugins
 
 you can modify this file if you want: pluginloaderconfig.yaml
 
