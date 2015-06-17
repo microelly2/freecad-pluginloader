@@ -213,7 +213,7 @@ class MyWidget(QtGui.QWidget):
 				item = QtGui.QListWidgetItem(k)
 				self.listWidget.addItem(item)
 		layout = QtGui.QGridLayout()
-		self.setStyleSheet("QListWidget,QPushButton {background-color: lightblue;} ")
+		self.setStyleSheet("QListWidget,QPushButton {background-color: lightblue;color:brown;} ")
 		line=4
 		layout.addWidget(self.vollabel, 0, 0)
 		line=3

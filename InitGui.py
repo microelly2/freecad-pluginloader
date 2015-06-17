@@ -150,7 +150,7 @@ class MyAction2():
 class MyDock(QtGui.QDockWidget):
 	def __init__(self,master):
 		QtGui.QDockWidget.__init__(self,master)
-		self.setStyleSheet("{background-color:white;}")
+		self.setStyleSheet("{background-color:white;color:brown;}")
 		#dock=self
 		self.labels={}
 		self.setMinimumSize(200, 185)
@@ -162,7 +162,7 @@ class MyDock(QtGui.QDockWidget):
 		self.centralWidget.setStyleSheet("\
 				QWidget { background-color: lightblue}\
 				QPushButton { margin-right:0px;margin-left:0px;margin:0 px;padding:0px;;\
-				background-color: lightblue;text-align:left;;padding:6px;padding-left:4px }\
+				background-color: lightblue;text-align:left;;padding:6px;padding-left:4px;color:brown; }\
 								\
 				")
 		self.centralWidget.setObjectName("centralWidget")
@@ -197,7 +197,7 @@ class MyDock(QtGui.QDockWidget):
 		mygroupbox.setStyleSheet("\
 				QWidget { background-color: lightblue;margin:0px;padding:0px;}\
 				QPushButton { margin-right:0px;margin-left:0px;margin:0 px;padding:0px;;\
-				background-color: lightblue;text-align:left;;padding:6px;padding-left:4px }\
+				background-color: lightblue;text-align:left;;padding:6px;padding-left:4px;color:brown; }\
 								\
 				")
 		
@@ -336,7 +336,7 @@ class MyDock(QtGui.QDockWidget):
 				vBoxlayout.setAlignment(QtCore.Qt.AlignTop)
 				head=QtGui.QLabel(kyk.upper())
 				vBoxlayout.addWidget(head)
-				head.setStyleSheet("QWidget { font: bold 18px;}")
+				head.setStyleSheet("QWidget { font: bold 18px;color:brown;}")
 				if self.pluginloader.config3['tabs'][ky].has_key("info"):
 					info=QtGui.QLabel(self.pluginloader.config3['tabs'][ky]["info"])
 					vBoxlayout.addWidget(info)

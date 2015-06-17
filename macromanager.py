@@ -230,7 +230,7 @@ class Widget(QWidget):
 		
 		#Container Widget       
 		widget = QWidget()
-		widget=QtGui.QFrame()
+		
 		#Layout of Container Widget
 		layout = QVBoxLayout(self)
 		layout.setSpacing(0)
