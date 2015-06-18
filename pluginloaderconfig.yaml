@@ -28,6 +28,30 @@
 
 plugins:
 
+  styles: &styles
+    name: FreeCAd styles
+    status: noignore
+    web: http://forum.freecadweb.org/viewtopic.php?f=9&t=11419
+    man: https://github.com/pgilfernandez/FreeCAD_stylesheets/blob/master/README.md
+    description: QT themes (stylesheet) specially developed for FreeCAD
+    author: pgilfernandez
+    source: https://github.com/pgilfernandez/FreeCAD_stylesheets/archive/master.zip
+    method: zip
+    sourcedir: FreeCAD_stylesheets-master
+    destdir: UserAppData/Gui/Stylesheets
+    replace:
+       files: 
+         - dark-green.qss
+         - dark-blue.qss
+         - dark-orange.qss
+         - light-green.qss
+         - light-blue.qss
+         - light-orange.qss
+       pattern:  \[PATH_TO_IMAGES\] 
+       data:  UserAppData/Gui/Stylesheets/images
+ 
+# plugins2: 
+
   pluginloader: &pluginloader
     web: http://freecadbuch.de/doku.php?id=pluginmanager
     status: noignore

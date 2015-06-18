@@ -18,7 +18,7 @@ global MyAction,say,saye
 
 
 import WebGui
-__vers__=' version 0.8'
+__vers__=' version 0.10'
 
 
 import sys, os, zipfile
@@ -164,7 +164,7 @@ import platform
 os=platform.system()
 
 import pprint
-# pprint.pprint(config3)
+#pprint.pprint(config3)
 
 
 
@@ -193,6 +193,7 @@ class MyWidget(QtGui.QWidget):
 		#if hasattr(FreeCAD,"mywidget"):
 		#	FreeCAD.mywidget.hide()
 		FreeCAD.mywidget=self
+		self.setWindowFlags(QtCore.Qt.WindowStaysOnTopHint)
 		self.config=master.config
 		self.vollabel = QtGui.QLabel('1. Select Packages ...')
 		self.vollabel2 = QtGui.QLabel('2. Show Package Info ...')
@@ -487,6 +488,32 @@ class PluginLoader(object):
 							say("create dir " + directory)
 							os.makedirs(directory)
 						say("move "+source+" to "+dest2)
+						if  self.config[plugin].has_key('replace'):
+							say("REPLACE")
+#							       files: .qss
+#       pattern:  [PATH_TO_IMAGES] 
+#       data:  UserAppData/Gui/Stylesheets/images/
+
+							p= self.config[plugin]['replace']['pattern']
+							d= self.config[plugin]['replace']['data']
+							f= self.config[plugin]['replace']['files']
+							say(f)
+#							for gg in f:
+#								say(gg)
+							# f= "/tmp/dark-green.qss"
+#							say(p)
+							d=pathMacro(d)
+							say(d)
+#							say(f)
+#							say(base)
+							for fil in f:
+								try:
+									cmd="sed -e 's#"+str(p)+"#"+str(d)+"#' " + source + "/" + fil + ">" + source + "/"+fil+".sed" 
+									say(cmd)
+									os.system(cmd)
+									os.rename(source + "/"+fil+".sed" , source + "/" + fil)
+								except:
+									sayexc("q")
 						shutil.move(source, dest2)
 						say ("rename " +dest2+" to "+destination)
 						try: 
