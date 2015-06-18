@@ -28,8 +28,22 @@
 
 plugins:
 
+  fasteners: &fasteners
+    name: fasteners
+    status: noignore
+    web: http://forum.freecadweb.org/viewtopic.php?f=8&t=11429
+    man: https://github.com/shaise/FreeCAD_FastenersWB/blob/master/README.md 
+    description: 
+    author: shaise
+    source: https://github.com/shaise/FreeCAD_FastenersWB/archive/master.zip
+    method: zip
+    sourcedir: /FreeCAD_FastenersWB-master
+    destdir: UserAppData/Mod/FreeCAD_FastenersWB
+    exec: FreeCADGui.activateWorkbench("FastenersWorkbench")
+    icon: UserAppData/Mod/FreeCAD_FastenersWB/Icons/EN1665.svg
+ 
   styles: &styles
-    name: FreeCAd styles
+    name: FreeCAD styles
     status: noignore
     web: http://forum.freecadweb.org/viewtopic.php?f=9&t=11419
     man: https://github.com/pgilfernandez/FreeCAD_stylesheets/blob/master/README.md
@@ -50,7 +64,7 @@ plugins:
        pattern:  \[PATH_TO_IMAGES\] 
        data:  UserAppData/Gui/Stylesheets/images
  
-# plugins2: 
+#plugins2: 
 
   pluginloader: &pluginloader
     web: http://freecadbuch.de/doku.php?id=pluginmanager
@@ -767,7 +781,7 @@ tabs:
         exec: import os;os.system("AppHomePath/Mod/plugins/Kerkythea2008/Kerkythea &")
         man: http://www.kerkythea.net/cms/
     313 sheetmetal: *sheetmetal
-    
+    312 fasteners: *fasteners
     11 macro manager:
         man: http://forum.freecadweb.org/viewtopic.php?f=21&t=10905&start=20    
         exec: fn="AppHomePath/Mod/plugins/macromanager.py";d={};exec(open(fn).read(),d,d)
