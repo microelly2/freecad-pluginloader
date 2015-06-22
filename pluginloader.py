@@ -18,7 +18,7 @@ global MyAction,say,saye
 
 
 import WebGui
-__vers__=' version 0.10'
+__vers__=' version 0.11'
 
 
 import sys, os, zipfile

@@ -25,8 +25,21 @@
 # see yaml.org
 #
 
+plugins: 
 
-plugins:
+  psicofil-makros:
+    status: noignore
+    author: psicofil
+    description: macro collection 
+    man: https://github.com/psicofil/Macros_FreeCAD/blob/master/README.md
+    web: https://github.com/psicofil/Macros_FreeCAD/blob/master/README.md
+    source:  https://github.com/psicofil/Macros_FreeCAD/archive/master.zip
+    sourcedir: Macros_FreeCAD-master
+    destdir: AppHomePath/Mod/plugins/psicofil-macros
+    format: zip
+
+
+#plugins2:
 
   fasteners: &fasteners
     name: fasteners
@@ -64,7 +77,7 @@ plugins:
        pattern:  \[PATH_TO_IMAGES\] 
        data:  UserAppData/Gui/Stylesheets/images
  
-#plugins2: 
+
 
   pluginloader: &pluginloader
     web: http://freecadbuch.de/doku.php?id=pluginmanager
@@ -221,7 +234,7 @@ plugins:
      name: workfeature 
      status: noignore
      source: https://github.com/Rentlau/WorkFeature/archive/master.zip
-     source: https://github.com/microelly2/WorkFeature/archive/master.zip
+     # source: https://github.com/microelly2/WorkFeature/archive/master.zip
      web: http://www.freecadweb.org/wiki/index.php?title=Macro_WorkFeatures
      timestamp: 00
      sourcedir: WorkFeature-master
@@ -792,6 +805,19 @@ tabs:
         exec: PluginManager.reload()
     21 Part WB: *Part
     23 Draft WB: *Draft
+    001 AnimatedConstrain:
+      exec: fn="AppHomePath/Mod/plugins/psicofil-macros/Macros/AnimatedConstrain.FCMacro";d={};exec("import FreeCAD;App=FreeCAD;\n" + open(fn).read(),d,d)
+      man: https://github.com/psicofil/Macros_FreeCAD/blob/master/README.md
+    002 GMSHMesh:
+      exec: fn="AppHomePath/Mod/plugins/psicofil-macros/Macros/GMSHMesh.FCMacro";d={};exec("import FreeCAD;App=FreeCAD;\n" + open(fn).read(),d,d)
+      man: https://github.com/psicofil/Macros_FreeCAD/blob/master/README.md
+    003 ParametricCurve:
+      exec: fn="AppHomePath/Mod/plugins/psicofil-macros/Macros/ParametricCurve.FCMacro";d={};exec("import FreeCAD,FreeCADGui;App=FreeCAD;\n" + open(fn).read(),d,d)
+      man: https://github.com/psicofil/Macros_FreeCAD/blob/master/README.md
+    004 RenderPovray:
+      exec: fn="AppHomePath/Mod/plugins/psicofil-macros/Macros/RenderPovray.FCMacro";d={};exec("import FreeCAD,FreeCADGui;App=FreeCAD;\n" + open(fn).read(),d,d)
+      man: https://github.com/psicofil/Macros_FreeCAD/blob/master/README.md
+    
 
 
 # toolbars - examples faster than menues
