@@ -16,9 +16,10 @@ global QtGui
 global MyAction,say,saye
 # global PluginManager
 
+from configmanager import ConfigManager
 
 import WebGui
-__vers__=' version 0.11'
+__vers__=' version 0.12'
 
 
 import sys, os, zipfile
@@ -210,7 +211,9 @@ class MyWidget(QtGui.QWidget):
 		kl=self.config.keys()
 		say(kl)
 		for k in sorted(kl):
-			if not self.config[k]['status'] == "ignore":
+			pcm=ConfigManager(k)
+			hide=pcm.get('_hide_',False)
+			if not self.config[k]['status'] == "ignore" and not hide:
 				item = QtGui.QListWidgetItem(k)
 				self.listWidget.addItem(item)
 		layout = QtGui.QGridLayout()
@@ -278,11 +281,31 @@ class PluginLoader(object):
 	def __init__(self):
 		global say
 		
+		#---------------------------
+		mcf=''
 		config3={}
 		try:
 			say("pluginmanager config file "+ fn)
-			stream = open(fn, 'r')
-			config3 = yaml.load(stream)
+			stream = open(fn, 'r').read()
+		#	mfc=''
+			try:
+				z=ConfigManager('')
+				fn2=z.get('userconfigfile',"/usr/lib/freecad/Mod/plugins/myconfig.yaml")
+				mcf = open(fn2, 'r').read()
+			except:
+				sayexc()
+			all=stream + mcf
+
+			config3 = yaml.load(all)
+		#	config3=set_defaults(config3)
+		except:
+			sayexc()
+			pass
+
+		try:
+#			say("pluginmanager config file "+ fn)
+#			stream = open(fn, 'r')
+#			config3 = yaml.load(stream)
 			config3=set_defaults(config3)
 		except:
 			dlgexc("Cannot load configfile " +fn +"\nread console log for details " )
@@ -590,6 +613,10 @@ class PluginLoader(object):
 		for k in self.config.keys():
 			if not self.config[k]['status'] == 'ignore':
 				t=FreeCAD.ParamGet('User parameter:Plugins/'+k)
+				pcm=ConfigManager(k)
+				hide=pcm.get('_hide_',False)
+				if hide:
+					continue
 				pluginlist.append(k)
 				#say("--")
 				#say(k)

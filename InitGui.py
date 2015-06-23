@@ -55,7 +55,7 @@ def say(s):
 
 
 global __version__
-__version__='0.20 (2015/06/22)'
+__version__='0.23 (2015/06/23)'
 
 global sayexc
 
@@ -265,11 +265,17 @@ class MyDock(QtGui.QDockWidget):
 	def gentoolbars(self,workbench='init'):
 		global pathMacro
 		cf=self.pluginloader.config
-		# say("gentoolbars ...")
+		say("gentoolbars ...")
 		if self.pluginloader.config3["toolbars"].has_key(workbench):
 			# say("toolbars for            ----------------------" + workbench)
 			for ky in sorted(self.pluginloader.config3["toolbars"][workbench].keys()):
 				#say(ky)
+				cma=ConfigManager("__toolbars__/" + workbench +"/" + ky)
+				funhide=cma.get("_hide_",False)
+				if funhide:
+					say("toolbar ignore item " + ky)
+					continue
+
 				try:
 					mw=FreeCAD.Gui.getMainWindow()
 					mw.toolbar = mw.addToolBar(workbench +': ' + ky)
@@ -322,8 +328,16 @@ class MyDock(QtGui.QDockWidget):
 			if mode =="east":
 				tabs.setTabPosition(QtGui.QTabWidget.East)
 				kl.reverse()
+			
 			for ky in kl:
 				import re
+				
+				cmt=ConfigManager("__tabs__/" + ky)
+				hide=cmt.get("_hide_",False)
+				if hide:
+						say("ignore tab " + ky)
+						continue
+				
 				tab1= QtGui.QWidget()
 				pat=r"[0123456789]+ +(.*)"
 				m = re.match(pat, ky)
@@ -342,6 +356,11 @@ class MyDock(QtGui.QDockWidget):
 					vBoxlayout.addWidget(info)
 
 				for fun in sorted(self.pluginloader.config3["tabs"][ky].keys()):
+					cma=ConfigManager("__tabs__/" + ky +"/" + fun)
+					funhide=cma.get("_hide_",False)
+					if funhide:
+						say("ignore item " + fun)
+						continue
 					ff=self.pluginloader.config3["tabs"][ky][fun]
 					if fun == 'info':
 						continue

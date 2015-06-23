@@ -642,7 +642,7 @@ data:
     exec: import JoinFeatures;JoinFeatures._CommandEmbedFeature().Activated()
   
 # tabs of the manager window
-tabs:
+tabs: &tabs
   0 Favorites:
 #    01 Join Cutout:  *pcf_cutout
 #    02 Join Connect:  *pcf_connect
@@ -877,7 +877,8 @@ anOtherToolbars: &anOtherToolbars
 #  use one predefined toolbar 
 #  (uncomment only your favorite)
 
-toolbars: *mytoolbars
+toolbars: &toolbars
+   <<: *mytoolbars
 #toolbars: *anOtherToolbars
 
    

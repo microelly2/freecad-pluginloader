@@ -12,7 +12,10 @@ import FreeCAD
 class ConfigManager():
 
 	def __init__(self,name):
-		self.name="Plugins/"+name
+		if name=='':
+			self.name="Plugins"
+		else:
+			self.name="Plugins/"+name
 
 	def get(self,param,default,defaultWindows=None,defaultMac=None):
 		if not defaultWindows:
