@@ -88,6 +88,12 @@ def dlgexc(mess=''):
 #-----------------
 
 
+import time
+def timeString():
+	localtime   = time.localtime()
+	timeString  = time.strftime("%Y-%m-%dT%H:%M:%SZ", localtime)
+	return timeString
+
 # read from file and converted to python
 import yaml,urllib
 import re
@@ -241,6 +247,7 @@ class MyWidget(QtGui.QWidget):
 		text=""
 		say("huhu")
 		for sel in self.listWidget.selectedItems():
+			plugin=sel.text()
 			text += "*** "+ sel.text() + " ***"
 			say(text)
 			say(self.config[sel.text()])
@@ -252,6 +259,32 @@ class MyWidget(QtGui.QWidget):
 			text += "\n" + str(self.config[sel.text()]['description'])
 			say(text)
 			text += "\n"
+			
+			#fn='https://api.github.com/repos/microelly2/freecad-pluginloader/commits'
+			#fn='https://api.github.com/repos/cblt2l/FreeCAD-CuraEngine-Plugin/commits'
+			try:
+				import re
+				source=str(self.config[sel.text()]['source'])
+				say(source)
+				m = re.match(r"https://github.com/(.*)/archive/master.zip", source)
+				say(m)
+				gitdate='no date from git'
+				if m: 
+					fn='https://api.github.com/repos/' + m.group(1) + '/commits'
+					import urllib,json
+					data=urllib.urlopen(fn).read()
+					d = json.loads(data)
+					dit=d[0]
+					#dit['commit']['committer']['name']
+					gitdate=dit['commit']['committer']['date']
+				say(gitdate)
+				FreeCAD.ParamGet('User parameter:/Plugins/'+plugin).SetString("gitdate",gitdate)
+			except:
+				sayexc()
+			text += "last install:  " + FreeCAD.ParamGet('User parameter:/Plugins/'+plugin).GetString("installdate") + "\n"
+			text += "new version:  " + FreeCAD.ParamGet('User parameter:/Plugins/'+plugin).GetString("gitdate","not implemented") + "\n"
+			say(text)
+			say("###")
 		self.lab2.setText(text)
 		say("web ..")
 		if self.config[sel.text()].has_key('web'):
@@ -291,9 +324,10 @@ class PluginLoader(object):
 			try:
 				z=ConfigManager('')
 				fn2=z.get('userconfigfile',"/usr/lib/freecad/Mod/plugins/myconfig.yaml")
+				say("pluginmanager userconfig file "+ fn2)
 				mcf = open(fn2, 'r').read()
 			except:
-				sayexc()
+				sayexc("userconfigfile not available")
 			all=stream + mcf
 
 			config3 = yaml.load(all)
@@ -374,10 +408,15 @@ class PluginLoader(object):
 		self.widget.lab2.setText("Install start")
 		self.widget.show()
 		plugin=item
+		
+		
 		say("---install or update !"+plugin+ "!") 
 		if plugin == 'pluginloader':
 			say("update MYSELF --------------- "+plugin) 
 			fn=FreeCAD.ConfigGet('AppHomePath')+"/Mod/plugins/installer.py";d={};exec(open(fn).read(),d,d)
+			now=timeString()
+			self.config[plugin]['installed']=now
+			FreeCAD.ParamGet('User parameter:/Plugins/'+plugin).SetString("installdate",now)
 			return
 		
 		if self.config[plugin].has_key('status') and self.config[plugin]['status'] == 'ignore':
@@ -554,6 +593,10 @@ class PluginLoader(object):
 				#os.listdir(destination)
 		self.widget.lab2.setText(str(item) + " install fertig ----")
 		dlgi(str(item) + " ist fertig")
+		now=timeString()
+		self.config[plugin]['installed']=now
+		FreeCAD.ParamGet('User parameter:/Plugins/'+plugin).SetString("installdate",now)
+
 		
 
 	def register(self):
