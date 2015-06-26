@@ -30,6 +30,9 @@ global sys,traceback
 import FreeCAD,os,FreeCADGui,time,sys,traceback
 
 
+import Draft
+
+
 import PySide
 from PySide import QtCore, QtGui, QtSvg
 from PySide.QtGui import * 
@@ -55,7 +58,7 @@ def say(s):
 
 
 global __version__
-__version__='0.23 (2015/06/23)'
+__version__='0.24 (2015/06/23)'
 
 global sayexc
 
@@ -158,7 +161,7 @@ class MyDock(QtGui.QDockWidget):
 		self.setWindowTitle('Plugin Manager')
 		self.setObjectName('Pluginloader')
 		self.centralWidget = QtGui.QWidget(self)
-		self.centralWidget.setMaximumHeight(500)
+		self.centralWidget.setMaximumHeight(800)
 		self.centralWidget.setStyleSheet("\
 				QWidget { background-color: lightblue}\
 				QPushButton { margin-right:0px;margin-left:0px;margin:0 px;padding:0px;;\
@@ -434,6 +437,7 @@ class MyDock(QtGui.QDockWidget):
 
 global PluginManager
 
+
 try:
 	PluginManager.hide()
 	pass
@@ -444,6 +448,8 @@ except:
 PluginManager=MyDock(FreeCAD.Gui.getMainWindow())
 PluginManager.setWindowFlags(QtCore.Qt.WindowStaysOnTopHint)
 FreeCAD.PluginManager=PluginManager
+
+
 
 import pluginloader
 t=pluginloader.PluginLoader()
@@ -479,6 +485,7 @@ def runme():
 				m = re.match(pat, wbs)
 				if m:
 					name=m.group(1)
+			import Part
 			PluginManager.gentoolbars(name)
 		except:
 			sayexc("except 2")

@@ -19,7 +19,7 @@ global MyAction,say,saye
 from configmanager import ConfigManager
 
 import WebGui
-__vers__=' version 0.12'
+__vers__=' version 0.13'
 
 
 import sys, os, zipfile
@@ -262,6 +262,7 @@ class MyWidget(QtGui.QWidget):
 			
 			#fn='https://api.github.com/repos/microelly2/freecad-pluginloader/commits'
 			#fn='https://api.github.com/repos/cblt2l/FreeCAD-CuraEngine-Plugin/commits'
+			mess=""
 			try:
 				import re
 				source=str(self.config[sel.text()]['source'])
@@ -278,11 +279,19 @@ class MyWidget(QtGui.QWidget):
 					#dit['commit']['committer']['name']
 					gitdate=dit['commit']['committer']['date']
 				say(gitdate)
+				installdate=FreeCAD.ParamGet('User parameter:/Plugins/'+plugin).GetString("installdate")
+				if installdate >gitdate:
+					mess="--- package " + plugin + " is up to date ---"
+				else:
+					mess="!!! update for " + plugin + " recommented !!!"
+				
 				FreeCAD.ParamGet('User parameter:/Plugins/'+plugin).SetString("gitdate",gitdate)
 			except:
 				sayexc()
-			text += "last install:  " + FreeCAD.ParamGet('User parameter:/Plugins/'+plugin).GetString("installdate") + "\n"
-			text += "new version:  " + FreeCAD.ParamGet('User parameter:/Plugins/'+plugin).GetString("gitdate","not implemented") + "\n"
+				
+			text += "my install:  " + FreeCAD.ParamGet('User parameter:/Plugins/'+plugin).GetString("installdate") + "\n"
+			text += "git version:  " + FreeCAD.ParamGet('User parameter:/Plugins/'+plugin).GetString("gitdate","not implemented") + "\n"
+			text += "\n" + mess + "\n\n"
 			say(text)
 			say("###")
 		self.lab2.setText(text)
