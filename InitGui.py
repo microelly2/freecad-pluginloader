@@ -32,7 +32,7 @@ import FreeCAD,os,FreeCADGui,time,sys,traceback
 
 import Draft
 
-
+global PySide
 import PySide
 from PySide import QtCore, QtGui, QtSvg
 from PySide.QtGui import * 
@@ -44,6 +44,88 @@ global ConfigManager
 
 global QtGui,QtCore,QtSvg
 global myDialog,say,myDialoge
+
+
+
+global EventFilter
+class EventFilter(QtCore.QObject):
+  def eventFilter(self, o, e):
+	if not hasattr(FreeCAD,'MM'):
+		FreeCAD.MM=0
+	# http://doc.qt.io/qt-5/qevent.html
+	z=str(e.type())
+	if z == 'PySide.QtCore.QEvent.Type.ChildAdded' or z == 'PySide.QtCore.QEvent.Type.ChildRemoved':
+		
+		# return False
+		return QtGui.QWidget.eventFilter(self, o, e)
+	if z == 'PySide.QtCore.QEvent.Type.User'  or z == 'PySide.QtCore.QEvent.Type.Paint' or \
+	z == 'PySide.QtCore.QEvent.Type.LayoutRequest' or z == 'PySide.QtCore.QEvent.Type.UpdateRequest'   :
+		# FreeCAD.Console.PrintMessage(z+" ")
+		# return False
+		return QtGui.QWidget.eventFilter(self, o, e)
+	if z == 'PySide.QtCore.QEvent.Type.KeyPress':
+		FreeCAD.Console.PrintMessage("\n")
+		FreeCAD.Console.PrintMessage(e.type())
+		FreeCAD.Console.PrintMessage(e.key())
+		FreeCAD.MM=0
+	if z == 'PySide.QtCore.QEvent.Type.Enter' or z == 'PySide.QtCore.QEvent.Type.Leave':
+		try:
+			FreeCAD.Console.PrintMessage("\n")
+			FreeCAD.Console.PrintMessage(e.type())
+			#FreeCAD.Console.PrintMessage(dir(e))
+			FreeCAD.Console.PrintMessage(o)
+			FreeCAD.Console.PrintMessage("!\n")
+			#FreeCAD.Console.PrintMessage(e.key())
+			FreeCAD.MM=0
+		except:
+			sayexc()
+	if z == 'PySide.QtCore.QEvent.Type.HoverMove' :
+		if FreeCAD.MM == 0:
+			# http://doc.qt.io/qt-5/qhoverevent.html
+			FreeCAD.Console.PrintMessage("\n")
+			FreeCAD.Console.PrintMessage(e.oldPos())
+			FreeCAD.Console.PrintMessage(e.pos())
+			FreeCAD.Console.PrintMessage("\n")
+		FreeCAD.MM=1
+	# return False
+	event=e
+	
+	if event.type() == QtCore.QEvent.MouseButtonPress or \
+		event.type() == QtCore.QEvent.MouseButtonRelease or event.type()== QtCore.QEvent.Type.Wheel or \
+		event.type() == QtCore.QEvent.MouseButtonDblClick:
+		FreeCAD.Console.PrintMessage(str(event.type())+ '\n')
+		if event.button() == QtCore.Qt.MidButton or  event.button() == QtCore.Qt.MiddleButton:
+			#If image is left clicked, display a red bar.
+			FreeCAD.Console.PrintMessage('middle \n')
+		if event.button() == QtCore.Qt.LeftButton:
+			#If image is left clicked, display a red bar.
+			FreeCAD.Console.PrintMessage('one left\n')
+		elif event.button() == QtCore.Qt.RightButton:
+			FreeCAD.Console.PrintMessage('one right\n')
+		if event.type() == QtCore.QEvent.MouseButtonDblClick:
+			#If image is double clicked, remove bar.
+			FreeCAD.Console.PrintMessage('\ntwo\n')
+
+	try:
+			if event.type() == QtCore.QEvent.MouseButtonPress:
+				if event.button() == QtCore.Qt.LeftButton:
+					#If image is left clicked, display a red bar.
+					FreeCAD.Console.PrintMessage('one left\n')
+				elif event.button() == QtCore.Qt.RightButton:
+					FreeCAD.Console.PrintMessage('one right\n')
+				elif event.type() == QtCore.QEvent.MouseButtonDblClick:
+					#If image is double clicked, remove bar.
+					FreeCAD.Console.PrintMessage('two\n')
+				#FreeCAD.Console.PrintMessage('event Filter ' + str(event.type()) + '\n' + str(event.button()) + '\n')
+				FreeCAD.Console.PrintMessage(' event Filter MouseButtonPress')
+				# return super(MyWidget, self).eventFilter(obj, event)
+			if event.type() == QtCore.QEvent.MouseButtonRelease:
+				FreeCAD.Console.PrintMessage(' event Filter MouseButtonRelease')
+	except:
+			sayexec()
+	return QtGui.QWidget.eventFilter(self, o, e)
+
+
 
 def myDialog(msg):
     diag = QtGui.QMessageBox(QtGui.QMessageBox.Information,"Plugin Manager",msg )
@@ -128,6 +210,28 @@ def runscript(fn):
 	else:
 		print ("kein zugriff auf " + fn)
 		sayexc("kein zugriff auf" + fn) 
+
+
+global runextern
+def runextern(fn,arg1="",arg2=""):
+	import os
+	if os.path.exists(fn) and os.path.isfile(fn):
+		try:
+			#d={};exec(open(fn).read(),d,d)
+			import subprocess
+			DETACHED_PROCESS = 0x00000008
+			windows=False
+			if windows:
+				pid = subprocess.Popen([fn,arg1,arg2],creationflags=DETACHED_PROCESS).pid
+			else:
+				pid = subprocess.Popen([fn,arg1,arg2]).pid
+		except:
+			sayexc("exec error file:" + fn ) 
+	else:
+		print ("kein zugriff auf " + fn)
+		sayexc("kein zugriff auf" + fn) 
+
+
 
 
 global MyAction2
@@ -241,6 +345,62 @@ class MyDock(QtGui.QDockWidget):
 		##layout.addWidget(self.scroll)
 		self.pluginloaderCMD=self.myFunction
 		self.setWidget(self.centralWidget)
+
+
+		self.setMouseTracking(True)
+		self.installEventFilter(self)
+		self.activateWindow()
+		self.setFocus()
+		
+		say("activated")
+		say(self.isActiveWindow())
+
+	def eventFilter(self,widget,ev):
+		event=ev
+		# try:
+		if event.type() == QtCore.QEvent.MouseButtonPress or \
+			event.type() == QtCore.QEvent.MouseButtonRelease or event.type()== QtCore.QEvent.Type.Wheel or \
+			event.type() == QtCore.QEvent.MouseButtonDblClick or \
+			event.type() == QtCore.QEvent.MouseClick:
+				FreeCAD.Console.PrintMessage(str(event.type())+ '\n')
+				if event.button() == QtCore.Qt.MidButton or  event.button() == QtCore.Qt.MiddleButton:
+					#If image is left clicked, display a red bar.
+					FreeCAD.Console.PrintMessage('middle \n')
+				if event.button() == QtCore.Qt.LeftButton:
+					#If image is left clicked, display a red bar.
+					FreeCAD.Console.PrintMessage('one left\n')
+				elif event.button() == QtCore.Qt.RightButton:
+					FreeCAD.Console.PrintMessage('one right\n')
+				if event.type() == QtCore.QEvent.MouseButtonDblClick:
+					#If image is double clicked, remove bar.
+					FreeCAD.Console.PrintMessage('\ntwo\n')
+				#return True
+				#FreeCAD.Console.PrintMessage('event Filter ' + str(event.type()) + '\n' + str(event.button()) + '\n')
+		#		FreeCAD.Console.PrintMessage(' event Filter MouseButtonPress')
+				# return super(MyWidget, self).eventFilter(obj, event)
+		#if event.type() == QtCore.QEvent.MouseButtonRelease:
+		#		FreeCAD.Console.PrintMessage(' event Filter MouseButtonRelease')
+		try:
+			# say(" c gfgdfgfd nter event")
+			t=ev.type()
+			if t == PySide.QtCore.QEvent.Type.KeyPress and t != PySide.QtCore.QEvent.Type.ChildAdded:
+				say(ev.type())
+				say(ev.key())
+			#FreeCAD.Console.PrintMessage("event filter pm! " + str(ev.type()) + " " + str(ev.key()) + "!\n")
+		except:
+			sayexc();
+		return QtGui.QWidget.eventFilter(self, widget, ev)
+
+
+	def enterEvent(self,ev):
+		FreeCAD.Console.PrintMessage("++ Mouse Enter")
+		#say(self.isActiveWindow())
+
+
+	def mousePressEvent(self, event):
+		FreeCAD.Console.PrintMessage("++ Mouse pressed")
+		#say(self.isActiveWindow())
+
 
 	def start(self):
 			say("pluginloader started ...")
@@ -430,6 +590,12 @@ class MyDock(QtGui.QDockWidget):
 		self.pluginloader=t
 		t.setParams()
 		self.genlabels()
+# 		self.installEventFilter(self)
+		self.activateWindow()
+		self.setFocus()
+
+		FreeCAD.Console.PrintMessage("filter okay")
+
 		FreeCAD.Console.PrintMessage("PluginManager reload done"+"\n")
 
 
@@ -468,6 +634,7 @@ if FreeCAD.ParamGet('User parameter:Plugins').GetBool('showdock'):
 FreeCAD.Console.PrintMessage("Mod pluginloader InitGui.py done"+"\n")
 PluginManager.genlabels()
 
+
 global re
 import re
 def runme():
@@ -493,11 +660,55 @@ def runme():
 	PluginManager.toolbar +=1
 	self=FreeCAD.Gui.getMainWindow()
 	self.show()
+	#PluginManager.activateWindow()
+	#PluginManager.setFocus()
+	# return
+	
+	try:
+		
+		from PySide import QtCore
+		from PySide import QtGui
+		mw=FreeCADGui.getMainWindow()
+		say(mw)
+		#views=mw.findChildren(QtGui.QMainWindow)
+		#say
+		#views[0].metaObject().className()
+		#view=views[0]
+		say("ss")
+		ef=EventFilter()
+		#view.installEventFilter(ef)
+		mw=FreeCADGui.getMainWindow()
+		FreeCAD.ef=ef
+		mw.installEventFilter(ef)
+		mw.setMouseTracking(True)
+		say("okay")
+	except:
+		sayexc()
+
+
+
 
 t=FreeCADGui.getMainWindow()
 t.workbenchActivated.connect(runme)
+
 
 #try:
 #	import sys;sys.path.append(FreeCAD.ConfigGet('AppHomePath')+'/Mod/plugins/WorkFeature');import WorkFeature;reload(WorkFeature);m=WorkFeature.WorkFeatureTab() 
 #except:
 #	FreeCAD.Console.PrintWarning("Work Feasture Autostart failed"+"\n")
+
+try:
+	say("eventfilter")
+	ef=EventFilter()
+	t.installEventFilter(ef)
+	t.setMouseTracking(True)
+	say("gemacht")
+except:
+	sayexc()
+say("good")
+
+
+
+
+#--------------------------------
+

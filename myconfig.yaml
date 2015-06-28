@@ -1,0 +1,93 @@
+#------------------------------------------------
+#-- individual configuration of the plugin manager
+#--
+#-- microelly 2015
+#--
+#-- GNU Lesser General Public License (LGPL)
+#-------------------------------------------------
+
+# here you can configure your own package list, toolbars and tabs
+
+
+#
+# plugins section
+#
+# still not active
+# examples come soon
+#
+
+#plugins: 
+#  #<<: *plugins
+#  fasteners: *fasteners
+#  styles: *styles
+#
+
+
+#
+# toolbars section 
+#
+# 1. subkey = Name of the Workbench
+# 2. subkey = Name of the Toolbar
+# 3. subkey = Name of the Item
+# 4. subkeys: Confogiuration of the Item (Icon, Command, ...)
+#
+
+toolbars:
+  #<<: *toolbars
+  FastenersWorkbench:
+    my ToolBar:
+      FEM: *FEM
+    my other Toolbar:
+      PCB: *pcb
+      Cura Engine: *cura
+      Hyperbola: *Hyperbola
+  PartWorkbench:
+     my PartTools:
+      Move:  
+          icon: icons:Draft_Move.svg 
+          exec: import DraftTools;DraftTools.Move().Activated()
+
+
+
+#
+# tabs section
+#
+# 1. subkey = Name of the Tab
+# 2. subkey = Name of the Item
+# 3. subkeys: Confogiuration of the Item (Icon, Command, ...)
+#
+
+tabs:
+   # <<: *tabs
+   my Tab A:
+      33 Part WB: *Part
+      4 FEM WB: *FEM
+      14 PCB WB: *pcb
+      35 Hyperbola: *Hyperbola
+      32 Sheetmetal WB: *sheetmetal
+      31 Fasteners WB: *fasteners
+   my Tab B:
+      Reload PluginManager:
+          exec: PluginManager.reload()
+          icon:  /usr/lib/freecad/Mod/plugins/icons/mars.png
+      Move:  
+          icon: icons:Draft_Move.svg 
+          exec: import DraftTools;DraftTools.Move().Activated()
+      Box:
+          icon: /usr/lib/freecad/Mod/plugins/icons/part.png 
+          exec: |
+            import Part
+            App.ActiveDocument.addObject("Part::Box","Box")
+            App.ActiveDocument.ActiveObject.Label = "Cube"
+            App.activeDocument().recompute()
+   
+      School WB:
+          exec: import FreeCAD;FreeCAD.Console.PrintWarning("I'm the School workbench!")
+      Runextern:
+          exec: runextern("/usr/bin/eog","/home/thomas/Bilder/bn_630.png")
+      Paraview:
+          exec: runextern("/usr/lib/paraview/bin/paraview","/home/thomas/Bilder/bn_630.png")
+      ObjTree: *ObjTree
+      Start Eventfilter:
+          exec: runscript("AppHomePath/Mod/plugins/eventfilter.py")
+
