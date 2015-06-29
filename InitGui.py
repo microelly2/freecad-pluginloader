@@ -47,85 +47,6 @@ global myDialog,say,myDialoge
 
 
 
-global EventFilter
-class EventFilter(QtCore.QObject):
-  def eventFilter(self, o, e):
-	if not hasattr(FreeCAD,'MM'):
-		FreeCAD.MM=0
-	# http://doc.qt.io/qt-5/qevent.html
-	z=str(e.type())
-	if z == 'PySide.QtCore.QEvent.Type.ChildAdded' or z == 'PySide.QtCore.QEvent.Type.ChildRemoved':
-		
-		# return False
-		return QtGui.QWidget.eventFilter(self, o, e)
-	if z == 'PySide.QtCore.QEvent.Type.User'  or z == 'PySide.QtCore.QEvent.Type.Paint' or \
-	z == 'PySide.QtCore.QEvent.Type.LayoutRequest' or z == 'PySide.QtCore.QEvent.Type.UpdateRequest'   :
-		# FreeCAD.Console.PrintMessage(z+" ")
-		# return False
-		return QtGui.QWidget.eventFilter(self, o, e)
-	if z == 'PySide.QtCore.QEvent.Type.KeyPress':
-		FreeCAD.Console.PrintMessage("\n")
-		FreeCAD.Console.PrintMessage(e.type())
-		FreeCAD.Console.PrintMessage(e.key())
-		FreeCAD.MM=0
-	if z == 'PySide.QtCore.QEvent.Type.Enter' or z == 'PySide.QtCore.QEvent.Type.Leave':
-		try:
-			FreeCAD.Console.PrintMessage("\n")
-			FreeCAD.Console.PrintMessage(e.type())
-			#FreeCAD.Console.PrintMessage(dir(e))
-			FreeCAD.Console.PrintMessage(o)
-			FreeCAD.Console.PrintMessage("!\n")
-			#FreeCAD.Console.PrintMessage(e.key())
-			FreeCAD.MM=0
-		except:
-			sayexc()
-	if z == 'PySide.QtCore.QEvent.Type.HoverMove' :
-		if FreeCAD.MM == 0:
-			# http://doc.qt.io/qt-5/qhoverevent.html
-			FreeCAD.Console.PrintMessage("\n")
-			FreeCAD.Console.PrintMessage(e.oldPos())
-			FreeCAD.Console.PrintMessage(e.pos())
-			FreeCAD.Console.PrintMessage("\n")
-		FreeCAD.MM=1
-	# return False
-	event=e
-	
-	if event.type() == QtCore.QEvent.MouseButtonPress or \
-		event.type() == QtCore.QEvent.MouseButtonRelease or event.type()== QtCore.QEvent.Type.Wheel or \
-		event.type() == QtCore.QEvent.MouseButtonDblClick:
-		FreeCAD.Console.PrintMessage(str(event.type())+ '\n')
-		if event.button() == QtCore.Qt.MidButton or  event.button() == QtCore.Qt.MiddleButton:
-			#If image is left clicked, display a red bar.
-			FreeCAD.Console.PrintMessage('middle \n')
-		if event.button() == QtCore.Qt.LeftButton:
-			#If image is left clicked, display a red bar.
-			FreeCAD.Console.PrintMessage('one left\n')
-		elif event.button() == QtCore.Qt.RightButton:
-			FreeCAD.Console.PrintMessage('one right\n')
-		if event.type() == QtCore.QEvent.MouseButtonDblClick:
-			#If image is double clicked, remove bar.
-			FreeCAD.Console.PrintMessage('\ntwo\n')
-
-	try:
-			if event.type() == QtCore.QEvent.MouseButtonPress:
-				if event.button() == QtCore.Qt.LeftButton:
-					#If image is left clicked, display a red bar.
-					FreeCAD.Console.PrintMessage('one left\n')
-				elif event.button() == QtCore.Qt.RightButton:
-					FreeCAD.Console.PrintMessage('one right\n')
-				elif event.type() == QtCore.QEvent.MouseButtonDblClick:
-					#If image is double clicked, remove bar.
-					FreeCAD.Console.PrintMessage('two\n')
-				#FreeCAD.Console.PrintMessage('event Filter ' + str(event.type()) + '\n' + str(event.button()) + '\n')
-				FreeCAD.Console.PrintMessage(' event Filter MouseButtonPress')
-				# return super(MyWidget, self).eventFilter(obj, event)
-			if event.type() == QtCore.QEvent.MouseButtonRelease:
-				FreeCAD.Console.PrintMessage(' event Filter MouseButtonRelease')
-	except:
-			sayexec()
-	return QtGui.QWidget.eventFilter(self, o, e)
-
-
 
 def myDialog(msg):
     diag = QtGui.QMessageBox(QtGui.QMessageBox.Information,"Plugin Manager",msg )
@@ -253,6 +174,8 @@ class MyAction2():
 				exec(self.cmd)
 			except:
 				sayexc(self.cmd)
+
+
 
 class MyDock(QtGui.QDockWidget):
 	def __init__(self,master):
@@ -588,6 +511,11 @@ class MyDock(QtGui.QDockWidget):
 		t=pluginloader.PluginLoader()
 		self.pluginloaderCMD=t.start
 		self.pluginloader=t
+		# FreeCAD.EventServer.speakList.emit([self.pluginloader,"t.config3])
+		try:
+			FreeCAD.EventServer.speakWord.emit(t.config3['tabs']['my Tab B']['Box']['icon'])
+		except:
+			sayexc()
 		t.setParams()
 		self.genlabels()
 # 		self.installEventFilter(self)
@@ -664,26 +592,6 @@ def runme():
 	#PluginManager.setFocus()
 	# return
 	
-	try:
-		
-		from PySide import QtCore
-		from PySide import QtGui
-		mw=FreeCADGui.getMainWindow()
-		say(mw)
-		#views=mw.findChildren(QtGui.QMainWindow)
-		#say
-		#views[0].metaObject().className()
-		#view=views[0]
-		say("ss")
-		ef=EventFilter()
-		#view.installEventFilter(ef)
-		mw=FreeCADGui.getMainWindow()
-		FreeCAD.ef=ef
-		mw.installEventFilter(ef)
-		mw.setMouseTracking(True)
-		say("okay")
-	except:
-		sayexc()
 
 
 
@@ -697,18 +605,13 @@ t.workbenchActivated.connect(runme)
 #except:
 #	FreeCAD.Console.PrintWarning("Work Feasture Autostart failed"+"\n")
 
+
+
+import eventfilter
 try:
-	say("eventfilter")
-	ef=EventFilter()
-	t.installEventFilter(ef)
-	t.setMouseTracking(True)
-	say("gemacht")
+	FreeCAD.EventServer.speakWord.emit("hallo Eventserver gestartet")
 except:
-	sayexc()
-say("good")
-
-
-
+	pass
 
 #--------------------------------
 

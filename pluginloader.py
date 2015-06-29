@@ -378,6 +378,12 @@ class PluginLoader(object):
 		self.keys=self.config.keys
 		self.register()
 
+# probeaufruf des EventServers
+#		try:
+#			FreeCAD.EventServer.speakWord.emit(self.config3['tabs']['my Tab B']['Box']['exec'])
+#			FreeCAD.EventServer.speakWord.emit("\n\n")
+#		except:
+#			pass
 
 	def start(self):
 		s=MyWidget(self)
@@ -759,3 +765,8 @@ def initreload(*args): # still bugy
 
 #pprint.pprint(config3)
 #pprint.pprint(config3['plugins']['defaulttest'])
+
+
+
+
+

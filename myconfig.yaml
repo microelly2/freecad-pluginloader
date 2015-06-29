@@ -88,6 +88,26 @@ tabs:
       Paraview:
           exec: runextern("/usr/lib/paraview/bin/paraview","/home/thomas/Bilder/bn_630.png")
       ObjTree: *ObjTree
-      Start Eventfilter:
-          exec: runscript("AppHomePath/Mod/plugins/eventfilter.py")
+      01 Start Eventfilter:
+          icon: /usr/lib/freecad/Mod/plugins/icons/macro-execute.png
+          exec: import eventfilter;reload(eventfilter);eventfilter.start()
+      011 Stop Eventfilter:
+          icon: /usr/lib/freecad/Mod/plugins/icons/macro-stop.png
+          exec: import eventfilter;reload(eventfilter);eventfilter.stop()
+          
+          
+# key actions for eventserver tests          
+keys:
+  global:
+    F2: 
+      exec: say("das ist ef zwei")
+    F3: 
+      exec: say("das ist ef drei")
+    m: 
+      exec: say("MMMM   ") 
+    r:
+      exec: runextern("/usr/bin/eog","/home/microelly2/Bilder/bn_630.png")     
+    s:
+      exec: import FreeCAD;FreeCAD.Console.PrintWarning("I'm the School workbench!")
+
 
