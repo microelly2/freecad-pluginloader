@@ -61,8 +61,8 @@ def saySomething(stuff):
 			say("test service with data list")
 			say(stuff)
 			# test data only ... 
-			FreeCAD.EventServer.speakWord.emit("Testausgabe aus der config")
-			FreeCAD.EventServer.speakWord.emit(str(FreeCAD.PluginManager.pluginloader.config3['tabs']['my Tab B']['Box']))
+			#FreeCAD.EventServer.speakWord.emit("Testausgabe aus der config")
+			#FreeCAD.EventServer.speakWord.emit(str(FreeCAD.PluginManager.pluginloader.config3['tabs']['my Tab B']['Box']))
 		except:
 			sayexc()
 
