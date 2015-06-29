@@ -58,7 +58,7 @@ toolbars:
 #
 
 tabs:
-   # <<: *tabs
+   <<: *tabs
    my Tab A:
       33 Part WB: *Part
       4 FEM WB: *FEM

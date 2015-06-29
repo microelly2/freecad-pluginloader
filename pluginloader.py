@@ -741,18 +741,6 @@ def starty(*args):
 	say("signals activated")
 
 
-def hello(*args):
-	saye("HELLO-----22------------------------------------------------------------")
-	FreeCAD.plulo.start()
-	
-	plulo=pluginloader.PluginLoader()
-	say("2")
-	plulo.setParams()
-	say("3")
-	plulo.getParams()
-	say("starty done ....")
-	
-	saye("plulo gestartet")
 
 
 def initreload(*args): # still bugy
