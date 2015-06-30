@@ -88,26 +88,146 @@ tabs:
       Paraview:
           exec: runextern("/usr/lib/paraview/bin/paraview","/home/thomas/Bilder/bn_630.png")
       ObjTree: *ObjTree
-      01 Start Eventfilter:
+      012 Start Eventfilter:
           icon: /usr/lib/freecad/Mod/plugins/icons/macro-execute.png
           exec: import eventfilter;reload(eventfilter);eventfilter.start()
-      011 Stop Eventfilter:
+      0121 Stop Eventfilter:
           icon: /usr/lib/freecad/Mod/plugins/icons/macro-stop.png
           exec: import eventfilter;reload(eventfilter);eventfilter.stop()
+
+      01 Start Key Eventfilter:
+          icon: /usr/lib/freecad/Mod/plugins/icons/macro-execute.png
+          exec: import keyfilter;reload(keyfilter);keyfilter.start()
+      011 Stop Key Eventfilter:
+          icon: /usr/lib/freecad/Mod/plugins/icons/macro-stop.png
+          exec: import keyfilter;reload(keyfilter);keyfilter.stop()
+      015 Workfeature Macro: *wofe
+
           
           
+tabs2:
+
+
+
+
+   my Tab School Lesson 1:
+
+      31 Move (g): &g 
+          icon: icons:Draft_Move.svg 
+          exec: import DraftTools;DraftTools.Move().Activated()
+      32 Rotate (r):  &r
+          icon: icons:Draft_Rotate.svg 
+          exec: import DraftTools;DraftTools.Rotate().Activated()
+
+      11 Box: &b1
+          icon: /usr/lib/freecad/Mod/plugins/icons/part.png 
+          exec: |
+            import Part
+            App.ActiveDocument.addObject("Part::Box","Box")
+            App.ActiveDocument.ActiveObject.Label = "Wuerfel"
+            App.ActiveDocument.ActiveObject.ViewObject.ShapeColor=(0.0,0.0,1.0)
+            App.activeDocument().recompute()
+    
+      12 Cylinder: &c1
+          icon: /usr/lib/freecad/Mod/plugins/icons/part_cylinder.png 
+          exec: |
+            import Part
+            App.ActiveDocument.addObject("Part::Cylinder","Cylinder")
+            App.ActiveDocument.ActiveObject.Label = "Zylinder"
+            App.ActiveDocument.ActiveObject.ViewObject.ShapeColor=(1.0,1.0,.0)
+            App.activeDocument().recompute()
+      10 New Document: &d1
+          icon: /usr/lib/freecad/Mod/plugins/icons/document_new.png
+          exec: |
+           App.newDocument("Unnamed")
+           App.setActiveDocument("Unnamed")
+           App.ActiveDocument=App.getDocument("Unnamed")
+           Gui.ActiveDocument=Gui.getDocument("Unnamed")
+
+      9 Reload: &r1
+          exec: PluginManager.reload()
+          icon:  /usr/lib/freecad/Mod/plugins/icons/mars.png
+
+
+
+
+
+
+   my Tab School Lesson 2:
+
+      31 Move (g): *g
+      32 Rotate (r):  *r
+      11 Box: *b1
+      12 Cylinder: *c1
+      13 Clone: &c2
+          icon: /usr/lib/freecad/Mod/plugins/icons/draft_clone.png 
+          exec: |
+            import Draft
+            obs= Gui.Selection.getSelection()
+            if len(obs): Draft.clone(obs[0])
+            App.activeDocument().recompute()
+      10 New Document: *d1
+      9 Reload: *r1
+
+
 # key actions for eventserver tests          
 keys:
   global:
+    g: *g
+    
+    r: *r
+    
     F2: 
-      exec: say("das ist ef zwei")
+      exec: dlge("das ist Funktionstaste zwei")
     F3: 
-      exec: say("das ist ef drei")
-    m: 
-      exec: say("MMMM   ") 
-    r:
+      exec: dlgi("das ist \nFunktionstaste\ndrei")
+    x:
       exec: runextern("/usr/bin/eog","/home/microelly2/Bilder/bn_630.png")     
     s:
       exec: import FreeCAD;FreeCAD.Console.PrintWarning("I'm the School workbench!")
 
 
+
+
+
+  keyserver: # mouse context sensitive key actions 
+     
+     QWidget: 
+         comment: qwidget als klasse gefunden
+         K:
+           exec: dlgi("das ist K in QWidget")
+#-----------------------------------------           
+     :Pluginloader: 
+         comment: reportview als objektname
+         SHIFT+X:
+           exec: dlgi("das ist Shift x  im Plugin Manager")
+         A:
+            exec: FreeCAD.Console.PrintWarning("\nI'm the A on the Pluginloader Key!\n\n")
+
+     :Combo View: 
+         comment: reportview als objektname
+         SHIFT+X:
+           exec: dlgi("das ist Shift x  in Combo View")
+         A:
+            exec: FreeCAD.Console.PrintWarning("\nI'm the A on the Combo View Key!\n\n")
+#-----------------------------------------------
+     QTextEdit:Report view: 
+         comment: report fenster innen - Klasse und Name
+         A:
+            exec: FreeCAD.Console.PrintWarning("\nI'm the A Key!\n\n")
+
+     QMainWindow: 
+         comment: Hauptfenster als Klasse
+         CTRL+U:
+            exec: dlgi("das ist CTRL-U  im Hauptfenster")
+            
+     QDockWidget:WorkFeatures:
+         comment: WF with hot keys M and N 
+         M:
+           exec: dlgi("das ist Workfeature M")
+         N:
+           exec: dlgi("das ist Workfeature N")
+
+         
+     
+     

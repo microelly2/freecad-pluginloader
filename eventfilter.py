@@ -35,63 +35,10 @@ def runextern(fn,arg1="",arg2=""):
 	else:
 		sayexc("no access to file: " + fn) 
 
+import eventserver
+reload(eventserver)
+eventserver.start()
 
-def saySomething(stuff):
-	'''
-	event server
-	'''
-	try:
-		say(FreeCAD.PluginManager)
-	except:
-		sayexc()
-	if stuff =="hallo  Eventserver ...":
-		say(stuff + " started")
-		return
-	if stuff.__class__ == str or stuff.__class__ == unicode:
-		try:
-			say("key:"+stuff)
-			say(str(FreeCAD.PluginManager.pluginloader.config3['keys']['global'][str(stuff)]))
-			d={}
-			
-			exec(FreeCAD.PluginManager.pluginloader.config3['keys']['global'][str(stuff)]['exec'])
-		except:
-			sayexc("no key action")
-	if stuff.__class__ == list:
-		try:
-			say("test service with data list")
-			say(stuff)
-			# test data only ... 
-			#FreeCAD.EventServer.speakWord.emit("Testausgabe aus der config")
-			#FreeCAD.EventServer.speakWord.emit(str(FreeCAD.PluginManager.pluginloader.config3['tabs']['my Tab B']['Box']))
-		except:
-			sayexc()
-
-
-#
-# communication 
-#
-
-@QtCore.Slot(int)
-@QtCore.Slot(str)
-@QtCore.Slot(object)
-
-class Communicate(QtCore.QObject):
-	speakNumber = QtCore.Signal(int)
-	speakWord = QtCore.Signal(str)
-	speakList = QtCore.Signal(object)
-
-someone = Communicate()
-# cogssrnnect signal and slot properly
-someone.speakNumber.connect(saySomething)
-someone.speakWord.connect(saySomething)
-someone.speakList.connect(saySomething)
-FreeCAD.EventServer=someone
-
-# emit each 'speak' signal - test only 
-someone.speakNumber.emit(10)
-someone.speakWord.emit("Hello everybody!")
-someone.speakList.emit(['1', '2', '3'])
-FreeCAD.EventServer.speakWord.emit("hallo  Eventserver ...")
 
 
 #-----------------------------
@@ -156,11 +103,13 @@ class EventFilter(QtCore.QObject):
 				try:
 					# only two function keys implemented, no modifieres
 					if e.key()== QtCore.Qt.Key_F2:
-						someone.speakWord.emit("F2")
+						FreeCAD.EventServer.speakWord.emit("F2")
+						say("------------F2-----------------")
+						return False
 					elif e.key()== QtCore.Qt.Key_F3:
-						someone.speakWord.emit("F3")
+						FreeCAD.EventServer.speakWord.emit("F3")
 					else: 
-						someone.speakWord.emit(e.text())
+						FreeCAD.EventServer.speakWord.emit(e.text())
 				except:
 					sayexc()
 
