@@ -1,0 +1,424 @@
+#------------------------------------------------
+#-- individual configuration of the plugin manager
+#--
+#-- microelly 2015
+#--
+#-- GNU Lesser General Public License (LGPL)
+#-------------------------------------------------
+
+# here you can configure your own package list, toolbars and tabs
+
+
+#
+# plugins section
+#
+# still not active
+# examples come soon
+#
+
+#plugins: 
+#  #<<: *plugins
+#  fasteners: *fasteners
+#  styles: *styles
+#
+
+
+#
+# toolbars section 
+#
+# 1. subkey = Name of the Workbench
+# 2. subkey = Name of the Toolbar
+# 3. subkey = Name of the Item
+# 4. subkeys: Confogiuration of the Item (Icon, Command, ...)
+#
+
+toolbars:
+  #<<: *toolbars
+  FastenersWorkbench:
+    my ToolBar:
+      FEM: *FEM
+    my other Toolbar:
+      PCB: *pcb
+      Cura Engine: *cura
+      Hyperbola: *Hyperbola
+  PartWorkbench:
+     my PartTools:
+      Move:  
+          icon: icons:Draft_Move.svg 
+          exec: import DraftTools;DraftTools.Move().Activated()
+
+
+
+#
+# tabs section
+#
+# 1. subkey = Name of the Tab
+# 2. subkey = Name of the Item
+# 3. subkeys: Confogiuration of the Item (Icon, Command, ...)
+#
+
+tabs:
+   <<: *tabs
+   my Tab A:
+      33 Part WB: *Part
+      4 FEM WB: *FEM
+      14 PCB WB: *pcb
+      35 Hyperbola: *Hyperbola
+      32 Sheetmetal WB: *sheetmetal
+      31 Fasteners WB: *fasteners
+      
+      012 Start Eventfilter:
+          icon: /usr/lib/freecad/Mod/plugins/icons/macro-execute.png
+          exec: import eventfilter;reload(eventfilter);eventfilter.start()
+      0121 Stop Eventfilter:
+          icon: /usr/lib/freecad/Mod/plugins/icons/macro-stop.png
+          exec: import eventfilter;reload(eventfilter);eventfilter.stop()
+
+   my Tab B:
+      001 camera: *Camera
+ 
+      
+      001 Rotate View:  *RotateView
+      
+      001 Rotate View Absolute:  *RotateViewAbsolute
+
+      
+      Reload PluginManager:
+          exec: PluginManager.reload()
+          icon:  /usr/lib/freecad/Mod/plugins/icons/mars.png
+
+      31 Move (g): &g 
+          icon: icons:Draft_Move.svg 
+          exec: import DraftTools;DraftTools.Move().Activated()
+      32 Rotate (r):  &r
+          icon: icons:Draft_Rotate.svg 
+          exec: import DraftTools;DraftTools.Rotate().Activated()
+
+
+      92 GeodesicDome: *GeoDo
+
+      Box:
+          icon: /usr/lib/freecad/Mod/plugins/icons/part.png 
+          exec: |
+            import Part
+            App.ActiveDocument.addObject("Part::Box","Box")
+            App.ActiveDocument.ActiveObject.Label = "Cube"
+            App.activeDocument().recompute()
+   
+      School WB:
+          exec: import FreeCAD;FreeCAD.Console.PrintWarning("I'm the School workbench!")
+      Runextern:
+          exec: runextern("/usr/bin/eog","/home/thomas/Bilder/bn_630.png")
+      Paraview:
+          exec: runextern("/usr/lib/paraview/bin/paraview","/home/thomas/Bilder/bn_630.png")
+      ObjTree: *ObjTree
+
+      01 Start Key Eventfilter:
+          icon: /usr/lib/freecad/Mod/plugins/icons/macro-execute.png
+          exec: import keyfilter;reload(keyfilter);keyfilter.start()
+      011 Stop Key Eventfilter:
+          icon: /usr/lib/freecad/Mod/plugins/icons/macro-stop.png
+          exec: import keyfilter;reload(keyfilter);keyfilter.stop()
+
+
+#-------------------------------------------------
+
+      015 Workfeature Macro: *wofe
+
+   Selection Gate:
+      
+      0011 Selection Gate Vertex: &sgvertex
+          exec: import selectiongates;reload(selectiongates);selectiongates.vselect()
+          log: 0
+      0012 Selection Gate Edge: &sgedge
+          exec: import selectiongates;reload(selectiongates);selectiongates.eselect()
+          log: 0
+      0013 Selection Gate Face: &sgface
+          exec: import selectiongates;reload(selectiongates);selectiongates.fselect()
+          log: 0
+      0017 Reset Selection Gate: &sgclear
+          exec: import selectiongates;reload(selectiongates);selectiongates.clear()
+          log: 0
+      01 Start Key Eventfilter:
+          icon: /usr/lib/freecad/Mod/plugins/icons/macro-execute.png
+          exec: import keyfilter;reload(keyfilter);keyfilter.start()
+      011 Stop Key Eventfilter:
+          icon: /usr/lib/freecad/Mod/plugins/icons/macro-stop.png
+          exec: import keyfilter;reload(keyfilter);keyfilter.stop()
+          
+#---------------------------------------------------
+          
+
+   ViewPoint Managment:
+      001 FCCamera: *Camera
+ 
+      
+      001 Rotate View:  *RotateView
+      
+      001 Rotate View Absolute:  *RotateViewAbsolute
+
+      01 Start Key Eventfilter:
+          icon: /usr/lib/freecad/Mod/plugins/icons/macro-execute.png
+          exec: import keyfilter;reload(keyfilter);keyfilter.start()
+      011 Stop Key Eventfilter:
+          icon: /usr/lib/freecad/Mod/plugins/icons/macro-stop.png
+          exec: import keyfilter;reload(keyfilter);keyfilter.stop()
+
+      
+      09 Reload PluginManager:
+          exec: PluginManager.reload()
+          icon:  /usr/lib/freecad/Mod/plugins/icons/mars.png
+
+   School Lesson 1:
+
+      31 Move (g):  
+          icon: icons:Draft_Move.svg 
+          exec: import DraftTools;DraftTools.Move().Activated()
+      32 Rotate (r):  
+          icon: icons:Draft_Rotate.svg 
+          exec: import DraftTools;DraftTools.Rotate().Activated()
+
+      11 Box: &b1
+          icon: /usr/lib/freecad/Mod/plugins/icons/part.png 
+          exec: |
+            import Part
+            App.ActiveDocument.addObject("Part::Box","Box")
+            App.ActiveDocument.ActiveObject.Label = "Wuerfel"
+            App.ActiveDocument.ActiveObject.ViewObject.ShapeColor=(0.0,0.0,1.0)
+            App.activeDocument().recompute()
+    
+      12 Cylinder: &c1
+          icon: /usr/lib/freecad/Mod/plugins/icons/part_cylinder.png 
+          exec: |
+            import Part
+            App.ActiveDocument.addObject("Part::Cylinder","Cylinder")
+            App.ActiveDocument.ActiveObject.Label = "Zylinder"
+            App.ActiveDocument.ActiveObject.ViewObject.ShapeColor=(1.0,1.0,.0)
+            App.activeDocument().recompute()
+      10 New Document: &d1
+          icon: /usr/lib/freecad/Mod/plugins/icons/document_new.png
+          exec: |
+           App.newDocument("Unnamed")
+           App.setActiveDocument("Unnamed")
+           App.ActiveDocument=App.getDocument("Unnamed")
+           Gui.ActiveDocument=Gui.getDocument("Unnamed")
+
+      9 Reload: &r1
+          exec: PluginManager.reload()
+          icon:  /usr/lib/freecad/Mod/plugins/icons/mars.png
+
+   School Lesson 2:
+
+      31 Move (g): *g
+      32 Rotate (r):  *r
+      11 Box: *b1
+      12 Cylinder: *c1
+      13 Clone: &c2
+          icon: /usr/lib/freecad/Mod/plugins/icons/draft_clone.png 
+          exec: |
+            import Draft
+            obs= Gui.Selection.getSelection()
+            if len(obs): Draft.clone(obs[0])
+            App.activeDocument().recompute()
+      10 New Document: *d1
+      9 Reload: *r1
+
+
+# key actions for eventserver tests          
+keys:
+  global:
+    g: *g
+    
+    r: *r
+    
+    F2: 
+      exec: dlge("das ist Funktionstaste zwei")
+    F3: 
+      exec: dlgi("das ist \nFunktionstaste\ndrei")
+    x:
+      exec: runextern("/usr/bin/eog","/home/microelly2/Bilder/bn_630.png")     
+    s:
+      exec: import FreeCAD;FreeCAD.Console.PrintWarning("I'm the School workbench!")
+
+
+
+
+
+  keyserver: # mouse context sensitive key actions 
+
+
+     QDockWidget:WorkFeatures: &wofi
+
+         G: *g
+         R: *r
+         /: *sgclear
+
+         7: *sgvertex
+         CTRL+7: *sgvertex
+
+         8: *sgedge
+         CTRL+8: *sgedge
+
+         9: *sgface
+         CTRL+9: *sgface
+
+         B +:  Object Base -> Axes
+             
+         # circle
+         C C: 
+              c: Circle(s) Center
+              exec: import WorkFeature;WorkFeature.plot_centerCirclePoint()
+         # face edge
+         F C: 
+              c: Face(s) center  
+              exec: import WorkFeature;WorkFeature.plot_centerFacePoint()
+         # objects
+         J C: 
+              c: Object(s) Center
+              exec: import WorkFeature;WorkFeature.plot_centerObjectPoint()
+         J Shift+*: Object(s) Axis
+
+         # line axis edge
+         E E:
+              comment: Edge(s) Extrema
+              exec: import WorkFeature;WorkFeature.plot_extremaLinePoint()
+         E C:
+              comment: Edge(s) Center
+              exec: import WorkFeature;WorkFeature.plot_centerLinePoint()
+         E F V:
+                 c:   Edge Face -> Point
+                 exec: import WorkFeature;WorkFeature.plot_lineFacePoint()
+         #vertexes points
+         V C: 
+              c: Vertexcloud Center
+              exec:  import WorkFeature;WorkFeature.plot_centerObjectPoint()
+         V F V:   
+                c: Points Faces -> Points
+                exec: import WorkFeature;WorkFeature.plot_pointFacePoint()
+         V E V:   
+                c: Points Lines -> Points
+                exec: import WorkFeature;WorkFeature.plot_pointLinePoint()
+            
+         
+         # specials
+         SHIFT+*:   
+           c: Origin 
+           exec: import WorkFeature;WorkFeature.plot_originObject()
+          
+#-------------------------------------------------------------------        
+         E E I: Line line ->Point intersection
+         C V:  Click creates Vertex
+         B V: objects Base Point
+         W Q C: wire  zahl 12345 -> cutpoints
+         V S: Points to Scetch
+         
+         # axis 1
+         V V X: two points Axis
+         Y X: Cylinder Axis
+         F X: Plane Axis
+         F N: Face Normal 
+          
+         V E X: Point Line -> Axis
+         E V X: Axis Point -> Axis
+         E E X: Line Line -> Axis
+         F E V X: Plane Axis Point -> Axis
+         
+         # axis 2
+         F E X: 
+            c: Planes Axes -> Axes
+            exec: FreeCAD.Console.PrintWarning("\nI'm the A Key!\n\n")
+         F F X: Plane Plane -> Axis 
+         E V D X:  Axis Point Distancef
+         C X: Click Click -> Axis
+         E S:  Axis to Sketch
+         
+         # circle
+         N V C: direction point -> circle
+         N V R: direction radiuspoint -> circle
+         V V V C: 3 points -> circle
+         A C: arc cuts
+         V V E: 3 vertex -> ellipse
+         C S: circle to sketch
+         
+         #plane
+         V F A: 3 vertex -> plane
+         V E F: vertex edge -> plane
+         V N F: vertex normal -> plane
+         V L F: vertex plane -> parallel plane
+         E N F: edge plane -> normal plane
+         F L: plane -> parallel plane
+         F T: Face Tangent
+         C F: click Face
+         F W: enlarge Plane
+         J +: 
+            c: Objects center planes
+            exec: import WorkFeature;WorkFeature.plot_centerObjectPlanes()
+            
+         #object
+         J B:
+            c: Bounding Box
+            exec: import WorkFeature;WorkFeature.plot_boundingBoxes()
+         
+         J J B:
+            c: Bounding Box multi
+            exec: import WorkFeature;WorkFeature.plot_boundingBox()
+            
+         V A: align view
+         V C: view camera
+         
+         Q L: check parallel
+         Q R: check perpendicular
+
+
+
+
+
+
+
+# Short keys for View Management
+
+
+         # Rotate View Relative
+         CTRL+1:
+            exec: FreeCAD.ViewMgrRel.rotY(5)
+         CTRL+2:
+            exec: FreeCAD.ViewMgrRel.rotZ(5)
+         CTRL+3:
+            exec: FreeCAD.ViewMgrRel.rotX(5)
+         CTRL+4:
+            exec: FreeCAD.ViewMgrRel.rotY(-5)
+         CTRL+5:
+            exec: FreeCAD.ViewMgrRel.rotZ(-5)
+         CTRL+6:
+            exec: FreeCAD.ViewMgrRel.rotX(-5)
+ 
+         
+         # Rotate View Absolute
+         ALT+2: 
+           say: alt 2
+           exec: FreeCAD.ViewMgr.rotZ(5)
+         ALT+3:
+           exec: FreeCAD.ViewMgr.rotY(5)
+         ALT+5: 
+           say: alt 5
+           exec: FreeCAD.ViewMgr.rotZ(-5)
+         ALT+6:
+           exec: FreeCAD.ViewMgr.rotY(-5)
+           
+           
+         # helpers for tests
+         CTRL+0: 
+           exec: FreeCAD.ViewMgrRel=None
+ 
+         Alt+0: 
+           exec: FreeCAD.ViewMgr=None
+
+
+
+
+          
+     
+     QMdiArea: *wofi  
+     QMainWindow: *wofi  
+     
+     

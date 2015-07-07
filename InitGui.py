@@ -32,7 +32,7 @@ import FreeCAD,os,FreeCADGui,time,sys,traceback
 
 import Draft
 
-
+global PySide
 import PySide
 from PySide import QtCore, QtGui, QtSvg
 from PySide.QtGui import * 
@@ -45,6 +45,8 @@ global ConfigManager
 global QtGui,QtCore,QtSvg
 global myDialog,say,myDialoge
 
+
+
 def myDialog(msg):
     diag = QtGui.QMessageBox(QtGui.QMessageBox.Information,"Plugin Manager",msg )
     diag.exec_()
@@ -54,14 +56,13 @@ def myDialoge(msg):
     diag.exec_()
 
 def say(s):
-		App.Console.PrintMessage(str(s)+"\n")
+	App.Console.PrintMessage(str(s)+"\n")
 
 
 global __version__
-__version__='0.24 (2015/06/23)'
+__version__='0.31 (2015/07/02)'
 
 global sayexc
-
 def sayexc(mess=''):
 	exc_type, exc_value, exc_traceback = sys.exc_info()
 	ttt=repr(traceback.format_exception(exc_type, exc_value,exc_traceback))
@@ -70,7 +71,6 @@ def sayexc(mess=''):
 	l2=lls[(l-3):]
 	FreeCAD.Console.PrintError(mess + "\n" +"-->  ".join(l2))
 
-	
 import re
 import os
 
@@ -79,7 +79,6 @@ def pathMacro(s):
 	'''
 	replace shortname by os path
 	'''
-# if True:
 	kk=('Linux', 'Arch', '4.0.1-1-ARCH', '#1 SMP PREEMPT Wed Apr 29 12:00:26 CEST 2015', 'x86_64')
 	import os
 	try:
@@ -126,8 +125,27 @@ def runscript(fn):
 		except:
 			sayexc("exec error file:" + fn ) 
 	else:
-		print ("kein zugriff auf " + fn)
-		sayexc("kein zugriff auf" + fn) 
+		sayexc("no access to " + fn) 
+
+
+global runextern
+def runextern(fn,arg1="",arg2=""):
+	import os
+	if os.path.exists(fn) and os.path.isfile(fn):
+		try:
+			#d={};exec(open(fn).read(),d,d)
+			import subprocess
+			DETACHED_PROCESS = 0x00000008
+			windows=False
+			if windows:
+				pid = subprocess.Popen([fn,arg1,arg2],creationflags=DETACHED_PROCESS).pid
+			else:
+				pid = subprocess.Popen([fn,arg1,arg2]).pid
+		except:
+			sayexc("exec error file:" + fn ) 
+	else:
+
+		sayexc("no access to " + fn) 
 
 
 global MyAction2
@@ -150,11 +168,12 @@ class MyAction2():
 			except:
 				sayexc(self.cmd)
 
+
+
 class MyDock(QtGui.QDockWidget):
 	def __init__(self,master):
 		QtGui.QDockWidget.__init__(self,master)
 		self.setStyleSheet("{background-color:white;color:brown;}")
-		#dock=self
 		self.labels={}
 		self.setMinimumSize(200, 185)
 		master.addDockWidget(QtCore.Qt.RightDockWidgetArea, self)
@@ -162,107 +181,53 @@ class MyDock(QtGui.QDockWidget):
 		self.setObjectName('Pluginloader')
 		self.centralWidget = QtGui.QWidget(self)
 		self.centralWidget.setMaximumHeight(800)
-		self.centralWidget.setStyleSheet("\
-				QWidget { background-color: lightblue}\
-				QPushButton { margin-right:0px;margin-left:0px;margin:0 px;padding:0px;;\
-				background-color: lightblue;text-align:left;;padding:6px;padding-left:4px;color:brown; }\
-								\
-				")
+		self.centralWidget.setStyleSheet("QWidget { background-color: lightblue}\
+			QPushButton { margin-right:0px;margin-left:0px;margin:0 px;padding:0px;;\
+			background-color: lightblue;text-align:left;;padding:6px;padding-left:4px;color:brown; }")
 		self.centralWidget.setObjectName("centralWidget")
 		self.centralWidget.setGeometry(5,5, 150,60 )
-		
 		
 		layout = QtGui.QVBoxLayout()
 		self.centralWidget.setLayout(layout)
 		
 		self.scroll=QtGui.QScrollArea()
-		
-		
+
 		self.liste=QtGui.QWidget()
-		#self.liste.setStyleSheet("QPushButton { margin-left:0px;margin-right:0px;\
-		#		background-color: lightblue;text-align:left;padding:1px;padding-left:2px }");
 		self.lilayout=QtGui.QVBoxLayout()
 		self.liste.setLayout(self.lilayout)
 		
-		##self.layout.setSpacing(0)
-		##self.lilayout.setSpacing(0)
-		
-		
-		#myform = QtGui.QFormLayout()
-		#mygroupbox.setLayout(myform)
-		#self.scroll.setWidget(mygroupbox)
-		#self.scroll.setWidgetResizable(True)
-		#myform.addWidget(self.liste)
-		
-		#------------------
-		
 		mygroupbox = QtGui.QGroupBox()
-		mygroupbox.setStyleSheet("\
-				QWidget { background-color: lightblue;margin:0px;padding:0px;}\
+		mygroupbox.setStyleSheet("QWidget { background-color: lightblue;margin:0px;padding:0px;}\
 				QPushButton { margin-right:0px;margin-left:0px;margin:0 px;padding:0px;;\
-				background-color: lightblue;text-align:left;;padding:6px;padding-left:4px;color:brown; }\
-								\
-				")
-		
-		
+				background-color: lightblue;text-align:left;;padding:6px;padding-left:4px;color:brown; }")
 		self.mygroupbox=mygroupbox
+
 		myform = QtGui.QFormLayout()
-		
 		self.myform=myform
 		self.myform.setSpacing(0)
-#		labellist = []
-#		combolist = []
-#		val=20
-#		for i in range(val):
-#			labellist.append(QtGui.QLabel('mylabel'))
-#			combolist.append(QtGui.QComboBox())
-#			myform.addRow(labellist[i],combolist[i])
 		mygroupbox.setLayout(myform)
+
 		scroll = QtGui.QScrollArea()
 		scroll.setWidget(mygroupbox)
 		scroll.setWidgetResizable(True)
-		#scroll.setFixedHeight(400)
-		#layout = QtGui.QVBoxLayout(self)
 		self.lilayout.addWidget(scroll)
 		
-		#-----------------
 		self.pushButton00 = QtGui.QPushButton(QtGui.QIcon('icons:freecad.svg'),"Plugin Manager Version " + __version__)
 		self.pushButton01 = QtGui.QPushButton(QtGui.QIcon(FreeCAD.ConfigGet('AppHomePath')+'/Mod/mylib/icons/mars.png'),"Plugin Loader"     )
-		#self.pushButton01.setGeometry(10, 10,140, 50)
-		
 		self.pushButton01.clicked.connect(self.start) 
-		#latestart=lambda: self.start()
-		#self.pushButton01.clicked.connect(latestart) 
-		
-		#self.pushButton01.setText()
+
 		layout.addWidget(self.pushButton00)
 		layout.addWidget(self.liste)
 		layout.addWidget(self.pushButton01)
-		##layout.addWidget(self.scroll)
-		self.pluginloaderCMD=self.myFunction
+
+		self.pluginloaderCMD=None # self.myFunction
 		self.setWidget(self.centralWidget)
+
+		#self.setMouseTracking(True)
 
 	def start(self):
 			say("pluginloader started ...")
-			exec 'say("super")'
 			exec "self.pluginloaderCMD()"
-			exec 'say("super ende")'
-	#		s=MyWidget(self)
-	#		say(s)
-	#		self.widget=s
-	#		
-	#		s.show()
-			say("widget shown")
-			#s.hide()
-
-	def  myFunction(self):
-			say("myFunction called")
-
-	def myFunction2(self):
-		#myDialog("myFunction 2 called")
-		exec 'say("super")'
-		self.pluginloaderCMD()
-		exec 'say("super ende")'
 
 
 	def gentoolbars(self,workbench='init'):
@@ -270,9 +235,7 @@ class MyDock(QtGui.QDockWidget):
 		cf=self.pluginloader.config
 		say("gentoolbars ...")
 		if self.pluginloader.config3["toolbars"].has_key(workbench):
-			# say("toolbars for            ----------------------" + workbench)
 			for ky in sorted(self.pluginloader.config3["toolbars"][workbench].keys()):
-				#say(ky)
 				cma=ConfigManager("__toolbars__/" + workbench +"/" + ky)
 				funhide=cma.get("_hide_",False)
 				if funhide:
@@ -283,10 +246,6 @@ class MyDock(QtGui.QDockWidget):
 					mw=FreeCAD.Gui.getMainWindow()
 					mw.toolbar = mw.addToolBar(workbench +': ' + ky)
 					mw.toolbar.setWindowTitle("Personal " + workbench +': ' +ky)
-					#exitAction = QtGui.QAction('Exit 2', FreeCAD.Gui.getMainWindow())
-					#exitAction.setShortcut('.')
-					#exitAction.triggered.connect(QtGui.qApp.quit)
-					#mw.toolbar.addAction(exitAction)
 					mw.toolbar.show()
 					toolbarBox=mw.toolbar
 				except Exception:
@@ -300,7 +259,6 @@ class MyDock(QtGui.QDockWidget):
 						cmd=yy['exec']
 					except:
 						cmd="say('"+str(yy)+"')"
-					
 					yy=MyAction2(pathMacro(cmd))
 					myAction2.yy=yy
 					myAction2.triggered.connect(yy.run) 
@@ -310,14 +268,12 @@ class MyDock(QtGui.QDockWidget):
 				say(ky +" done")
 
 
-
 	def genlabels(self):
 		cf=self.pluginloader.config
 		try:
 			self.tabs.deleteLater()
 		except:
 			pass
-			
 		if self.pluginloader.config3.has_key("tabs"):
 			tabs= QtGui.QTabWidget()
 			kl=sorted(self.pluginloader.config3["tabs"].keys())
@@ -378,14 +334,12 @@ class MyDock(QtGui.QDockWidget):
 						pushButton1 = QtGui.QPushButton(QtGui.QIcon(ff['icon']),funk)
 					else:
 						pushButton1 = QtGui.QPushButton(QtGui.QIcon(FreeCAD.ConfigGet('AppHomePath')+'/Mod/plugins/icons/sun.png'),funk)
-					#say("!!" + fun + " ->" + funk + "<-")
 					if ff.has_key('info'): 
 						pushButton1.setToolTip(ff['info'])
 					try:
 						cmd=ff['exec']
 					except:
 						cmd="say('"+str(ff)+"')"
-					#say("cmd="+cmd)
 					yy=MyAction2(cmd)
 					yy=MyAction2(pathMacro(cmd))
 					pushButton1.yy=yy
@@ -411,16 +365,14 @@ class MyDock(QtGui.QDockWidget):
 					vBoxlayout.addWidget(hWid)
 					vBoxlayout.setSpacing(0)
 				tab1.setLayout(vBoxlayout)   
-		#self.lilayout.addWidget(tabs)
 		self.myform.addWidget(tabs)
-		
 		# aktiver tab
 		cm=ConfigManager("PluginManager")
 		ix=cm.get("PluginTabIndex",0)
-		tabs.setCurrentIndex(ix) # private testing
-		# tabs.setCurrentIndex(10)  # == Favorites
+		tabs.setCurrentIndex(ix)
 		self.tabs=tabs
-	
+
+
 	def reload(self):
 		FreeCAD.Console.PrintMessage("PluginManager reload ... "+"\n")
 		import pluginloader
@@ -437,19 +389,15 @@ class MyDock(QtGui.QDockWidget):
 
 global PluginManager
 
-
 try:
 	PluginManager.hide()
 	pass
 except:
 	pass
 
-
 PluginManager=MyDock(FreeCAD.Gui.getMainWindow())
 PluginManager.setWindowFlags(QtCore.Qt.WindowStaysOnTopHint)
 FreeCAD.PluginManager=PluginManager
-
-
 
 import pluginloader
 t=pluginloader.PluginLoader()
@@ -467,6 +415,7 @@ if FreeCAD.ParamGet('User parameter:Plugins').GetBool('showdock'):
 
 FreeCAD.Console.PrintMessage("Mod pluginloader InitGui.py done"+"\n")
 PluginManager.genlabels()
+
 
 global re
 import re
@@ -494,10 +443,15 @@ def runme():
 	self=FreeCAD.Gui.getMainWindow()
 	self.show()
 
+
+
 t=FreeCADGui.getMainWindow()
 t.workbenchActivated.connect(runme)
 
-#try:
-#	import sys;sys.path.append(FreeCAD.ConfigGet('AppHomePath')+'/Mod/plugins/WorkFeature');import WorkFeature;reload(WorkFeature);m=WorkFeature.WorkFeatureTab() 
-#except:
-#	FreeCAD.Console.PrintWarning("Work Feasture Autostart failed"+"\n")
+
+import eventfilter
+try:
+	FreeCAD.EventServer.speakWord.emit("hallo  Eventserver ...")
+except:
+	pass
+

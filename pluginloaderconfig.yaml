@@ -581,6 +581,19 @@ data:
 
 # FreeCAD-macros calls
 
+  Camera: &Camera
+      exec: fn="AppHomePath/Mod/plugins/FreeCAD-macros/FCCamera.FCMacro";d={};exec("import FreeCAD,FreeCADGui;App=FreeCAD;\n" + open(fn).read(),d,d)
+      icon: AppHomePath/Mod/plugins/FreeCAD-macros/icons/Camera/FCCamera_00.png
+
+  Rotate View:  &RotateView
+        exec: fn="AppHomePath/Mod/plugins/FreeCAD-macros/FCRotateView.FCMacro";d={};exec("import FreeCAD,FreeCADGui;App=FreeCAD;\n" + open(fn).read(),d,d)
+        icon: AppHomePath/Mod/plugins/FreeCAD-macros/icons/RotateView/right.png
+
+  Rotate View Absolute:  &RotateViewAbsolute
+        exec: fn="AppHomePath/Mod/plugins/FreeCAD-macros/FCRotateViewAbsolute.FCMacro";d={};exec("import FreeCAD,FreeCADGui;App=FreeCAD;\n" + open(fn).read(),d,d)
+        icon: AppHomePath/Mod/plugins/FreeCAD-macros/icons/RotateView/right_abs.png
+
+
   ExportFem: &ExportFem
       man: http://forum.freecadweb.org/viewtopic.php?f=18&t=11455
       exec: runscript("AppHomePath/Mod/plugins/FreeCAD-macros/FEM/ExportFem.FCMacro")
@@ -822,7 +835,8 @@ tabs: &tabs
       exec: fn="AppHomePath/Mod/plugins/psicofil-macros/Macros/RenderPovray.FCMacro";d={};exec("import FreeCAD,FreeCADGui;App=FreeCAD;\n" + open(fn).read(),d,d)
       man: https://github.com/psicofil/Macros_FreeCAD/blob/master/README.md
     005 ExportFem: *ExportFem
-    
+    004 Camera: *Camera
+    004 Rotate View:  *RotateView
 
 
 # toolbars - examples faster than menues
