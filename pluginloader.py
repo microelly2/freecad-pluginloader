@@ -12,73 +12,23 @@ from PySide import QtCore, QtGui, QtSvg
 from PySide.QtGui import * 
 
 global QtGui
-# global config3
 global MyAction,say,saye
-# global PluginManager
 
 from configmanager import ConfigManager
 
 import WebGui
-__vers__=' version 0.13'
+__vers__=' version 0.14'
 
+from tools import *
+import sys, os, zipfile, traceback, time, yaml, urllib, re, platform, pprint 
 
-import sys, os, zipfile
-import sys, traceback
-
-def say(s):
-	FreeCAD.Console.PrintMessage(str(s)+"\n")
-
-def saye(s):
-	FreeCAD.Console.PrintError(str(s)+"\n")
-
-
-try:
-	__dir__ = os.path.dirname(__file__)
-except:
-	from os.path import expanduser
-	home = expanduser("~")
-	__dir__=home+ '/.FreeCAD/Mod/pluginloader'
-
+from datetime import datetime
 from os.path import expanduser
+
 home = expanduser("~")
 __dir__=home+ '/.FreeCAD/Mod/pluginloader'
 __dir__=FreeCAD.ConfigGet('AppHomePath')+"/Mod/plugins"
 
-
-def dlge(msg):
-	diag = QtGui.QMessageBox(QtGui.QMessageBox.Critical,u"Plugin Loader Error",msg )
-	diag.setWindowFlags(PySide.QtCore.Qt.WindowStaysOnTopHint)
-	diag.exec_()
-
-def dlgi(msg):
-	diag = QtGui.QMessageBox(QtGui.QMessageBox.Information,u"Plugin Loader",msg )
-	diag.setWindowFlags(PySide.QtCore.Qt.WindowStaysOnTopHint)
-	diag.exec_()
-
-def dlgyn(msg):
-	m=QtGui.QWidget()
-	dial = QtGui.QMessageBox.question( m,'Message',  msg, QtGui.QMessageBox.Yes |     QtGui.QMessageBox.No, QtGui.QMessageBox.No)
-
-
-
-def sayexc(mess=''):
-	exc_type, exc_value, exc_traceback = sys.exc_info()
-	ttt=repr(traceback.format_exception(exc_type, exc_value,exc_traceback))
-	lls=eval(ttt)
-	saye(mess + "\n" +"-->  ".join(lls))
-
-def dlgexc(mess=''):
-	exc_type, exc_value, exc_traceback = sys.exc_info()
-	ttt=repr(traceback.format_exception(exc_type, exc_value,exc_traceback))
-	lls=eval(ttt)
-	lls2=eval(ttt)
-	l=len(lls)
-	l2=lls[(l-1):]
-	FreeCAD.Console.PrintError(mess + "\n" +"-->  ".join(lls2))
-	msg=mess + "\n\n" +"-->  ".join(l2)
-	diag = QtGui.QMessageBox(QtGui.QMessageBox.Critical,u"Plugin Loader Error",msg )
-	diag.setWindowFlags(PySide.QtCore.Qt.WindowStaysOnTopHint)
-	diag.exec_()
 
 
 #----------------
@@ -88,22 +38,17 @@ def dlgexc(mess=''):
 #-----------------
 
 
-import time
 def timeString():
 	localtime   = time.localtime()
 	timeString  = time.strftime("%Y-%m-%dT%H:%M:%SZ", localtime)
 	return timeString
 
 # read from file and converted to python
-import yaml,urllib
-import re
-import os
 
 def pathMacro(s):
 	'''
 	replace shortname by os path
 	'''
-# if True:
 	kk=('Linux', 'Arch', '4.0.1-1-ARCH', '#1 SMP PREEMPT Wed Apr 29 12:00:26 CEST 2015', 'x86_64')
 	import os
 	try:
@@ -149,6 +94,7 @@ def set_defaults(conf):
 
 ta=FreeCAD.ParamGet('User parameter:Plugins')
 fn=ta.GetString("configfile")
+os=platform.system()
 
 # where am I ?
 where=ta.GetString("whereAmI")
@@ -158,47 +104,26 @@ if where == 'stick':
 if where == 'home':
 	saye('I am at home')
 	fn=0
-#------------------------------
 
 if not fn:
 	fn=__dir__+"/pluginloaderconfig.yaml"
 	ta.SetString("configfile",fn)
 
 
-#---------------------
-
-import platform
-os=platform.system()
-
-import pprint
-#pprint.pprint(config3)
-
-
-
-
 class MyAction( QtGui.QAction):
 	def __init__(self, name,t,method,*args):
-		#QtGui.QWidget.__init__(self, *args)
 		QtGui.QAction.__init__(self,QtGui.QIcon('icons:breakpoint.svg'),name, t)
-		self.cmd="say('hallo')"
 		self.cmd=method
-		
+
 	def run(self):
-			say("run")
 			say("!"+self.cmd+"!")
 			exec(self.cmd)
 			say("done")
-
-from datetime import datetime
-#today = datetime.date.today()
-#print today
 
 class MyWidget(QtGui.QWidget):
 	def __init__(self, master,*args):
 		QtGui.QWidget.__init__(self, *args)
 		self.master=master
-		#if hasattr(FreeCAD,"mywidget"):
-		#	FreeCAD.mywidget.hide()
 		FreeCAD.mywidget=self
 		self.setWindowFlags(QtCore.Qt.WindowStaysOnTopHint)
 		self.config=master.config
@@ -245,7 +170,6 @@ class MyWidget(QtGui.QWidget):
 
 	def on_pushButton02_clicked(self):
 		text=""
-		say("huhu")
 		for sel in self.listWidget.selectedItems():
 			plugin=sel.text()
 			text += "*** "+ sel.text() + " ***"
@@ -259,9 +183,6 @@ class MyWidget(QtGui.QWidget):
 			text += "\n" + str(self.config[sel.text()]['description'])
 			say(text)
 			text += "\n"
-			
-			#fn='https://api.github.com/repos/microelly2/freecad-pluginloader/commits'
-			#fn='https://api.github.com/repos/cblt2l/FreeCAD-CuraEngine-Plugin/commits'
 			mess=""
 			try:
 				import re
@@ -276,7 +197,6 @@ class MyWidget(QtGui.QWidget):
 					data=urllib.urlopen(fn).read()
 					d = json.loads(data)
 					dit=d[0]
-					#dit['commit']['committer']['name']
 					gitdate=dit['commit']['committer']['date']
 				say(gitdate)
 				installdate=FreeCAD.ParamGet('User parameter:/Plugins/'+plugin).GetString("installdate")
@@ -284,7 +204,6 @@ class MyWidget(QtGui.QWidget):
 					mess="--- package " + plugin + " is up to date ---"
 				else:
 					mess="!!! update for " + plugin + " recommented !!!"
-				
 				FreeCAD.ParamGet('User parameter:/Plugins/'+plugin).SetString("gitdate",gitdate)
 			except:
 				sayexc()
@@ -292,12 +211,8 @@ class MyWidget(QtGui.QWidget):
 			text += "my install:  " + FreeCAD.ParamGet('User parameter:/Plugins/'+plugin).GetString("installdate") + "\n"
 			text += "git version:  " + FreeCAD.ParamGet('User parameter:/Plugins/'+plugin).GetString("gitdate","not implemented") + "\n"
 			text += "\n" + mess + "\n\n"
-			say(text)
-			say("###")
 		self.lab2.setText(text)
-		say("web ..")
 		if self.config[sel.text()].has_key('web'):
-			say("has")
 			WebGui.openBrowser( str(self.config[sel.text()]['web']))
 		say("done")
 
@@ -314,22 +229,17 @@ class MyWidget(QtGui.QWidget):
 				seli.append(sel.text())
 				say(sel.text())
 				self.master.install(sel.text())
-			pass
 			self.show()
 			say("run done")
 
 class PluginLoader(object):
 
 	def __init__(self):
-		global say
-		
-		#---------------------------
 		mcf=''
 		config3={}
 		try:
 			say("pluginmanager config file "+ fn)
 			stream = open(fn, 'r').read()
-		#	mfc=''
 			try:
 				z=ConfigManager('')
 				fn2=z.get('userconfigfile',"/usr/lib/freecad/Mod/plugins/myconfig.yaml")
@@ -338,20 +248,11 @@ class PluginLoader(object):
 			except:
 				sayexc("userconfigfile not available")
 			all=stream + mcf
-
 			config3 = yaml.load(all)
 		#	config3=set_defaults(config3)
 		except:
 			sayexc()
-			pass
-
-		try:
-#			say("pluginmanager config file "+ fn)
-#			stream = open(fn, 'r')
-#			config3 = yaml.load(stream)
-			config3=set_defaults(config3)
-		except:
-			dlgexc("Cannot load configfile " +fn +"\nread console log for details " )
+		config3=set_defaults(config3)
 
 		for plin in config3['plugins'].keys():
 			for k in config3['plugins'][plin].keys():
@@ -371,12 +272,11 @@ class PluginLoader(object):
 				if config3['data'][plin].has_key(att):
 					config3['data'][plin][att]=pathMacro(config3['data'][plin][att])
 
-
 		self.config=config3['plugins']
 		self.base=config3['base']
 		self.config3=config3
 		self.keys=self.config.keys
-		self.register()
+#		self.register()
 
 
 	def start(self):
@@ -442,7 +342,7 @@ class PluginLoader(object):
 		needUpdate = True
 
 		if needUpdate:
-				saye("Need Update 3")
+				saye("Need Update")
 		else:
 				saye("No Update")
 
@@ -450,13 +350,8 @@ class PluginLoader(object):
 		zipextract=pathMacro(zipextract)
 		zipextract2=zipextract
 		say(zipextract)
-		# directory=zipextract+"/.."
 		import os
 		directory=os.path.dirname(zipextract)
-		try:
-			say(os.path.exists(directory))
-		except:
-			saye("fehelr hier")
 		if not os.path.exists(directory):
 			say("create dir " + directory)
 			os.makedirs(directory)
@@ -478,7 +373,7 @@ class PluginLoader(object):
 				if not self.config[plugin].has_key('destdir'):
 					saye("destdir not given -- install aborted")
 					return
-				say("vor download")
+				say("before download ...")
 				if self.config[plugin].has_key('format') and self.config[plugin]['format']=='flatfile':
 					zipfilename=zipextract+"../a.txt"
 					say(zipfilename)
@@ -486,7 +381,7 @@ class PluginLoader(object):
 				targetfile=tg[0]
 				say("targetfile:"+targetfile)
 				if self.config[plugin].has_key('format') and self.config[plugin]['format']=='flatfile':
-					saye(" FlaT FILE")
+					saye("Flat file")
 					zipextract=zipfilename
 				else:
 					if self.config[plugin]['method']=='7z':
@@ -500,7 +395,7 @@ class PluginLoader(object):
 						zfile = zipfile.ZipFile(fh)
 						zfile.extractall(zipextract)
 						fh.close()
-					say("extrakts")
+					say("extracts")
 				if self.config[plugin]['sourcedir'] =='.':
 					source=zipextract
 				else:
@@ -534,16 +429,11 @@ class PluginLoader(object):
 				if self.config[plugin].has_key('format') and self.config[plugin]['format']=='flatfile':
 					import shutil
 					say("move by shutil")
-					#src = "C:\\steve_test\\Test_xp\\added"
-					#dst = "C:\\steve_test\\Test_xp\\moved"
 					shutil.move(source, destination)
 				else:
-					# os.rename(source, destination)
 					import shutil
-					say("move by shutil too v3")
 					if os.path.exists(directory):
-						say("exists dir " + directory)
-						
+						say("dir exists:" + directory)
 					try:
 						directory=os.path.dirname(destination)
 						base=os.path.basename(destination)
@@ -561,20 +451,12 @@ class PluginLoader(object):
 						say("move "+source+" to "+dest2)
 						if  self.config[plugin].has_key('replace'):
 							say("REPLACE")
-#							       files: .qss
-#       pattern:  [PATH_TO_IMAGES] 
-#       data:  UserAppData/Gui/Stylesheets/images/
-
 							p= self.config[plugin]['replace']['pattern']
 							d= self.config[plugin]['replace']['data']
 							f= self.config[plugin]['replace']['files']
 							say(f)
-#							for gg in f:
-#								say(gg)
-							# f= "/tmp/dark-green.qss"
-#							say(p)
 							d=pathMacro(d)
-							say(d)
+#							say(d)
 #							say(f)
 #							say(base)
 							for fil in f:
@@ -584,78 +466,24 @@ class PluginLoader(object):
 									os.system(cmd)
 									os.rename(source + "/"+fil+".sed" , source + "/" + fil)
 								except:
-									sayexc("q")
+									sayexc()
 						shutil.move(source, dest2)
 						say ("rename " +dest2+" to "+destination)
 						try: 
 							os.rename(dest2, destination)
 						except:
-							sayexc("1")
+							sayexc()
 							os.rename(destination,destination+".err")
-							say("exc 2")
 							os.rename(dest2, destination)
 							shutil.rmtree(destination+".err")
 					except:
-						sayexc("somethin wrong")
-						
-				say("done install")
-				#os.listdir(destination)
-		self.widget.lab2.setText(str(item) + " install fertig ----")
-		dlgi(str(item) + " ist fertig")
+						sayexc()
+				say("install  done")
+		self.widget.lab2.setText(str(item) + " install done ----")
+		dlgi(str(item) + " installed")
 		now=timeString()
 		self.config[plugin]['installed']=now
 		FreeCAD.ParamGet('User parameter:/Plugins/'+plugin).SetString("installdate",now)
-
-		
-
-	def register(self):
-		t=FreeCADGui.getMainWindow()
-		return
-		#
-		# deaktivieren
-		#
-		saye("register menu done")
-
-	def registerPlugin(self,name,method):
-		t=FreeCADGui.getMainWindow()
-		saye("register menubar")
-		pp=t.menuBar()
-		found=False
-		
-		w=FreeCADGui.activeWorkbench()
-		pname='Plugins'
-		
-		for c in pp.children():
-			try:
-				if c.title() == pname:
-					found=c
-					#c.hide()
-					#found=False
-					#break
-			except:
-				print c
-		
-		if not found:
-			p=pp.addMenu(pname)
-			saye("---------------------------yyyyyyyyyyyyyyyyyyyyyyyyyyyyyyy")
-			saye("addmenu ..")
-			say(p)
-		else: 
-			p=found
-			say("found 1")
-		
-		#p=self.Menu
-		for c in p.actions():
-			if c.text() == name:
-				p.removeAction(c)
-				break;
-		saye("create action "+name)
-		plina =MyAction(name,t,method)
-		a=p.addAction(plina)
-		plina.triggered.connect(plina.run)
-		#p.show()
-		
-		saye("menubar done")
 
 
 	def setParams(self):
@@ -670,10 +498,6 @@ class PluginLoader(object):
 				if hide:
 					continue
 				pluginlist.append(k)
-				#say("--")
-				#say(k)
-				#say(self.config[k])
-				#say(self.config[k]["name"])
 				t.SetString("name",self.config[k]["name"])
 				if self.config[k].has_key("author"): t.SetString("author",self.config[k]["author"])
 				t.SetString("destination",self.config[k]["destdir"])
@@ -681,16 +505,11 @@ class PluginLoader(object):
 				itemlist=[]
 				if self.config[k].has_key('menuitems'):
 					for menu in self.config[k]['menuitems'].keys():
-						#say(menu)
 						itemlist.append(menu)
 						tm=FreeCAD.ParamGet('User parameter:Plugins/'+k+'/'+menu)
 						tm.SetString("exec",self.config[k]['menuitems'][menu]['exec'])
-				else:
-					#say("keine menuitmes")
-					pass
 				if self.config[k].has_key('menu'):
 					menu=self.config[k]['menu']
-					#say(menu)
 					itemlist.append(menu)
 					tm=FreeCAD.ParamGet('User parameter:Plugins/'+k+'/'+menu)
 					tm.SetString("exec",self.config[k]['exec'])
@@ -700,62 +519,3 @@ class PluginLoader(object):
 		ps=";".join(pluginlist)
 		ta.SetString("pluginlist",ps)
 
-	def getParams(self):
-		for k in self.config.keys():
-			if not self.config[k]['status'] == 'ignore':
-				t=FreeCAD.ParamGet('User parameter:Plugins/'+k)
-				status=t.GetInt('installed')
-				say(k + " -- Status " + str(status))
-				menues=t.GetString("menulist").split(';')
-				for menu in menues:
-					say("!"+menu)
-					if menu =="":
-						continue
-					tm=FreeCAD.ParamGet('User parameter:Plugins/'+k+'/'+menu)
-					method=tm.GetString("exec")
-					say(method)
-					self.registerPlugin(menu,method)
-					say("done")
-
-
-def starty(*args):
-	say("starty ....")
-	plulo=PluginLoader()
-	say("2")
-	plulo.setParams()
-	say("3")
-	plulo.getParams()
-	say("starty done ....")
-	plulo.start()
-	say("gui started")
-	FreeCAD.plulo=plulo
-#	t=FreeCADGui.getMainWindow()
-#	t.workbenchActivated.connect(hello)
-#	t.workbenchActivated.connect(starty)
-	say("signals activated")
-
-
-def hello(*args):
-	saye("HELLO-----22------------------------------------------------------------")
-	FreeCAD.plulo.start()
-	
-	plulo=pluginloader.PluginLoader()
-	say("2")
-	plulo.setParams()
-	say("3")
-	plulo.getParams()
-	say("starty done ....")
-	
-	saye("plulo gestartet")
-
-
-def initreload(*args): # still bugy
-	saye("init reload")
-	t=FreeCADGui.getMainWindow()
-	t.workbenchActivated.connect(hello)
-	t.workbenchActivated.connect(starty)
-	saye("done")
-
-
-#pprint.pprint(config3)
-#pprint.pprint(config3['plugins']['defaulttest'])
