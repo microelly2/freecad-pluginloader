@@ -32,12 +32,9 @@ def info(obj):
 	return[c,l]
 
 
-<<<<<<< HEAD
 #import infodock
 #infodock.start()
 
-=======
->>>>>>> 864bd93c55800cbb5d0482aadaf8fae25e73b3c8
 
 class EventFilter(QtCore.QObject):
 
@@ -47,11 +44,8 @@ class EventFilter(QtCore.QObject):
 		self.stack=[]
 		self.editmode=False
 		self.pos=None
-<<<<<<< HEAD
 		self.debug=False
 		self.debug=True
-=======
->>>>>>> 864bd93c55800cbb5d0482aadaf8fae25e73b3c8
 		
 	def eventFilter(self, o, e):
 		z=str(e.type())
@@ -74,11 +68,8 @@ class EventFilter(QtCore.QObject):
 				if self.editmode:
 					return QtGui.QWidget.eventFilter(self, o, e)
 				
-<<<<<<< HEAD
 				# FreeCAD.Console.PrintMessage(" --> kkkey "+str(e.key()) +"!!"+ e.text() +" \n" )
 				
-=======
->>>>>>> 864bd93c55800cbb5d0482aadaf8fae25e73b3c8
 				# only first time key pressed
 				if not self.keypressed:
 					text=e.text()
@@ -95,18 +86,11 @@ class EventFilter(QtCore.QObject):
 							#FreeCAD.Console.PrintMessage("ALT ")
 							key +="ALT+"
 						key +=PySide.QtGui.QKeySequence(e.key()).toString() 
-<<<<<<< HEAD
 						FreeCAD.Console.PrintMessage(" "+str(key)  +" \n" )
 						
 						pos=self.pos
 						#if e.key()== QtCore.Qt.Key_F10:
 						#	key += "F10#"
-=======
-						# FreeCAD.Console.PrintMessage(" "+str(key)  +" \n" )
-						
-						pos=self.pos
-						
->>>>>>> 864bd93c55800cbb5d0482aadaf8fae25e73b3c8
 						
 						ll=[key]
 						k=qApp.widgetAt(pos)
@@ -126,13 +110,8 @@ class EventFilter(QtCore.QObject):
 						#say("##################################################################send")
 						
 						if len(ll)>1:
-<<<<<<< HEAD
 							if self.debug: FreeCAD.Console.PrintMessage( key + " at mouse position: " +str(pos) + "\n")
 							if self.debug: say("*** message to server:");say(ll)
-=======
-							FreeCAD.Console.PrintMessage( key + " at mouse position: " +str(pos) + "\n")
-							say(ll)
->>>>>>> 864bd93c55800cbb5d0482aadaf8fae25e73b3c8
 							FreeCAD.EventServer.speakList.emit(ll)
 						else:
 							self.keypressed=False
@@ -150,10 +129,7 @@ class EventFilter(QtCore.QObject):
 
 		return QtGui.QWidget.eventFilter(self, o, e)
 
-<<<<<<< HEAD
 #infodock.addtext("keyfilter")
-=======
->>>>>>> 864bd93c55800cbb5d0482aadaf8fae25e73b3c8
 
 
 def start():
@@ -161,10 +137,6 @@ def start():
 	import eventserver
 	reload(eventserver)
 	eventserver.start()
-<<<<<<< HEAD
-=======
-
->>>>>>> 864bd93c55800cbb5d0482aadaf8fae25e73b3c8
 	ef=EventFilter()
 	FreeCAD.keyfilter=ef
 	mw.installEventFilter(ef)
@@ -174,9 +146,6 @@ def stop():
 	mw=QtGui.qApp
 	ef=FreeCAD.keyfilter
 	mw.removeEventFilter(ef)
-<<<<<<< HEAD
 	#infodock.settext("eventfilter stopped")
-=======
->>>>>>> 864bd93c55800cbb5d0482aadaf8fae25e73b3c8
 
 

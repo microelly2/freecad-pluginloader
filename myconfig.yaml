@@ -66,7 +66,6 @@ tabs:
       35 Hyperbola: *Hyperbola
       32 Sheetmetal WB: *sheetmetal
       31 Fasteners WB: *fasteners
-<<<<<<< HEAD
       
       012 Start Eventfilter:
           icon: /usr/lib/freecad/Mod/plugins/icons/macro-execute.png
@@ -98,15 +97,6 @@ tabs:
 
       92 GeodesicDome: *GeoDo
 
-=======
-   my Tab B:
-      Reload PluginManager:
-          exec: PluginManager.reload()
-          icon:  /usr/lib/freecad/Mod/plugins/icons/mars.png
-      Move:  
-          icon: icons:Draft_Move.svg 
-          exec: import DraftTools;DraftTools.Move().Activated()
->>>>>>> 864bd93c55800cbb5d0482aadaf8fae25e73b3c8
       Box:
           icon: /usr/lib/freecad/Mod/plugins/icons/part.png 
           exec: |
@@ -122,7 +112,6 @@ tabs:
       Paraview:
           exec: runextern("/usr/lib/paraview/bin/paraview","/home/thomas/Bilder/bn_630.png")
       ObjTree: *ObjTree
-<<<<<<< HEAD
 
       01 Start Key Eventfilter:
           icon: /usr/lib/freecad/Mod/plugins/icons/macro-execute.png
@@ -150,22 +139,12 @@ tabs:
       0017 Reset Selection Gate: &sgclear
           exec: import selectiongates;reload(selectiongates);selectiongates.clear()
           log: 0
-=======
-      012 Start Eventfilter:
-          icon: /usr/lib/freecad/Mod/plugins/icons/macro-execute.png
-          exec: import eventfilter;reload(eventfilter);eventfilter.start()
-      0121 Stop Eventfilter:
-          icon: /usr/lib/freecad/Mod/plugins/icons/macro-stop.png
-          exec: import eventfilter;reload(eventfilter);eventfilter.stop()
-
->>>>>>> 864bd93c55800cbb5d0482aadaf8fae25e73b3c8
       01 Start Key Eventfilter:
           icon: /usr/lib/freecad/Mod/plugins/icons/macro-execute.png
           exec: import keyfilter;reload(keyfilter);keyfilter.start()
       011 Stop Key Eventfilter:
           icon: /usr/lib/freecad/Mod/plugins/icons/macro-stop.png
           exec: import keyfilter;reload(keyfilter);keyfilter.stop()
-<<<<<<< HEAD
           
 #---------------------------------------------------
           
@@ -196,23 +175,6 @@ tabs:
           icon: icons:Draft_Move.svg 
           exec: import DraftTools;DraftTools.Move().Activated()
       32 Rotate (r):  
-=======
-      015 Workfeature Macro: *wofe
-
-          
-          
-tabs2:
-
-
-
-
-   my Tab School Lesson 1:
-
-      31 Move (g): &g 
-          icon: icons:Draft_Move.svg 
-          exec: import DraftTools;DraftTools.Move().Activated()
-      32 Rotate (r):  &r
->>>>>>> 864bd93c55800cbb5d0482aadaf8fae25e73b3c8
           icon: icons:Draft_Rotate.svg 
           exec: import DraftTools;DraftTools.Rotate().Activated()
 
@@ -245,16 +207,7 @@ tabs2:
           exec: PluginManager.reload()
           icon:  /usr/lib/freecad/Mod/plugins/icons/mars.png
 
-<<<<<<< HEAD
    School Lesson 2:
-=======
-
-
-
-
-
-   my Tab School Lesson 2:
->>>>>>> 864bd93c55800cbb5d0482aadaf8fae25e73b3c8
 
       31 Move (g): *g
       32 Rotate (r):  *r
@@ -292,7 +245,6 @@ keys:
 
 
   keyserver: # mouse context sensitive key actions 
-<<<<<<< HEAD
 
 
      QDockWidget:WorkFeatures: &wofi
@@ -468,45 +420,5 @@ keys:
      
      QMdiArea: *wofi  
      QMainWindow: *wofi  
-=======
-     
-     QWidget: 
-         comment: qwidget als klasse gefunden
-         K:
-           exec: dlgi("das ist K in QWidget")
-#-----------------------------------------           
-     :Pluginloader: 
-         comment: reportview als objektname
-         SHIFT+X:
-           exec: dlgi("das ist Shift x  im Plugin Manager")
-         A:
-            exec: FreeCAD.Console.PrintWarning("\nI'm the A on the Pluginloader Key!\n\n")
-
-     :Combo View: 
-         comment: reportview als objektname
-         SHIFT+X:
-           exec: dlgi("das ist Shift x  in Combo View")
-         A:
-            exec: FreeCAD.Console.PrintWarning("\nI'm the A on the Combo View Key!\n\n")
-#-----------------------------------------------
-     QTextEdit:Report view: 
-         comment: report fenster innen - Klasse und Name
-         A:
-            exec: FreeCAD.Console.PrintWarning("\nI'm the A Key!\n\n")
-
-     QMainWindow: 
-         comment: Hauptfenster als Klasse
-         CTRL+U:
-            exec: dlgi("das ist CTRL-U  im Hauptfenster")
-            
-     QDockWidget:WorkFeatures:
-         comment: WF with hot keys M and N 
-         M:
-           exec: dlgi("das ist Workfeature M")
-         N:
-           exec: dlgi("das ist Workfeature N")
-
-         
->>>>>>> 864bd93c55800cbb5d0482aadaf8fae25e73b3c8
      
      
