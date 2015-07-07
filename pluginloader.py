@@ -289,7 +289,10 @@ class PluginLoader(object):
 		except:
 			sayexc()
 		config3=set_defaults(config3)
+<<<<<<< HEAD
 		
+=======
+>>>>>>> 864bd93c55800cbb5d0482aadaf8fae25e73b3c8
 
 		for plin in config3['plugins'].keys():
 			for k in config3['plugins'][plin].keys():
@@ -313,6 +316,7 @@ class PluginLoader(object):
 		self.base=config3['base']
 		self.config3=config3
 		self.keys=self.config.keys
+<<<<<<< HEAD
 		
 		#----------------------------
 		try:
@@ -322,6 +326,8 @@ class PluginLoader(object):
 		except:
 			sayexc()
 		#----------------------------
+=======
+>>>>>>> 864bd93c55800cbb5d0482aadaf8fae25e73b3c8
 #		self.register()
 
 

@@ -1,5 +1,6 @@
 from tools import *
 
+<<<<<<< HEAD
 global buffer
 buffer=None
 global bufferstring
@@ -11,15 +12,20 @@ try:
 except:
 		sayexc()
 
+=======
+>>>>>>> 864bd93c55800cbb5d0482aadaf8fae25e73b3c8
 def saySomething(stuff):
 	'''
 	event server
 	'''
 	#say("---------------------------------------------------------------------------------------")
 	
+<<<<<<< HEAD
 	global buffer
 	global bufferstring
 	debug=False
+=======
+>>>>>>> 864bd93c55800cbb5d0482aadaf8fae25e73b3c8
 	try:
 		FreeCAD.PluginManager
 	except:
@@ -42,6 +48,7 @@ def saySomething(stuff):
 		try:
 			# say("event server with data list v6")
 			#say(stuff)
+<<<<<<< HEAD
 			#infodock.settext(str(stuff))
 			key=stuff.pop(0)
 			if debug: say("server got key ->"+str(key)+"<-")
@@ -142,6 +149,49 @@ def saySomething(stuff):
 		except:
 			sayexc()
 		#say(bufferstring)
+=======
+			key=stuff.pop(0)
+			#say(key)
+			cfg=FreeCAD.PluginManager.pluginloader.config3['keys']['keyserver']
+			# test
+			if False:
+				if cfg.has_key("aa"):
+					say(cfg['aa'])
+					
+				if cfg.has_key("bb:cc"):
+					say(cfg['bb:cc'])
+					
+				if cfg.has_key(":dd"):
+					say(cfg[':dd'])
+				
+			for items in stuff:
+				[w,t]=items
+				#say(str(items) + ' ... ')
+				found=False
+				if cfg.has_key(w+":"+t):
+					#say(items)
+					found=cfg[w+":"+t]
+				elif cfg.has_key(":"+t):
+					#say(t)
+					found=cfg[":"+t]
+				elif cfg.has_key(w):
+					#say(w)
+					found=cfg[w]
+				
+				if found:
+					#say("found")
+					#say(found['comment'])
+					if found.has_key(key):
+					#	say (found[key])
+						say(found[key]['exec'])
+						exec(found[key]['exec'])
+						return
+					else:
+						# say(found.keys())
+						pass
+		except:
+			sayexc()
+>>>>>>> 864bd93c55800cbb5d0482aadaf8fae25e73b3c8
 
 
 #
@@ -158,9 +208,12 @@ class Communicate(QtCore.QObject):
 	speakList = QtCore.Signal(object)
 
 def start():
+<<<<<<< HEAD
 	#infodock.start()
 	#infodock.settext("starting ...")
 
+=======
+>>>>>>> 864bd93c55800cbb5d0482aadaf8fae25e73b3c8
 	someone = Communicate()
 	# cogssrnnect signal and slot properly
 	someone.speakNumber.connect(saySomething)
@@ -173,5 +226,8 @@ def start():
 	someone.speakWord.emit("hallo  Eventserver ...")
 	someone.speakList.emit(['1', ['2', '3']])
 	FreeCAD.EventServer.speakWord.emit("hallo  Eventserver ...")
+<<<<<<< HEAD
 	#infodock.addtext("eventserver is running")
 	
+=======
+>>>>>>> 864bd93c55800cbb5d0482aadaf8fae25e73b3c8
