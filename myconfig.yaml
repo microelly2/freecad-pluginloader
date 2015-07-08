@@ -113,12 +113,18 @@ tabs:
           exec: runextern("/usr/lib/paraview/bin/paraview","/home/thomas/Bilder/bn_630.png")
       ObjTree: *ObjTree
 
-      01 Start Key Eventfilter:
-          icon: /usr/lib/freecad/Mod/plugins/icons/macro-execute.png
-          exec: import keyfilter;reload(keyfilter);keyfilter.start()
-      011 Stop Key Eventfilter:
+      011 Stop Key Eventfilter: &stopev
           icon: /usr/lib/freecad/Mod/plugins/icons/macro-stop.png
           exec: import keyfilter;reload(keyfilter);keyfilter.stop()
+      010 Start Key Eventfilter: &startev
+          icon: /usr/lib/freecad/Mod/plugins/icons/macro-execute.png
+          exec: |
+            import keyfilter;reload(keyfilter);
+            try:
+                keyfilter.stop()
+            except:
+                pass
+            import keyfilter;reload(keyfilter);keyfilter.start()
 
 
 #-------------------------------------------------
@@ -380,38 +386,48 @@ keys:
 
          # Rotate View Relative
          CTRL+1:
+            pre: *RotateView
             exec: FreeCAD.ViewMgrRel.rotY(5)
          CTRL+2:
+            pre: *RotateView
             exec: FreeCAD.ViewMgrRel.rotZ(5)
          CTRL+3:
+            pre: *RotateView
             exec: FreeCAD.ViewMgrRel.rotX(5)
          CTRL+4:
+            pre: *RotateView
             exec: FreeCAD.ViewMgrRel.rotY(-5)
          CTRL+5:
+            pre: *RotateView
             exec: FreeCAD.ViewMgrRel.rotZ(-5)
          CTRL+6:
+            pre: *RotateView
             exec: FreeCAD.ViewMgrRel.rotX(-5)
- 
          
          # Rotate View Absolute
          ALT+2: 
            say: alt 2
+           pre: *RotateViewAbsolute
            exec: FreeCAD.ViewMgr.rotZ(5)
          ALT+3:
+           pre: *RotateViewAbsolute
            exec: FreeCAD.ViewMgr.rotY(5)
          ALT+5: 
+           pre: *RotateViewAbsolute
            say: alt 5
            exec: FreeCAD.ViewMgr.rotZ(-5)
          ALT+6:
+           pre: *RotateViewAbsolute
            exec: FreeCAD.ViewMgr.rotY(-5)
            
            
          # helpers for tests
          CTRL+0: 
-           exec: FreeCAD.ViewMgrRel=None
- 
-         Alt+0: 
-           exec: FreeCAD.ViewMgr=None
+           #pre: *c1
+           exec: |
+             FreeCAD.ViewMgrRel=None
+             FreeCAD.ViewMgr=None
+           #post: *b1
 
 
 

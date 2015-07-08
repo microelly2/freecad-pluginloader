@@ -60,7 +60,7 @@ def say(s):
 
 
 global __version__
-__version__='0.31 (2015/07/02)'
+__version__='0.32 (2015/07/08)'
 
 global sayexc
 def sayexc(mess=''):
@@ -435,10 +435,14 @@ def runme():
 				if m:
 					name=m.group(1)
 			import Part
-			PluginManager.gentoolbars(name)
+			#FreeCAD.Console.PrintMessage("\n " +name)
+			#FreeCAD.Console.PrintMessage(" gen ..")
+			if name <>"NoneWorkbench":
+				PluginManager.gentoolbars(name)
+			#FreeCAD.Console.PrintMessage(" .. gened" )
 		except:
 			sayexc("except 2")
-			PluginManager.gentoolbars("Robot")
+			# PluginManager.gentoolbars("Robot")
 	PluginManager.toolbar +=1
 	self=FreeCAD.Gui.getMainWindow()
 	self.show()
@@ -449,9 +453,16 @@ t=FreeCADGui.getMainWindow()
 t.workbenchActivated.connect(runme)
 
 
-import eventfilter
+#import eventfilter
+#try:
+#	FreeCAD.EventServer.speakWord.emit("hallo  Eventserver ...")
+#except:
+#	pass
+
 try:
-	FreeCAD.EventServer.speakWord.emit("hallo  Eventserver ...")
+	import keyfilter
+	reload(keyfilter)
+	keyfilter.start()
 except:
 	pass
-
+	sayexc("autostart keyfilter module")

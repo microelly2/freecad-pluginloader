@@ -20,6 +20,7 @@ def saySomething(stuff):
 	global buffer
 	global bufferstring
 	debug=False
+
 	try:
 		FreeCAD.PluginManager
 	except:
@@ -40,7 +41,7 @@ def saySomething(stuff):
 			sayexc("no key action")
 	if stuff.__class__ == list:
 		try:
-			# say("event server with data list v6")
+			#say("event server with data list v6")
 			#say(stuff)
 			#infodock.settext(str(stuff))
 			key=stuff.pop(0)
@@ -108,6 +109,13 @@ def saySomething(stuff):
 #					say (found[key])
 					if found[key].has_key('say'):
 						say(found[key]['say'])
+					if found[key].has_key('pre'):
+						say('*** pre:')
+						saye(found[key]['pre']['exec'])
+						try:
+							exec("App=FreeCAD;Gui=FreeCADGui;\n" + found[key]['pre']['exec'])
+						except:
+							sayexc()
 					if found[key].has_key('exec'):
 						#say(found[key]['log'])
 						say('*** exec:')
@@ -116,6 +124,14 @@ def saySomething(stuff):
 							exec(found[key]['exec'])
 						except:
 							sayexc()
+						if found[key].has_key('post'):
+							say('*** post:')
+							saye(found[key]['post'])
+							try:
+								exec("App=FreeCAD;Gui=FreeCADGui;\n" + found[key]['post']['exec'])
+							except:
+								sayexc()
+
 						buffer = str(key)  +" gefunden"
 						buffer = None
 						bufferstring += "--> " + str(key)
