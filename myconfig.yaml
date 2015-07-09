@@ -59,6 +59,21 @@ toolbars:
 
 tabs:
    <<: *tabs
+   
+   
+#-----------------------------
+
+   my Tab C:
+      03 Peel the Egg: *peg
+      01 Part WB: *Part
+      02 Draft WB: *Draft
+
+      09 Reload PluginManager:
+          exec: PluginManager.reload()
+          icon:  /usr/lib/freecad/Mod/plugins/icons/mars.png
+
+#------------------------------
+
    my Tab A:
       33 Part WB: *Part
       4 FEM WB: *FEM
@@ -75,6 +90,7 @@ tabs:
           exec: import eventfilter;reload(eventfilter);eventfilter.stop()
 
    my Tab B:
+      003 Peel the Egg: *peg
       001 camera: *Camera
  
       
@@ -125,7 +141,6 @@ tabs:
             except:
                 pass
             import keyfilter;reload(keyfilter);keyfilter.start()
-
 
 #-------------------------------------------------
 

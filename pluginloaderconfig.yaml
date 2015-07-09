@@ -27,6 +27,19 @@
 
 plugins: 
 
+  wood-galaxy-makros:
+    status: noignore
+    author: wood galaxy
+    description: macro collection 
+    man: https://github.com/wood-galaxy/FreeCAD-scripts/blob/master/README.md
+    #web: https://github.com/psicofil/Macros_FreeCAD/blob/master/README.md
+    source:  https://github.com/wood-galaxy/FreeCAD-scripts/archive/master.zip
+    sourcedir: FreeCAD-scripts-master
+    destdir: AppHomePath/Mod/plugins/wood-galaxy-macros
+    format: zip
+
+
+
   psicofil-makros:
     status: noignore
     author: psicofil
@@ -580,6 +593,8 @@ data:
     icon:  AppHomePath/Mod/plugins/icons/fem.png
 
 # FreeCAD-macros calls
+  Peel the Egg: &peg
+      exec: fn="AppHomePath/Mod/plugins/microelly-macros/peeltheegg.py";d={};exec("import FreeCAD,FreeCADGui;App=FreeCAD;\n" + open(fn).read(),d,d)
 
   Camera: &Camera
       exec: fn="AppHomePath/Mod/plugins/FreeCAD-macros/FCCamera.FCMacro";d={};exec("import FreeCAD,FreeCADGui;App=FreeCAD;\n" + open(fn).read(),d,d)
@@ -588,6 +603,9 @@ data:
   Rotate View:  &RotateView
         exec: fn="AppHomePath/Mod/plugins/FreeCAD-macros/FCRotateView.FCMacro";d={};exec("import FreeCAD,FreeCADGui;App=FreeCAD;\n" + open(fn).read(),d,d)
         icon: AppHomePath/Mod/plugins/FreeCAD-macros/icons/RotateView/right.png
+        author: Joe Dowsett
+        wiki: http://www.freecadweb.org/wiki/index.php?title=Macro_View_Rotation
+        forum: http://forum.freecadweb.org/viewtopic.php?f=3&t=1784&hilit=View+Rotation#p12012
 
   Rotate View Absolute:  &RotateViewAbsolute
         exec: fn="AppHomePath/Mod/plugins/FreeCAD-macros/FCRotateViewAbsolute.FCMacro";d={};exec("import FreeCAD,FreeCADGui;App=FreeCAD;\n" + open(fn).read(),d,d)
