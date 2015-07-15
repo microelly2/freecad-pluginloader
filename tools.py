@@ -28,10 +28,12 @@ def dlgyn(msg):
 	m=QtGui.QWidget()
 	dial = QtGui.QMessageBox.question( m,'Message',  msg, QtGui.QMessageBox.Yes |     QtGui.QMessageBox.No, QtGui.QMessageBox.No)
 
-def sayexc(mess=''):
+def sayexc(mess='',last=False):
 	exc_type, exc_value, exc_traceback = sys.exc_info()
 	ttt=repr(traceback.format_exception(exc_type, exc_value,exc_traceback))
 	lls=eval(ttt)
+	if last:
+		lls=[lls[-1]]
 	saye(mess + "\n" +"-->  ".join(lls))
 
 def dlgexc(mess=''):

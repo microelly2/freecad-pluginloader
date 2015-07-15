@@ -1,0 +1,143 @@
+#------------------------------------------------
+#-- individual configuration of the plugin manager
+#--
+#-- microelly 2015
+#--
+#-- GNU Lesser General Public License (LGPL)
+#-------------------------------------------------
+
+# here you can configure your own package list, toolbars and tabs
+
+
+#
+# plugins section
+#
+# still not active
+# examples come soon
+#
+
+#plugins: 
+#  #<<: *plugins
+#  fasteners: *fasteners
+#  styles: *styles
+#
+
+
+#
+# toolbars section 
+#
+# 1. subkey = Name of the Workbench
+# 2. subkey = Name of the Toolbar
+# 3. subkey = Name of the Item
+# 4. subkeys: Confogiuration of the Item (Icon, Command, ...)
+#
+
+toolbars:
+  #<<: *toolbars
+  FastenersWorkbench:
+    my ToolBar:
+      FEM: *FEM
+    my other Toolbar:
+      PCB: *pcb
+      Cura Engine: *cura
+      Hyperbola: *Hyperbola
+  PartWorkbench:
+     my PartTools:
+      Move:  
+          icon: icons:Draft_Move.svg 
+          exec: import DraftTools;DraftTools.Move().Activated()
+
+
+
+#
+# tabs section
+#
+# 1. subkey = Name of the Tab
+# 2. subkey = Name of the Item
+# 3. subkeys: Confogiuration of the Item (Icon, Command, ...)
+#
+
+tabs:
+   #<<: *tabs
+
+   
+#-----------------------------
+
+   School All:
+      03 Peel the Egg: *peg
+      03 Unfold Paper Model: *unfold
+      021 Part WB: *Part
+      022 Draft WB: *Draft
+      0413 Object Design Workflow Tree: *ObjTree
+      023 Fasteners WB: *fasteners
+
+      09 Reload PluginManager:
+          exec: PluginManager.reload()
+          icon:  /usr/lib/freecad/Mod/plugins/icons/mars.png
+
+   School Lesson 1:
+
+      31 Move (g):  &g
+          icon: icons:Draft_Move.svg 
+          exec: import DraftTools;DraftTools.Move().Activated()
+      32 Rotate (r):  &r
+          icon: icons:Draft_Rotate.svg 
+          exec: import DraftTools;DraftTools.Rotate().Activated()
+
+      11 Box: &b1
+          icon: /usr/lib/freecad/Mod/plugins/icons/part.png 
+          exec: |
+            import Part
+            App.ActiveDocument.addObject("Part::Box","Box")
+            App.ActiveDocument.ActiveObject.Label = "Wuerfel"
+            App.ActiveDocument.ActiveObject.ViewObject.ShapeColor=(0.0,0.0,1.0)
+            App.activeDocument().recompute()
+    
+      12 Cylinder: &c1
+          icon: /usr/lib/freecad/Mod/plugins/icons/part_cylinder.png 
+          exec: |
+            import Part
+            App.ActiveDocument.addObject("Part::Cylinder","Cylinder")
+            App.ActiveDocument.ActiveObject.Label = "Zylinder"
+            App.ActiveDocument.ActiveObject.ViewObject.ShapeColor=(1.0,1.0,.0)
+            App.activeDocument().recompute()
+      10 New Document: &d1
+          icon: /usr/lib/freecad/Mod/plugins/icons/document_new.png
+          exec: |
+           App.newDocument("Unnamed")
+           App.setActiveDocument("Unnamed")
+           App.ActiveDocument=App.getDocument("Unnamed")
+           Gui.ActiveDocument=Gui.getDocument("Unnamed")
+
+      9 Reload: &r1
+          exec: PluginManager.reload()
+          icon:  /usr/lib/freecad/Mod/plugins/icons/mars.png
+
+   School Lesson 2:
+
+      31 Move (g): *g
+      32 Rotate (r):  *r
+      11 Box: *b1
+      12 Cylinder: *c1
+      13 Clone: &c2
+          icon: /usr/lib/freecad/Mod/plugins/icons/draft_clone.png 
+          exec: |
+            import Draft
+            obs= Gui.Selection.getSelection()
+            if len(obs): Draft.clone(obs[0])
+            App.activeDocument().recompute()
+      10 New Document: *d1
+      9 Reload: *r1
+
+
+# key actions for eventserver tests          
+keys:
+  global:
+    G: *g
+    
+    R: *r
+    
+    S:
+      exec: import FreeCAD;FreeCAD.Console.PrintWarning("I'm the School workbench!")
+
+

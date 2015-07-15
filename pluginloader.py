@@ -282,12 +282,14 @@ class PluginLoader(object):
 				say("pluginmanager userconfig file "+ fn2)
 				mcf = open(fn2, 'r').read()
 			except:
-				sayexc("userconfigfile not available")
+				sayexc("userconfigfile not available",True)
 			all=stream + mcf
 			config3 = yaml.load(all)
 		#	config3=set_defaults(config3)
 		except:
-			sayexc()
+			sayexc("Error in " + fn2,True)
+			say("Try only:" + fn)
+			config3 = yaml.load(stream)
 		config3=set_defaults(config3)
 		
 
@@ -315,12 +317,13 @@ class PluginLoader(object):
 		self.keys=self.config.keys
 		
 		#----------------------------
-		try:
-			for ku in config3['keys']['keyserver'].keys():
-				yy=transformkeytree(config3['keys']['keyserver'][ku])
-				config3['keys']['keyserver'][ku]=yy
-		except:
-			sayexc()
+		if config3.has_key('keys') and config3['keys'].has_key("keyserver"):
+			try:
+				for ku in config3['keys']['keyserver'].keys():
+					yy=transformkeytree(config3['keys']['keyserver'][ku])
+					config3['keys']['keyserver'][ku]=yy
+			except:
+				sayexc()
 		#----------------------------
 #		self.register()
 

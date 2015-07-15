@@ -596,6 +596,10 @@ data:
   Peel the Egg: &peg
       exec: fn="AppHomePath/Mod/plugins/microelly-macros/peeltheegg.py";d={};exec("import FreeCAD,FreeCADGui;App=FreeCAD;\n" + open(fn).read(),d,d)
 
+  Unfold: &unfold
+      exec: fn="AppHomePath/Mod/plugins/microelly-macros/unfold.py";d={};exec("import FreeCAD,FreeCADGui;App=FreeCAD;\n" + open(fn).read(),d,d)
+
+
   Camera: &Camera
       exec: fn="AppHomePath/Mod/plugins/FreeCAD-macros/FCCamera.FCMacro";d={};exec("import FreeCAD,FreeCADGui;App=FreeCAD;\n" + open(fn).read(),d,d)
       icon: AppHomePath/Mod/plugins/FreeCAD-macros/icons/Camera/FCCamera_00.png
@@ -771,9 +775,6 @@ tabs: &tabs
     Robot WB: *Robo
     #Sheet Metal ...
     Sheet Metal Unfolder Macro: *Unfold
-    School WB:
-      exec: import FreeCAD;FreeCAD.Console.PrintWarning("I'm the School workbench!")
-
   
   8 Aux: # not realy needed in production workflow
     Sketcher WB: *Sket
@@ -786,76 +787,6 @@ tabs: &tabs
     sheet metal: *Sheetm
 
     
-  My Test:
-    info: |
-      This is my test tab. Here I change and examine whatever I want
-      You can change it over Menu:  Tools -> Edit Parametrs -> PluginTabIndex ... Change Value (10 means Your(my) Favorite (will be configurable for you next), 2 means CAD)
-      In  _| MY TEST |_  I have the news/objects under development always on top of the list.
-    4 Dummy Macro: 
-      exec: import FreeCAD;FreeCAD.Console.PrintWarning("Nothing to do!")
-      icon:  AppHomePath/Mod/plugins/icons/master.png
-      man: http://www.freecadweb.org
-      info: A simple template 
-    8 Greeting Macro : 
-      exec: FreeCAD.Console.PrintWarning("Hello World!")
-      icon:  AppHomePath/Mod/plugins/icons/sun.png
-      man: http://www.freecadweb.org
-    7. My Test Macro: *Mymacro
-    Foto: *Foto
-    91 Rectellipse: *Rectellipse
-    92 GeodesicDome: *GeoDo
-    93 HalfHull: *Hahu
-    94 MakeCircle3Points:
-       exec: fn="AppHomePath/Mod/plugins/FreeCAD-macros/ObjectCreation/MakeCircle3Points.FCMacro";exec open(fn).read()
-       icon: AppHomePath/Mod/plugins/icons/circle-3points.png
-    95 DraftCircle3Points:
-       exec: fn="AppHomePath/Mod/plugins/FreeCAD-macros/ObjectCreation/Draft_Circle_3_Points.FCMacro";exec open(fn).read()
-       icon: AppHomePath/Mod/plugins/icons/circle-3points.png
-    96 DraftCircle3PointsImproved:
-       exec: fn="AppHomePath/Mod/plugins/FreeCAD-macros/ObjectCreation/Draft_Circle_3_Points_improved.FCMacro";exec open(fn).read()
-       icon: AppHomePath/Mod/plugins/icons/circle-3points.png
-    911 Ellipse-Center+2Points:
-       exec: fn="AppHomePath/Mod/plugins/FreeCAD-macros/ObjectCreation/Ellipse-Center+2Points.FCMacro";exec open(fn).read()
-       icon: AppHomePath/Mod/plugins/icons/ellipse-center+2points.png
-    921 Airfoil_Import_and_Scale:
-       exec: fn="AppHomePath/Mod/plugins/FreeCAD-macros/ObjectCreation/Airfoil_Import_and_Scale.FCMacro";exec open(fn).read();1+1
-       icon: AppHomePath/Mod/plugins/icons/airfoil.png
-    1216 Contextmenu by Gui.Selection:
-       exec: fn="AppHomePath/Mod/plugins/selectiontoolbar.py";exec open(fn).read()
-       icon: AppHomePath/Mod/plugins/icons/robot.png
-    1210 Object Design Workflow Tree: *ObjTree
-    3211 Export for Kerkythea: *kerkythea
-    3212 Kerkythea Renderer: 
-        exec: import os;os.system("AppHomePath/Mod/plugins/Kerkythea2008/Kerkythea &")
-        man: http://www.kerkythea.net/cms/
-    313 sheetmetal: *sheetmetal
-    312 fasteners: *fasteners
-    11 macro manager:
-        man: http://forum.freecadweb.org/viewtopic.php?f=21&t=10905&start=20    
-        exec: fn="AppHomePath/Mod/plugins/macromanager.py";d={};exec(open(fn).read(),d,d)
-        icon: AppHomePath/Mod/Animation/icons/manager.png
-    112 Workfeature Macro: *wofe
-    111 Hyperbola: *Hyperbola
-    90 Reload PluginManager:
-        exec: PluginManager.reload()
-    21 Part WB: *Part
-    23 Draft WB: *Draft
-    001 AnimatedConstrain:
-      exec: fn="AppHomePath/Mod/plugins/psicofil-macros/Macros/AnimatedConstrain.FCMacro";d={};exec("import FreeCAD;App=FreeCAD;\n" + open(fn).read(),d,d)
-      man: https://github.com/psicofil/Macros_FreeCAD/blob/master/README.md
-    002 GMSHMesh:
-      exec: fn="AppHomePath/Mod/plugins/psicofil-macros/Macros/GMSHMesh.FCMacro";d={};exec("import FreeCAD;App=FreeCAD;\n" + open(fn).read(),d,d)
-      man: https://github.com/psicofil/Macros_FreeCAD/blob/master/README.md
-    003 ParametricCurve:
-      exec: fn="AppHomePath/Mod/plugins/psicofil-macros/Macros/ParametricCurve.FCMacro";d={};exec("import FreeCAD,FreeCADGui;App=FreeCAD;\n" + open(fn).read(),d,d)
-      man: https://github.com/psicofil/Macros_FreeCAD/blob/master/README.md
-    004 RenderPovray:
-      exec: fn="AppHomePath/Mod/plugins/psicofil-macros/Macros/RenderPovray.FCMacro";d={};exec("import FreeCAD,FreeCADGui;App=FreeCAD;\n" + open(fn).read(),d,d)
-      man: https://github.com/psicofil/Macros_FreeCAD/blob/master/README.md
-    005 ExportFem: *ExportFem
-    004 Camera: *Camera
-    004 Rotate View:  *RotateView
-
 
 # toolbars - examples faster than menues
 

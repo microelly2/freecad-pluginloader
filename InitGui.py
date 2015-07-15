@@ -60,7 +60,7 @@ def say(s):
 
 
 global __version__
-__version__='0.32 (2015/07/08)'
+__version__='0.33 (2015/07/09)'
 
 global sayexc
 def sayexc(mess=''):
@@ -458,11 +458,12 @@ t.workbenchActivated.connect(runme)
 #	FreeCAD.EventServer.speakWord.emit("hallo  Eventserver ...")
 #except:
 #	pass
-
-try:
-	import keyfilter
-	reload(keyfilter)
-	keyfilter.start()
-except:
-	pass
-	sayexc("autostart keyfilter module")
+if FreeCAD.ParamGet('User parameter:Plugins').GetBool('autoStartEventFilter'):
+	try:
+		import keyfilter
+		say("start keyfilter ... ")
+		reload(keyfilter)
+		keyfilter.start()
+	except:
+		pass
+		sayexc("autostart keyfilter module")
