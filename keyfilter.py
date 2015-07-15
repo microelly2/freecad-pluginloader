@@ -44,8 +44,8 @@ class EventFilter(QtCore.QObject):
 		self.stack=[]
 		self.editmode=False
 		self.pos=None
-		self.debug=False
-		self.debug=True
+		#self.debug=False
+		self.debug=FreeCAD.ParamGet('User parameter:Plugins').GetBool('EventFilterDebug')
 		
 	def eventFilter(self, o, e):
 		z=str(e.type())

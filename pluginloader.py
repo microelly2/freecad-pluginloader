@@ -235,8 +235,8 @@ class MyWidget(QtGui.QWidget):
 
 def transformkeylist(base,liste,val):
 	key=liste.pop(0)
-	say(base)
-	say(key)
+	#say(base)
+	#say(key)
 	if base.has_key(key) and len(liste) !=0:
 		transformkeylist(base[key],liste,val)
 	else:

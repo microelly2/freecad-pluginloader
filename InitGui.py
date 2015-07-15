@@ -406,6 +406,7 @@ PluginManager.pluginloaderCMD=t.start
 PluginManager.pluginloader=t
 t.setParams()
 
+
 PluginManager.show()
 PluginManager.toolbar=0
 PluginManager.toolbars=[]
