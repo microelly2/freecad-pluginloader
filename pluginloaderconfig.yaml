@@ -458,9 +458,7 @@ plugins:
 
   defaulttest:
     status: ignore
-    destdir:
-      Linux: UserAppData/Mod/testdir
-      Windows: c:/haha
+    destdir: UserAppData/Mod/testdir
     backup: AppHomePath/tmp/bak2_
     icon: AppHomePath/Mod/plugins/icons/master.png
 
@@ -598,6 +596,8 @@ data:
 
   Unfold: &unfold
       exec: fn="AppHomePath/Mod/plugins/microelly-macros/unfold.py";d={};exec("import FreeCAD,FreeCADGui;App=FreeCAD;\n" + open(fn).read(),d,d)
+  Align to xy: &2xy
+      exec: fn="AppHomePath/Mod/plugins/microelly-macros/rot2xy.py";d={};exec("import FreeCAD,FreeCADGui;App=FreeCAD;\n" + open(fn).read(),d,d)
 
 
   Camera: &Camera

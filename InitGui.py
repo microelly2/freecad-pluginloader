@@ -60,7 +60,7 @@ def say(s):
 
 
 global __version__
-__version__='0.33 (2015/07/09)'
+__version__='0.34 (2015/07/30)'
 
 global sayexc
 def sayexc(mess=''):
@@ -262,7 +262,7 @@ class MyDock(QtGui.QDockWidget):
 					yy=MyAction2(pathMacro(cmd))
 					myAction2.yy=yy
 					myAction2.triggered.connect(yy.run) 
-					toolbarBox.addAction(myAction2)
+					
 				toolbarBox.show()
 				self.toolbars.append(toolbarBox)
 				say(ky +" done")

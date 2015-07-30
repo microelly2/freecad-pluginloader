@@ -17,7 +17,7 @@ global MyAction,say,saye
 from configmanager import ConfigManager
 
 import WebGui
-__vers__=' version 0.14'
+__vers__=' version 0.15'
 
 from tools import *
 import sys, os, zipfile, traceback, time, yaml, urllib, re, platform, pprint 
@@ -302,14 +302,20 @@ class PluginLoader(object):
 						# replace
 						config3['plugins'][plin][k]=config3['plugins'][plin][k][os]
 			for att in ['destdir','exec','icon','backup']:
-				config3['plugins'][plin][att]=pathMacro(config3['plugins'][plin][att])
+				try:
+					config3['plugins'][plin][att]=pathMacro(config3['plugins'][plin][att])
+				except:
+					sayexc(config3['data'][plin][att])
 			if plin=='defaulttest':
 				pprint.pprint(config3['plugins'][plin])
 
 		for plin in config3['data'].keys():
 			for att in ['destdir','exec','icon','backup']:
 				if config3['data'][plin].has_key(att):
-					config3['data'][plin][att]=pathMacro(config3['data'][plin][att])
+					try:
+						config3['data'][plin][att]=pathMacro(config3['data'][plin][att])
+					except:
+						sayexc(config3['data'][plin][att])
 
 		self.config=config3['plugins']
 		self.base=config3['base']
