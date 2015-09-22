@@ -32,7 +32,6 @@ plugins:
     author: wood galaxy
     description: macro collection 
     man: https://github.com/wood-galaxy/FreeCAD-scripts/blob/master/README.md
-    #web: https://github.com/psicofil/Macros_FreeCAD/blob/master/README.md
     source:  https://github.com/wood-galaxy/FreeCAD-scripts/archive/master.zip
     sourcedir: FreeCAD-scripts-master
     destdir: AppHomePath/Mod/plugins/wood-galaxy-macros
@@ -51,6 +50,17 @@ plugins:
     destdir: AppHomePath/Mod/plugins/psicofil-macros
     format: zip
 
+
+  microelly-makros:
+    status: noignore
+    author: microelly
+    description: macro collection 
+    man: https://github.com/microelly2/freeCAD_macro/blob/master/README.md
+    web: https://github.com/microelly2/freeCAD_macro/blob/master/README.md
+    source:  https://github.commicroelly2/freeCAD_macro/archive/master.zip
+    sourcedir: freeCAD_macro-master
+    destdir: AppHomePath/Mod/plugins/microelly-macros
+    format: zip
 
 #plugins2:
 
@@ -298,7 +308,7 @@ plugins:
 
   cadquery: &cadquery
      status: noignore
-     name: CadQuery
+     name: CadQuery WB
      author: Jeremy Wright
      man: https://github.com/jmwright/cadquery-freecad-module/wiki
      web: https://github.com/jmwright/cadquery-freecad-module/blob/master/README.md
@@ -310,9 +320,9 @@ plugins:
      exec: FreeCADGui.activateWorkbench("CadQueryWorkbench")
      icon: AppHomePath/Mod/plugins/icons/mars.png
 
-  Lattice: &lattice
+  lattice: &lattice
      status: noignore
-     name: Lattice
+     name: Lattice WB
      author: DeepSOIC
      man: http://forum.freecadweb.org/viewtopic.php?f=22&t=12464
      web: http://forum.freecadweb.org/viewtopic.php?f=22&t=12464
@@ -339,7 +349,7 @@ plugins:
      icon: AppHomePath/Mod/plugins/icons/bolts.png
      requires: pyside-tools 
   
-  ObjTree: &ObjTree
+  objtree: &ObjTree
     name: objecttree
     status: noignore
     icon: AppHomePath/Mod/plugins/icons/freecad.png
@@ -357,7 +367,7 @@ plugins:
 
   JoinFeatures: &JoinF
     name: JoinFeatures
-    status: noignore
+    status: ignore
     man: http://forum.freecadweb.org/viewtopic.php?f=22&t=11112
     web: http://forum.freecadweb.org/viewtopic.php?f=22&t=11112
     description : Join Parts
@@ -439,7 +449,7 @@ plugins:
 #
 #--------------------------
 
-  FreeCAD-makros:
+  freecad-makros:
     status: noignore
     web: http://www.freecadweb.org/wiki/index.php?title=Macros_recipes
     source:  https://github.com/FreeCAD/FreeCAD-macros/archive/master.zip
@@ -818,8 +828,13 @@ tabs: &tabs
   9 Other: # dont know where to place
     Reference WB: *Refe
     sheet metal: *Sheetm
-    cadquery: *cadquery
-    Lattice: *lattice
+    
+  99 News:
+    info: |
+      Here are new macros and workbenches
+      which wait for playing with 
+    CadQuery WB: *cadquery
+    Lattice WB (experimental): *lattice
 
     
 
