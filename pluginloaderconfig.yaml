@@ -296,6 +296,23 @@ plugins:
      exec: FreeCADGui.activateWorkbench("SheetMetalWorkbench")
      icon: AppHomePath/Mod/plugins/icons/mars.png
 
+  cadquery: &cadquery
+     status: noignore
+     name: CadQuery
+     author: Jeremy Wright
+     man: https://github.com/jmwright/cadquery-freecad-module/wiki
+     web: https://github.com/jmwright/cadquery-freecad-module/blob/master/README.md
+     source: https://github.com/jmwright/cadquery-freecad-module/archive/master.zip
+     method: zip
+     sourcedir: cadquery-freecad-module-master/CadQuery
+     destdir: UserAppData/Mod/CadQuery
+     menu: CadQuery Workbench
+     exec: FreeCADGui.activateWorkbench("CadQueryWorkbench")
+     icon: AppHomePath/Mod/plugins/icons/mars.png
+
+
+
+
 
   bolts: &bolt
      name: bolts 
@@ -589,6 +606,10 @@ data:
   FEMWorkbench: &FEM
     exec: FreeCADGui.activateWorkbench("FemWorkbench")
     icon:  AppHomePath/Mod/plugins/icons/fem.png
+  PathWorkbench : &Path
+      exec: FreeCADGui.activateWorkbench("PathWorkbench")
+      icon: AppHomePath/Mod/plugins/icons/path.png
+
 
 # FreeCAD-macros calls
   Peel the Egg: &peg
@@ -785,6 +806,7 @@ tabs: &tabs
   9 Other: # dont know where to place
     Reference WB: *Refe
     sheet metal: *Sheetm
+    cadquery: *cadquery
 
     
 

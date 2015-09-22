@@ -190,6 +190,7 @@ class MyWidget(QtGui.QWidget):
 				say(source)
 				m = re.match(r"https://github.com/(.*)/archive/master.zip", source)
 				say(m)
+				say(m.group(1))
 				gitdate='no date from git'
 				if m: 
 					fn='https://api.github.com/repos/' + m.group(1) + '/commits'
