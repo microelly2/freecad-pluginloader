@@ -310,7 +310,19 @@ plugins:
      exec: FreeCADGui.activateWorkbench("CadQueryWorkbench")
      icon: AppHomePath/Mod/plugins/icons/mars.png
 
-
+  Lattice: &lattice
+     status: noignore
+     name: Lattice
+     author: DeepSOIC
+     man: http://forum.freecadweb.org/viewtopic.php?f=22&t=12464
+     web: http://forum.freecadweb.org/viewtopic.php?f=22&t=12464
+     source: https://github.com/DeepSOIC/Lattice/archive/master.zip
+     method: zip
+     sourcedir: Lattice-master/
+     destdir: UserAppData/Mod/Lattice
+     menu: Lattice Workbench
+     exec: FreeCADGui.activateWorkbench("LatticeWorkbench")
+     icon: AppHomePath/Mod/plugins/icons/mars.png
 
 
 
@@ -807,6 +819,7 @@ tabs: &tabs
     Reference WB: *Refe
     sheet metal: *Sheetm
     cadquery: *cadquery
+    Lattice: *lattice
 
     
 
