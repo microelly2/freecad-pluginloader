@@ -27,6 +27,21 @@
 
 plugins: 
 
+  usbterminal: &usbterminal
+    name: usb connection
+    status: noignore
+    web: &y12 https://github.com/prrvchr/USBTerminal
+    man: *y12 
+    description: Sheet metal 
+    author: prrvchr
+    source: https://github.com/prrvchr/USBTerminal/archive/master.zip
+    method: zip
+    sourcedir: USBTerminal-master/USB
+    destdir: UserAppData/Mod/ USBTerminal
+    exec: FreeCADGui.activateWorkbench("USB workbench object")
+    icon: UserAppData/Mod/FreeCAD_SheetMetal/Resources/icons/AddWall.svg
+ 
+
   wood-galaxy-makros:
     status: noignore
     author: wood galaxy
