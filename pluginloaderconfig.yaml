@@ -27,17 +27,34 @@
 
 plugins: 
 
+  icgenerator: &icgenerator
+    name: STEP AP214 and VRML FreeCAD script generator
+    status: noignore
+    web: &y14 http://forum.freecadweb.org/viewtopic.php?f=8&t=12661
+    man: https://github.com/easyw/kicad-3d-models-in-freecad
+    description: STEP AP214 and VRML FreeCAD script generator
+    author: easyw
+    source: https://github.com/easyw/kicad-3d-models-in-freecad/archive/master.zip
+    source: https://github.com/microelly2/kicad-3d-models-in-freecad/archive/master.zip 
+    method: zip
+    sourcedir: kicad-3d-models-in-freecad-master/
+    destdir: AppHomePath/Mod/plugins/kicad-3d-models-in-freecad
+    icon: UserAppData/Mod/FreeCAD_SheetMetal/Resources/icons/AddWall.svg
+    exec: fn="AppHomePath/Mod/plugins/kicad-3d-models-in-freecad-master/cadquery/FCAD_script_generator/start_menu.py";d={};exec(open(fn).read(),d,d)
+ 
+
+
   usbterminal: &usbterminal
     name: usb connection
     status: noignore
     web: &y12 https://github.com/prrvchr/USBTerminal
     man: *y12 
-    description: Sheet metal 
+    description: usb connection 
     author: prrvchr
     source: https://github.com/prrvchr/USBTerminal/archive/master.zip
     method: zip
     sourcedir: USBTerminal-master/USB
-    destdir: UserAppData/Mod/ USBTerminal
+    destdir: UserAppData/Mod/USBTerminal
     exec: FreeCADGui.activateWorkbench("USB workbench object")
     icon: UserAppData/Mod/FreeCAD_SheetMetal/Resources/icons/AddWall.svg
  
@@ -848,10 +865,11 @@ tabs: &tabs
     info: |
       Here are new macros and workbenches
       which wait for playing with 
-    CadQuery WB: *cadquery
-    Lattice WB (experimental): *lattice
+    10 CadQuery WB: *cadquery
+    11 Lattice WB (experimental): *lattice
+    12 USB terminal WB: *usbterminal
+    13 IC generator: *icgenerator
 
-    
 
 # toolbars - examples faster than menues
 
