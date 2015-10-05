@@ -30,19 +30,20 @@ plugins:
   icgenerator: &icgenerator
     name: STEP AP214 and VRML FreeCAD script generator
     status: noignore
-    web: &y14 http://forum.freecadweb.org/viewtopic.php?f=8&t=12661
-    man: https://github.com/easyw/kicad-3d-models-in-freecad
+    web: &y14 https://github.com/easyw/kicad-3d-models-in-freecad
+    man:  http://forum.freecadweb.org/viewtopic.php?f=8&t=12661
     description: STEP AP214 and VRML FreeCAD script generator
     author: easyw
     source: https://github.com/easyw/kicad-3d-models-in-freecad/archive/master.zip
     source: https://github.com/microelly2/kicad-3d-models-in-freecad/archive/master.zip 
     method: zip
-    sourcedir: kicad-3d-models-in-freecad-master/
-    destdir: AppHomePath/Mod/plugins/kicad-3d-models-in-freecad
-    icon: UserAppData/Mod/FreeCAD_SheetMetal/Resources/icons/AddWall.svg
-    exec: fn="AppHomePath/Mod/plugins/kicad-3d-models-in-freecad-master/cadquery/FCAD_script_generator/start_menu.py";d={};exec(open(fn).read(),d,d)
- 
-
+#    sourcedir: kicad-3d-models-in-freecad-master/
+#    destdir: UserAppData/Mod/plugins/kicad-3d-models-in-freecad
+    sourcedir: kicad-3d-models-in-freecad-master/cadquery/FCAD_script_generator/
+    destdir: UserAppData/Mod/FCAD_script_generator
+    icon: AppHomePath/Mod/plugins/icons/ic2.png
+    exec: fn="UserAppData/Mod/plugins/kicad-3d-models-in-freecad-master/cadquery/FCAD_script_generator/start_menu.py";d={};exec(open(fn).read(),d,d)
+    exec: fn="UserAppData/Mod/FCAD_script_generator/start_menu.py";d={};exec(open(fn).read(),d,d)
 
   usbterminal: &usbterminal
     name: usb connection
@@ -55,7 +56,7 @@ plugins:
     method: zip
     sourcedir: USBTerminal-master/USB
     destdir: UserAppData/Mod/USBTerminal
-    exec: FreeCADGui.activateWorkbench("USB workbench object")
+    exec: FreeCADGui.activateWorkbench("UsbWorkbench")
     icon: UserAppData/Mod/FreeCAD_SheetMetal/Resources/icons/AddWall.svg
  
 
@@ -868,7 +869,7 @@ tabs: &tabs
     10 CadQuery WB: *cadquery
     11 Lattice WB (experimental): *lattice
     12 USB terminal WB: *usbterminal
-    13 IC generator: *icgenerator
+    13 ECAD 3D Model Generator: *icgenerator
 
 
 # toolbars - examples faster than menues

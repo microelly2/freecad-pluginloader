@@ -31,6 +31,17 @@ __dir__=FreeCAD.ConfigGet('AppHomePath')+"/Mod/plugins"
 
 
 
+import FreeCAD,os,time,sys,traceback
+
+def sayexc1(mess=''):
+	exc_type, exc_value, exc_traceback = sys.exc_info()
+	ttt=repr(traceback.format_exception(exc_type, exc_value,exc_traceback))
+	lls=eval(ttt)
+	l=len(lls)
+	l2=lls[(l-3):]
+	FreeCAD.Console.PrintError(mess + "\n" +"-->  ".join(l2))
+
+
 #----------------
 #
 # Plugin loader  - install macros, libraries and extra workbenches 
@@ -224,7 +235,15 @@ class MyWidget(QtGui.QWidget):
 			dlge("nothing selected - nothing to do")
 		else:
 			m=QtGui.QWidget()
-			dial = QtGui.QMessageBox.question( m,'Message',    "Are you sure to install?", QtGui.QMessageBox.Yes |     QtGui.QMessageBox.No, QtGui.QMessageBox.No)
+			# Qt::WindowStaysOnBottomHint
+			try:
+				FreeCAD.Console.PrintMessage(str(self))
+				self.setWindowFlags(QtCore.Qt.WindowStaysOnBottomHint)
+				dial = QtGui.QMessageBox.question( m,'Message',    "Are you sure to install?", QtGui.QMessageBox.Yes |     QtGui.QMessageBox.No, QtGui.QMessageBox.No)
+				self.setWindowFlags(QtCore.Qt.WindowStaysOnTopHint)
+				self.show()
+			except:
+				sayexc1()
 			if dial==PySide.QtGui.QMessageBox.StandardButton.No: return
 			for sel in self.listWidget.selectedItems():
 				seli.append(sel.text())
