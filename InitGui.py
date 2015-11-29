@@ -236,6 +236,7 @@ class MyDock(QtGui.QDockWidget):
 		say("gentoolbars ...")
 		if self.pluginloader.config3["toolbars"].has_key(workbench):
 			for ky in sorted(self.pluginloader.config3["toolbars"][workbench].keys()):
+				say("ky:"+str(ky))
 				cma=ConfigManager("__toolbars__/" + workbench +"/" + ky)
 				funhide=cma.get("_hide_",False)
 				if funhide:
@@ -252,9 +253,14 @@ class MyDock(QtGui.QDockWidget):
 					sayexc("exception add Tool Bar")
 				for tool in sorted(self.pluginloader.config3["toolbars"][workbench][ky].keys()):
 					say(tool)
+					say(ky)
 					yy=self.pluginloader.config3["toolbars"][workbench][ky][tool]
+					say(yy)
+					FreeCAD.yy=yy
+					FreeCAD.tb=toolbarBox
 					myAction2=QtGui.QAction(QtGui.QIcon(yy['icon']),tool ,mw)
 					myAction2.setToolTip(tool)
+					toolbarBox.addAction(myAction2)
 					try:
 						cmd=yy['exec']
 					except:
