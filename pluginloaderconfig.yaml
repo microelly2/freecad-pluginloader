@@ -27,6 +27,20 @@
 
 plugins: 
 
+  gear: &gear
+    name:  different types of gears, involute gear, involute rack, cycloide gear, bevel gear
+    status: noignore
+    web: &y15 https://github.com/easyw/kicad-3d-models-in-freecad
+    man:  http://forum.freecadweb.org/viewtopic.php?f=8&t=12661
+    description: STEP AP214 and VRML FreeCAD script generator
+    author: looo
+    source: https://github.com/looooo/FCGear/archive/master.zip
+    method: zip
+    sourcedir: FCGear-master/
+    destdir: UserAppData/Mod/FCGear-master
+    icon: UserAppData/Mod/FCGear-master/Resources/icons/gearworkbench.svg
+    exec: FreeCADGui.activateWorkbench("gearWorkbench")
+
   icgenerator: &icgenerator
     name: STEP AP214 and VRML FreeCAD script generator
     status: noignore
@@ -41,7 +55,7 @@ plugins:
 #    destdir: UserAppData/Mod/plugins/kicad-3d-models-in-freecad
     sourcedir: kicad-3d-models-in-freecad-master/cadquery/FCAD_script_generator/
     destdir: UserAppData/Mod/FCAD_script_generator
-    icon: AppHomePath/Mod/plugins/icons/ic2.png
+    icon: AppHomePath/Mod/plugins/icons/ic-ico-64.png
     exec: fn="UserAppData/Mod/plugins/kicad-3d-models-in-freecad-master/cadquery/FCAD_script_generator/start_menu.py";d={};exec(open(fn).read(),d,d)
     exec: fn="UserAppData/Mod/FCAD_script_generator/start_menu.py";d={};exec(open(fn).read(),d,d)
 
@@ -870,6 +884,8 @@ tabs: &tabs
     11 Lattice WB (experimental): *lattice
     12 USB terminal WB: *usbterminal
     13 ECAD 3D Model Generator: *icgenerator
+    14 Gear Generator WB: *gear
+
 
 
 # toolbars - examples faster than menues
