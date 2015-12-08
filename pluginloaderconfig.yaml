@@ -27,6 +27,12 @@
 
 plugins: 
 
+#
+# macro collections
+#
+# 
+
+# 08.12.2015
   peta-t-makros:
     status: noignore
     author: peta t
@@ -37,20 +43,6 @@ plugins:
     destdir: UserAppData/Mod/plugins/peta-t-macros
     format: zip
 
-
-  gear: &gear
-    name:  different types of gears, involute gear, involute rack, cycloide gear, bevel gear
-    status: noignore
-    web: &y15 https://github.com/easyw/kicad-3d-models-in-freecad
-    man:  http://forum.freecadweb.org/viewtopic.php?f=8&t=12661
-    description: STEP AP214 and VRML FreeCAD script generator
-    author: looo
-    source: https://github.com/looooo/FCGear/archive/master.zip
-    method: zip
-    sourcedir: FCGear-master/
-    destdir: UserAppData/Mod/FCGear-master
-    icon: UserAppData/Mod/FCGear-master/Resources/icons/gearworkbench.svg
-    exec: FreeCADGui.activateWorkbench("gearWorkbench")
 
   icgenerator: &icgenerator
     name: STEP AP214 and VRML FreeCAD script generator
@@ -69,21 +61,6 @@ plugins:
     icon: UserAppData/Mod/plugins/icons/ic-ico-64.png
     exec: fn="UserAppData/Mod/plugins/kicad-3d-models-in-freecad-master/cadquery/FCAD_script_generator/start_menu.py";d={};exec(open(fn).read(),d,d)
     exec: fn="UserAppData/Mod/FCAD_script_generator/start_menu.py";d={};exec(open(fn).read(),d,d)
-
-  usbterminal: &usbterminal
-    name: usb connection
-    status: noignore
-    web: &y12 https://github.com/prrvchr/USBTerminal
-    man: *y12 
-    description: usb connection 
-    author: prrvchr
-    source: https://github.com/prrvchr/USBTerminal/archive/master.zip
-    method: zip
-    sourcedir: USBTerminal-master/USB
-    destdir: UserAppData/Mod/USBTerminal
-    exec: FreeCADGui.activateWorkbench("UsbWorkbench")
-    icon: UserAppData/Mod/FreeCAD_SheetMetal/Resources/icons/AddWall.svg
- 
 
   wood-galaxy-makros:
     status: noignore
@@ -120,7 +97,89 @@ plugins:
     destdir: UserAppData/Mod/plugins/microelly-macros
     format: zip
 
-#plugins2:
+
+  kerkythea: &kerkythea
+     name: kerkythea exporter
+     status: noignore
+     web: http://www.freecadweb.org/wiki/index.php?title=Macro_FreeCAD_to_Kerkythea
+     man: http://forum.freecadweb.org/viewtopic.php?f=21&t=11200&p=90105
+     source: https://github.com/marmni/FreeCAD-Kerkythea/archive/master.zip
+     author: marmni
+     sourcedir: FreeCAD-Kerkythea-master
+     destdir:  UserAppData/Mod/plugins/FreeCAD-Kerkythea
+     menu: FreeCAD-Kerkythea
+     exec: runscript("UserAppData/Mod/plugins/FreeCAD-Kerkythea/exportToKerkythea.FCMacro")
+     icon: UserAppData/Mod/plugins/icons/camera-photo.png
+
+
+  workfeature: &wofe
+     name: workfeature 
+     status: noignore
+     source: https://github.com/Rentlau/WorkFeature/archive/master.zip
+     web: http://www.freecadweb.org/wiki/index.php?title=Macro_WorkFeatures
+     timestamp: 00
+     sourcedir: WorkFeature-master
+     destdir: UserAppData/Mod/plugins/WorkFeature
+     menu: Workfeature Macro
+     exec: import sys;sys.path.append('UserAppData/Mod/plugins/WorkFeature');import WorkFeature;reload(WorkFeature);m=WorkFeature.WorkFeatureTab() 
+     #exec: import sys;sys.path.append('UserAppData/Mod/plugins/WorkFeature');import WorkFeature;reload(WorkFeature);t=FreeCADGui.getMainWindow();wf = t.findChild(QtGui.QDockWidget, "WorkFeatures");if not wf:myDialog = WorkFeatureTab()
+     icon: UserAppData/Mod/plugins/icons/WF_wf.png
+
+  circular text: &cirtex
+    status: ignore
+    #source: https://gist.githubusercontent.com/mario52a/a25e802498bae6959335/raw/21e57b185f34859ee4753e196001873aee27c8fe/Macro_FCCircularText.FCMacro
+    # until the merge is done my version ...
+    source: https://gist.githubusercontent.com/microelly2/cea679cc7bf9da19f174/raw/3fc3ef2111d67f48a39aee1eb19d14ee44bef8fd/Macro_FCCircularText.FCMacro
+    sourcedir: .
+    destdir: UserAppData/Mod/plugins/Macro_FCCircularText.py
+    format: flatfile
+    menu: Circular Text Macro
+    exec: fn="UserAppData/Mod/plugins/FreeCAD-macros/ObjectCreation/Macro_FCCircularText.FCMacro";d={};exec(open(fn).read(),d,d)
+    #exec: import Macro_FCCircularText
+    icon: UserAppData/Mod/plugins/icons/circulartext.png
+
+  freecad-makros:
+    status: noignore
+    web: http://www.freecadweb.org/wiki/index.php?title=Macros_recipes
+    source:  https://github.com/FreeCAD/FreeCAD-macros/archive/master.zip
+    sourcedir: FreeCAD-macros-master
+    destdir: UserAppData/Mod/plugins/FreeCAD-macros
+    format: zip
+
+
+
+#
+# workbenches
+#
+
+  gear: &gear
+    name:  different types of gears, involute gear, involute rack, cycloide gear, bevel gear
+    status: noignore
+    web: &y15 https://github.com/easyw/kicad-3d-models-in-freecad
+    man:  http://forum.freecadweb.org/viewtopic.php?f=8&t=12661
+    description: STEP AP214 and VRML FreeCAD script generator
+    author: looo
+    source: https://github.com/looooo/FCGear/archive/master.zip
+    method: zip
+    sourcedir: FCGear-master/
+    destdir: UserAppData/Mod/FCGear-master
+    icon: UserAppData/Mod/FCGear-master/Resources/icons/gearworkbench.svg
+    exec: FreeCADGui.activateWorkbench("gearWorkbench")
+
+  usbterminal: &usbterminal
+    name: usb connection
+    status: noignore
+    web: &y12 https://github.com/prrvchr/USBTerminal
+    man: *y12 
+    description: usb connection 
+    author: prrvchr
+    source: https://github.com/prrvchr/USBTerminal/archive/master.zip
+    method: zip
+    sourcedir: USBTerminal-master/USB
+    destdir: UserAppData/Mod/USBTerminal
+    exec: FreeCADGui.activateWorkbench("UsbWorkbench")
+    icon: UserAppData/Mod/FreeCAD_SheetMetal/Resources/icons/AddWall.svg
+ 
 
   fasteners: &fasteners
     name: fasteners
@@ -135,45 +194,13 @@ plugins:
     destdir: UserAppData/Mod/FreeCAD_FastenersWB
     exec: FreeCADGui.activateWorkbench("FastenersWorkbench")
     icon: UserAppData/Mod/FreeCAD_FastenersWB/Icons/EN1665.svg
- 
-  styles: &styles
-    name: FreeCAD styles
-    status: noignore
-    web: http://forum.freecadweb.org/viewtopic.php?f=9&t=11419
-    man: https://github.com/pgilfernandez/FreeCAD_stylesheets/blob/master/README.md
-    description: QT themes (stylesheet) specially developed for FreeCAD
-    author: pgilfernandez
-    source: https://github.com/pgilfernandez/FreeCAD_stylesheets/archive/master.zip
-    method: zip
-    sourcedir: FreeCAD_stylesheets-master
-    destdir: UserAppData/Gui/Stylesheets
-    replace:
-       files: 
-         - dark-green.qss
-         - dark-blue.qss
-         - dark-orange.qss
-         - light-green.qss
-         - light-blue.qss
-         - light-orange.qss
-       pattern:  \[PATH_TO_IMAGES\] 
-       data:  UserAppData/Gui/Stylesheets/images
- 
 
-
-  pluginloader: &pluginloader
-    web: http://freecadbuch.de/doku.php?id=pluginmanager
-    status: noignore
-    author: microelly
-    method: zip
-
-# 11.06.
 
   sheetmetal: &sheetmetal
     name: sheetmetal
     status: noignore
     web: &y11 http://forum.freecadweb.org/viewtopic.php?f=8&t=11302
     man: *y11 
-    #http://forum.freecadweb.org/viewtopic.php?f=10&t=11303
     description: Sheet metal 
     author: shaise
     source: https://github.com/shaise/FreeCAD_SheetMetal/archive/master.zip
@@ -183,27 +210,6 @@ plugins:
     exec: FreeCADGui.activateWorkbench("SMWorkbench")
     icon: UserAppData/Mod/FreeCAD_SheetMetal/Resources/icons/AddWall.svg
  
-
-#http://forum.freecadweb.org/viewtopic.php?f=8&t=11302	 
-#http://theseger.com/projects/2015/06/sheet-metal-addon-for-freecad/
-
-  kerkythea: &kerkythea
-     name: kerkythea exporter
-     status: noignore
-     web: http://www.freecadweb.org/wiki/index.php?title=Macro_FreeCAD_to_Kerkythea
-     man: http://forum.freecadweb.org/viewtopic.php?f=21&t=11200&p=90105
-     source: https://github.com/marmni/FreeCAD-Kerkythea/archive/master.zip
-     author: marmni
-     sourcedir: FreeCAD-Kerkythea-master
-     destdir:  UserAppData/Mod/plugins/FreeCAD-Kerkythea
-     menu: FreeCAD-Kerkythea
-#     exec: fn="UserAppData/Mod/plugins/FreeCAD-Kerkythea/exportToKerkythea.FCMacro";d={};exec(open(fn).read(),d,d)
-     exec: runscript("UserAppData/Mod/plugins/FreeCAD-Kerkythea/exportToKerkythea.FCMacro")
-     icon: UserAppData/Mod/plugins/icons/camera-photo.png
-     
-
-
-
 # 04.05.2015 pcb, cura engine
   pcb: &pcb
     status: noignore
@@ -262,9 +268,6 @@ plugins:
 
     # local installation
     destdir: UserAppData/Mod/drawing_dimensioning
-
-    # installation for all users
-    #destdir: UserAppData/Mod/plugins/drawing_dimensioning
     menu: Drawing Dimensioning Workbench
     exec: FreeCADGui.activateWorkbench("DrawingDimensioningWorkbench")
     icon: UserAppData/Mod/plugins/icons/drawing_dim.png
@@ -273,7 +276,6 @@ plugins:
     name: sipo
     status: noignore
     description : Animation
-    
     author: microelly2
     source: https://github.com/microelly2/Animation/archive/master.zip
     sourcedir: Animation-master
@@ -282,63 +284,7 @@ plugins:
     web: http://freecadbuch.de/doku.php?id=Animation%20Wokbench
     icon: UserAppData/Mod/Animation/icons/animation.png
 
-  sipoc : &sipoc
-    name: sipoc
-    status: ignore
-    description : Single Point Configuration
-    web: http://freecadbuch.de/doku.php?id=Sipoc
-    author: microelly2
-    source: https://github.com/microelly2/freecad-sipoc/archive/master.zip
-    sourcedir: freecad-sipoc-master
-    timestamp: https://raw.githubusercontent.com/microelly2/freecad-sipoc/master/release
-    destdir: UserAppData/Mod/plugins/plugin3
-    
-    # only one single menu entry
-    #menu: sipoc - command3
-    #exec: import plugins;plugins.plugin1.info2()
 
-
-  selectiontoolbar : &setobar
-    name: selection toolbar 
-    status: noignore
-    description : Single Point Configuration
-    #web: http://freecadbuch.de/doku.php?id=Sipoc
-    author: microelly2
-    source: https://raw.githubusercontent.com/microelly2/freecad-dynamictools/master/selectiontoolbar.py
-    
-    #timestamp: https://raw.githubusercontent.com/microelly2/freecad-sipoc/master/release
-    destdir: UserAppData/Mod/plugins/selectiontoolbar.py
-    format: flatfile
-    sourcedir: .
-
-
-  workfeature: &wofe
-     name: workfeature 
-     status: noignore
-     source: https://github.com/Rentlau/WorkFeature/archive/master.zip
-     # source: https://github.com/microelly2/WorkFeature/archive/master.zip
-     web: http://www.freecadweb.org/wiki/index.php?title=Macro_WorkFeatures
-     timestamp: 00
-     sourcedir: WorkFeature-master
-     destdir: UserAppData/Mod/plugins/WorkFeature
-     menu: Workfeature Macro
-     #exec: fn="UserAppData/Mod/plugins/WorkFeature/start_WF.FCMacro";exec open(fn).read()
-     exec: import sys;sys.path.append('UserAppData/Mod/plugins/WorkFeature');import WorkFeature;reload(WorkFeature);m=WorkFeature.WorkFeatureTab() 
-     #exec: import sys;sys.path.append('UserAppData/Mod/plugins/WorkFeature');import WorkFeature;reload(WorkFeature);t=FreeCADGui.getMainWindow();wf = t.findChild(QtGui.QDockWidget, "WorkFeatures");if not wf:myDialog = WorkFeatureTab()
-
-     icon: UserAppData/Mod/plugins/icons/WF_wf.png
-  
-  
-  assembly animation dropbox:
-     comment: demo for dropbox download
-     name: ExplodedAssemblyAnimation
-     status: ignore
-     source:  https://www.dropbox.com/s/qxvtavsp4g539jq/ExplodedAssemblyAnimation.zip?dl=1
-     author: JMG
-     timestamp: 
-     sourcedir: ExplodedAssemblyAnimation
-     destdir: UserAppData/Mod/ExplodedAssemblyAnimation
-     backup: UserAppData/Mod/ExplodedAssemblyAnimation
 
   assembly animation: &asani
      name: ExplodedAssemblyAnimation
@@ -354,6 +300,7 @@ plugins:
      exec: FreeCADGui.activateWorkbench("ExplodedAnimation")
      icon: UserAppData/Mod/plugins/icons/icon_createroute.png
 
+
   sheet metal: &Sheetm
      name: Sheet Metal
      author: JMG
@@ -363,6 +310,7 @@ plugins:
      menu: Assembly Animation Workbench
      exec: FreeCADGui.activateWorkbench("SheetMetalWorkbench")
      icon: UserAppData/Mod/plugins/icons/mars.png
+
 
   cadquery: &cadquery
      status: noignore
@@ -378,6 +326,7 @@ plugins:
      exec: FreeCADGui.activateWorkbench("CadQueryWorkbench")
      icon: UserAppData/Mod/plugins/icons/mars.png
 
+
   lattice: &lattice
      status: noignore
      name: Lattice WB
@@ -392,6 +341,68 @@ plugins:
      exec: FreeCADGui.activateWorkbench("LatticeWorkbench")
      icon: UserAppData/Mod/plugins/icons/mars.png
 
+
+
+
+
+
+#
+# specials
+#
+
+  styles: &styles
+    name: FreeCAD styles
+    status: noignore
+    web: http://forum.freecadweb.org/viewtopic.php?f=9&t=11419
+    man: https://github.com/pgilfernandez/FreeCAD_stylesheets/blob/master/README.md
+    description: QT themes (stylesheet) specially developed for FreeCAD
+    author: pgilfernandez
+    source: https://github.com/pgilfernandez/FreeCAD_stylesheets/archive/master.zip
+    method: zip
+    sourcedir: FreeCAD_stylesheets-master
+    destdir: UserAppData/Gui/Stylesheets
+    replace:
+       files: 
+         - dark-green.qss
+         - dark-blue.qss
+         - dark-orange.qss
+         - light-green.qss
+         - light-blue.qss
+         - light-orange.qss
+       pattern:  \[PATH_TO_IMAGES\] 
+       data:  UserAppData/Gui/Stylesheets/images
+
+
+  pluginloader: &pluginloader
+    web: http://freecadbuch.de/doku.php?id=pluginmanager
+    status: noignore
+    author: microelly
+    method: zip
+
+
+  sipoc : &sipoc
+    name: sipoc
+    status: ignore
+    description : Single Point Configuration
+    web: http://freecadbuch.de/doku.php?id=Sipoc
+    author: microelly2
+    source: https://github.com/microelly2/freecad-sipoc/archive/master.zip
+    sourcedir: freecad-sipoc-master
+    timestamp: https://raw.githubusercontent.com/microelly2/freecad-sipoc/master/release
+    destdir: UserAppData/Mod/plugins/plugin3
+
+
+  selectiontoolbar : &setobar
+    name: selection toolbar 
+    status: noignore
+    description : Single Point Configuration
+    #web: http://freecadbuch.de/doku.php?id=Sipoc
+    author: microelly2
+    source: https://raw.githubusercontent.com/microelly2/freecad-dynamictools/master/selectiontoolbar.py
+    #timestamp: https://raw.githubusercontent.com/microelly2/freecad-sipoc/master/release
+    destdir: UserAppData/Mod/plugins/selectiontoolbar.py
+    format: flatfile
+    sourcedir: .
 
 
   bolts: &bolt
@@ -421,24 +432,11 @@ plugins:
     timestamp: https://raw.githubusercontent.com/microelly2//freecad-objecttree/master/release
     destdir: UserAppData/Mod/plugins/objecttree
     menu: Object Design Workflow Tree View
-  
 
-  JoinFeatures: &JoinF
-    name: JoinFeatures
-    status: ignore
-    man: http://forum.freecadweb.org/viewtopic.php?f=22&t=11112
-    web: http://forum.freecadweb.org/viewtopic.php?f=22&t=11112
-    description : Join Parts
-    author: DeepSOIC
-    source: https://github.com/DeepSOIC/JoinFeatures/archive/master.zip
-    sourcedir: JoinFeatures-master
-    destdir: UserAppData/Mod/JoinFeatures
-    menu: Object Design Workflow Tree View
-  
 
-  
-#------------------------
-
+#
+#  object collections
+#
 
 
   symbollib: &symli
@@ -472,23 +470,7 @@ plugins:
      exec: fn="UserAppData/Mod/plugins/FreeCAD-library/PartsLibrary.FCMacro";exec open(fn).read()
      icon: UserAppData/Mod/plugins/icons/master.png
 
-#------------------------
 
-  circular text: &cirtex
-    status: ignore
-    #source: https://gist.githubusercontent.com/mario52a/a25e802498bae6959335/raw/21e57b185f34859ee4753e196001873aee27c8fe/Macro_FCCircularText.FCMacro
-    # until the merge is done my version ...
-    source: https://gist.githubusercontent.com/microelly2/cea679cc7bf9da19f174/raw/3fc3ef2111d67f48a39aee1eb19d14ee44bef8fd/Macro_FCCircularText.FCMacro
-    sourcedir: .
-    destdir: UserAppData/Mod/plugins/Macro_FCCircularText.py
-    format: flatfile
-    menu: Circular Text Macro
-    exec: fn="UserAppData/Mod/plugins/FreeCAD-macros/ObjectCreation/Macro_FCCircularText.FCMacro";d={};exec(open(fn).read(),d,d)
-    #exec: import Macro_FCCircularText
-    icon: UserAppData/Mod/plugins/icons/circulartext.png
-    
-    
-    
   screw maker: &screw
     status: noignore
     source: http://forum.freecadweb.org/download/file.php?id=5449
@@ -501,20 +483,6 @@ plugins:
     exec: fn="UserAppData/Macros/screw_maker1_7.py";exec open(fn).read()
     exec: fn="UserAppData/Mod/plugins/FreeCAD-macros/ScrewMaker.FCMacro";exec open(fn).read()
 
-#------------------------
-#
-#  FreeCAD macrolib
-#
-#--------------------------
-
-  freecad-makros:
-    status: noignore
-    web: http://www.freecadweb.org/wiki/index.php?title=Macros_recipes
-    source:  https://github.com/FreeCAD/FreeCAD-macros/archive/master.zip
-    sourcedir: FreeCAD-macros-master
-    destdir: UserAppData/Mod/plugins/FreeCAD-macros
-    format: zip
-    
 
 #----------------------------
   menutest2:
@@ -559,6 +527,8 @@ plugins:
     backup: UserAppData/tmp/bak2_
     icon: UserAppData/Mod/plugins/icons/master.png
 
+
+
 # defaults:
 # if you don not specify parameters for your package
 # the following defaults will be used
@@ -598,9 +568,14 @@ base:
 
 
 
+# data
+# database of buttons without extra installation
 
-# database of buttons
 data:
+
+#
+# workbenches
+# 
   Animat: &Anim
     exec: FreeCADGui.activateWorkbench("AnimationWorkbench")
     icon: UserAppData/Mod/Animation/icons/animation.png
@@ -620,7 +595,6 @@ data:
   DrawingDim: &Ddim
     exec: FreeCADGui.activateWorkbench("DrawingDimensioningWorkbench")
     icon: UserAppData/Mod/plugins/icons/drawing_dim.png
-    
   Exploded: &Exan
     exec: FreeCADGui.activateWorkbench("ExplodedAnimation")
     icon: UserAppData/Mod/plugins/icons/icon_createroute.png
@@ -690,8 +664,9 @@ data:
       exec: FreeCADGui.activateWorkbench("PathWorkbench")
       icon: UserAppData/Mod/plugins/icons/path.png
 
-
+#
 # FreeCAD-macros calls
+#
   Peel the Egg: &peg
       exec: fn="UserAppData/Mod/plugins/microelly-macros/peeltheegg.py";d={};exec("import FreeCAD,FreeCADGui;App=FreeCAD;\n" + open(fn).read(),d,d)
 
@@ -769,24 +744,13 @@ data:
     icon: UserAppData/Mod/plugins/icons/freecad.png
     exec: import FreeCAD;FreeCAD.Console.PrintWarning('*****default Method FreeCAD-Dir=UserAppData/! HOME-Dir=UserHomePath/!  UserData-Dir=UserAppData/!\n')
 
-# Join Features
-  pcf_cutout:  &pcf_cutout
-    icon: UserAppData/Mod/JoinFeatures/PyResources/icons/Part-joinCutout.svg 
-    exec: import JoinFeatures;JoinFeatures._CommandCutoutFeature().Activated()
-  pcf_connect:  &pcf_connect
-    icon: UserAppData/Mod/JoinFeatures/PyResources/icons/Part-joinConnect.svg 
-    exec: import JoinFeatures;JoinFeatures._CommandConnectFeature().Activated()
-  pcf_embed:  &pcf_embed
-    icon: UserAppData/Mod/JoinFeatures/PyResources/icons/Part-joinEmbed.svg 
-    exec: import JoinFeatures;JoinFeatures._CommandEmbedFeature().Activated()
-  
+#
+# tabs 
 # tabs of the manager window
+#
+
 tabs: &tabs
   0 Favorites:
-#    01 Join Cutout:  *pcf_cutout
-#    02 Join Connect:  *pcf_connect
-#    03 Join Embed:  *pcf_embed
-
     0 Object Design Workflow Tree: *ObjTree
     13 Workfeature Macro: *wofe
     11 PartDesign: *PartDesign
@@ -794,11 +758,9 @@ tabs: &tabs
     12 Draft: *Draft
     30 Drawing: *Dang
     31 DrawingDim: *Ddim
-#    FEM: *FEM
-#    Cura Engine: *cura
-#    Test PM: *Test2
     90 Reload PluginManager:
       exec: PluginManager.reload()
+
 #---------------------------------------------------------------
   1 Pre: # activities before CAD
     3 Image WB: *Imag
@@ -818,20 +780,12 @@ tabs: &tabs
     5 Mesh WB: *Mesh
     # macros
     0 Workfeature Macro: *wofe
-    
+
     # add objects
     81 Bolts Lib: *bolt
     82 Screw maker Macro: *screw
     80 Part Lib : *pali
-    901 Join Cutout:  *pcf_cutout
-    902 Join Connect:  *pcf_connect
-    903 Join Embed:  *pcf_embed
 
-
-#    Create Box:
-#      exec:  FreeCAD.ActiveDocument.addObject("Part::Box","Box")
-#      icon:  UserAppData/Mod/plugins/icons/part.png
-#      man: http://www.freecadweb.org
     91 Solid Sweep Macro: *Sweep
     92 Circular Text Macro: *cirtex
 
@@ -898,10 +852,12 @@ tabs: &tabs
     14 Gear Generator WB: *gear
 
 
-
+#
 # toolbars - examples faster than menues
+#
 
 # my toolbars for workbenches 
+
 mytoolbars: &mytoolbars
    PartWorkbench:
    # Part will get two extra toolbars: My Workbenches and My Macros ...
@@ -916,11 +872,7 @@ mytoolbars: &mytoolbars
       Rectellipse: *Rectellipse
       Foto: *Foto
       Switch to Drawing Workbench: *Dang
-     ConnectFeatures:
-       01 Join Cutout:  *pcf_cutout
-       02 Join Connect:  *pcf_connect
-       03 Join Embed:  *pcf_embed
-       04 Hyperbola: *Hyperbola
+      04 Hyperbola: *Hyperbola
 
    FemWorkbench: &FEM1
    # FEM gets this toolbar with 6 items
