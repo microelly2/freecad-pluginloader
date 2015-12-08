@@ -27,6 +27,17 @@
 
 plugins: 
 
+  peta-t-makros:
+    status: noignore
+    author: peta t
+    description: macro collection 
+    man: https://github.com/Peta-T/FreeCAD-PartMacros/blob/master/README.md
+    source:  https://github.com/Peta-T/FreeCAD-PartMacros/archive/master.zip
+    sourcedir: FreeCAD-PartMacros-master
+    destdir: AppHomePath/Mod/plugins/peta-t-macros
+    format: zip
+
+
   gear: &gear
     name:  different types of gears, involute gear, involute rack, cycloide gear, bevel gear
     status: noignore
@@ -938,16 +949,21 @@ mytoolbars: &mytoolbars
 
 
 anOtherToolbars: &anOtherToolbars
-   PartWorkbench: *FEM1
+#   PartWorkbench: *FEM1
    PartDesignWorkbench: *yy
-
+   PartWorkbench: 
+       FEM2: *FEM
+       FEM: *FEM
+       PCB: *pcb
+       Foto: *Foto
 #
 #  use one predefined toolbar 
 #  (uncomment only your favorite)
 
 toolbars: &toolbars
    <<: *mytoolbars
-#toolbars: *anOtherToolbars
+
+toolbars: *anOtherToolbars
 
    
  
