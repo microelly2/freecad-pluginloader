@@ -20,17 +20,26 @@
 #*                                                                         *
 #***************************************************************************
 
+global __version__
+__version__='0.35 B (2015/12/09)'
+
+
 import FreeCAD
 
 FreeCAD.Console.PrintMessage("Mod pluginloader InitGui.py starting ...\n")
 
-App=FreeCAD
 
 global sys,traceback
 import FreeCAD,os,FreeCADGui,time,sys,traceback
+global re
+import re
+import os
+
 
 
 import Draft
+import Part
+
 
 global PySide
 import PySide
@@ -59,8 +68,6 @@ def say(s):
 	App.Console.PrintMessage(str(s)+"\n")
 
 
-global __version__
-__version__='0.34 (2015/07/30)'
 
 global sayexc
 def sayexc(mess=''):
@@ -71,8 +78,6 @@ def sayexc(mess=''):
 	l2=lls[(l-3):]
 	FreeCAD.Console.PrintError(mess + "\n" +"-->  ".join(l2))
 
-import re
-import os
 
 global pathMacro
 def pathMacro(s):
@@ -252,12 +257,14 @@ class MyDock(QtGui.QDockWidget):
 				except Exception:
 					sayexc("exception add Tool Bar")
 				for tool in sorted(self.pluginloader.config3["toolbars"][workbench][ky].keys()):
+					say("tool, ky, yy ...")
 					say(tool)
 					say(ky)
 					yy=self.pluginloader.config3["toolbars"][workbench][ky][tool]
 					say(yy)
 					FreeCAD.yy=yy
 					FreeCAD.tb=toolbarBox
+					
 					myAction2=QtGui.QAction(QtGui.QIcon(yy['icon']),tool ,mw)
 					myAction2.setToolTip(tool)
 					toolbarBox.addAction(myAction2)
@@ -397,7 +404,6 @@ global PluginManager
 
 try:
 	PluginManager.hide()
-	pass
 except:
 	pass
 
@@ -424,8 +430,6 @@ FreeCAD.Console.PrintMessage("Mod pluginloader InitGui.py done"+"\n")
 PluginManager.genlabels()
 
 
-global re
-import re
 def runme():
 	if PluginManager.toolbar >= 0:
 		try:
@@ -441,15 +445,10 @@ def runme():
 				m = re.match(pat, wbs)
 				if m:
 					name=m.group(1)
-			import Part
-			#FreeCAD.Console.PrintMessage("\n " +name)
-			#FreeCAD.Console.PrintMessage(" gen ..")
 			if name <>"NoneWorkbench":
 				PluginManager.gentoolbars(name)
-			#FreeCAD.Console.PrintMessage(" .. gened" )
 		except:
-			sayexc("except 2")
-			# PluginManager.gentoolbars("Robot")
+			sayexc("function runme on changed workbench")
 	PluginManager.toolbar +=1
 	self=FreeCAD.Gui.getMainWindow()
 	self.show()
@@ -465,6 +464,7 @@ t.workbenchActivated.connect(runme)
 #	FreeCAD.EventServer.speakWord.emit("hallo  Eventserver ...")
 #except:
 #	pass
+
 if FreeCAD.ParamGet('User parameter:Plugins').GetBool('autoStartEventFilter'):
 	try:
 		import keyfilter

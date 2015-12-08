@@ -921,9 +921,7 @@ mytoolbars: &mytoolbars
        02 Join Connect:  *pcf_connect
        03 Join Embed:  *pcf_embed
        04 Hyperbola: *Hyperbola
-    
 
-   
    FemWorkbench: &FEM1
    # FEM gets this toolbar with 6 items
      My FEM Toolbar:
@@ -949,21 +947,14 @@ mytoolbars: &mytoolbars
 
 
 anOtherToolbars: &anOtherToolbars
-#   PartWorkbench: *FEM1
    PartDesignWorkbench: *yy
-   PartWorkbench: 
-       FEM2: *FEM
-       FEM: *FEM
-       PCB: *pcb
-       Foto: *Foto
-#
-#  use one predefined toolbar 
-#  (uncomment only your favorite)
+   PartWorkbench: *yy
+
 
 toolbars: &toolbars
    <<: *mytoolbars
 
-toolbars: *anOtherToolbars
+#toolbars: *anOtherToolbars
 
    
  

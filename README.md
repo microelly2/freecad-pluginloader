@@ -35,7 +35,7 @@ Use
 
 start FreeCAD
 
-A dockwindow will arise.
+A dockwindow will arise may be hidden, you can open it Menu View -> Views -> Pluginmanager
 
 The bottom item starts the installer dialog
  
@@ -46,7 +46,7 @@ Click Button install/update
 Configure
 ---------
 
-The configruation file pluginloaderconfig.yaml
+The configruation file is .FreeCAD/Mod/plugins/pluginloaderconfig.yaml
 
 Section plugins
 
