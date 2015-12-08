@@ -1,18 +1,22 @@
 # freecad-pluginloader
 
 
+#
+#
+# version for local install 
+#
 
 Install
 -------
 
 
-create the directory AppHomePath/Mod/plugins
+create the directory UserAppData/Mod/plugins
 
 download the zipfile  of the complete project to your computer.
 
 unzip it  - you will get a directotry freecad-pluginloader-master
 
-move the content of this directory  into  AppHomePath/Mod/plugins
+move the content of this directory  into  UserAppData/Mod/plugins
 
 you can modify this file if you want: pluginloaderconfig.yaml
 

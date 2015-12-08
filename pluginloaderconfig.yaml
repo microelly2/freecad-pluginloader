@@ -34,7 +34,7 @@ plugins:
     man: https://github.com/Peta-T/FreeCAD-PartMacros/blob/master/README.md
     source:  https://github.com/Peta-T/FreeCAD-PartMacros/archive/master.zip
     sourcedir: FreeCAD-PartMacros-master
-    destdir: AppHomePath/Mod/plugins/peta-t-macros
+    destdir: UserAppData/Mod/plugins/peta-t-macros
     format: zip
 
 
@@ -66,7 +66,7 @@ plugins:
 #    destdir: UserAppData/Mod/plugins/kicad-3d-models-in-freecad
     sourcedir: kicad-3d-models-in-freecad-master/cadquery/FCAD_script_generator/
     destdir: UserAppData/Mod/FCAD_script_generator
-    icon: AppHomePath/Mod/plugins/icons/ic-ico-64.png
+    icon: UserAppData/Mod/plugins/icons/ic-ico-64.png
     exec: fn="UserAppData/Mod/plugins/kicad-3d-models-in-freecad-master/cadquery/FCAD_script_generator/start_menu.py";d={};exec(open(fn).read(),d,d)
     exec: fn="UserAppData/Mod/FCAD_script_generator/start_menu.py";d={};exec(open(fn).read(),d,d)
 
@@ -92,7 +92,7 @@ plugins:
     man: https://github.com/wood-galaxy/FreeCAD-scripts/blob/master/README.md
     source:  https://github.com/wood-galaxy/FreeCAD-scripts/archive/master.zip
     sourcedir: FreeCAD-scripts-master
-    destdir: AppHomePath/Mod/plugins/wood-galaxy-macros
+    destdir: UserAppData/Mod/plugins/wood-galaxy-macros
     format: zip
 
 
@@ -105,7 +105,7 @@ plugins:
     web: https://github.com/psicofil/Macros_FreeCAD/blob/master/README.md
     source:  https://github.com/psicofil/Macros_FreeCAD/archive/master.zip
     sourcedir: Macros_FreeCAD-master
-    destdir: AppHomePath/Mod/plugins/psicofil-macros
+    destdir: UserAppData/Mod/plugins/psicofil-macros
     format: zip
 
 
@@ -117,7 +117,7 @@ plugins:
     web: https://github.com/microelly2/freeCAD_macro/blob/master/README.md
     source:  https://github.commicroelly2/freeCAD_macro/archive/master.zip
     sourcedir: freeCAD_macro-master
-    destdir: AppHomePath/Mod/plugins/microelly-macros
+    destdir: UserAppData/Mod/plugins/microelly-macros
     format: zip
 
 #plugins2:
@@ -195,11 +195,11 @@ plugins:
      source: https://github.com/marmni/FreeCAD-Kerkythea/archive/master.zip
      author: marmni
      sourcedir: FreeCAD-Kerkythea-master
-     destdir:  AppHomePath/Mod/plugins/FreeCAD-Kerkythea
+     destdir:  UserAppData/Mod/plugins/FreeCAD-Kerkythea
      menu: FreeCAD-Kerkythea
-#     exec: fn="AppHomePath/Mod/plugins/FreeCAD-Kerkythea/exportToKerkythea.FCMacro";d={};exec(open(fn).read(),d,d)
-     exec: runscript("AppHomePath/Mod/plugins/FreeCAD-Kerkythea/exportToKerkythea.FCMacro")
-     icon: AppHomePath/Mod/plugins/icons/camera-photo.png
+#     exec: fn="UserAppData/Mod/plugins/FreeCAD-Kerkythea/exportToKerkythea.FCMacro";d={};exec(open(fn).read(),d,d)
+     exec: runscript("UserAppData/Mod/plugins/FreeCAD-Kerkythea/exportToKerkythea.FCMacro")
+     icon: UserAppData/Mod/plugins/icons/camera-photo.png
      
 
 
@@ -242,7 +242,7 @@ plugins:
     backup: UserAppData/Mod/assembly2
     menu: Assembly2 Workbench
     exec: FreeCADGui.activateWorkbench("Assembly2Workbench")
-    icon: AppHomePath/Mod/plugins/icons/assembly2.png
+    icon: UserAppData/Mod/plugins/icons/assembly2.png
 
 
   drawing dimensioning : 
@@ -264,10 +264,10 @@ plugins:
     destdir: UserAppData/Mod/drawing_dimensioning
 
     # installation for all users
-    #destdir: AppHomePath/Mod/plugins/drawing_dimensioning
+    #destdir: UserAppData/Mod/plugins/drawing_dimensioning
     menu: Drawing Dimensioning Workbench
     exec: FreeCADGui.activateWorkbench("DrawingDimensioningWorkbench")
-    icon: AppHomePath/Mod/plugins/icons/drawing_dim.png
+    icon: UserAppData/Mod/plugins/icons/drawing_dim.png
 
   animation : &anim
     name: sipo
@@ -278,9 +278,9 @@ plugins:
     source: https://github.com/microelly2/Animation/archive/master.zip
     sourcedir: Animation-master
     timestamp: https://raw.githubusercontent.com/microelly2/Animation/master/release
-    destdir: AppHomePath/Mod/Animation
+    destdir: UserAppData/Mod/Animation
     web: http://freecadbuch.de/doku.php?id=Animation%20Wokbench
-    icon: AppHomePath/Mod/Animation/icons/animation.png
+    icon: UserAppData/Mod/Animation/icons/animation.png
 
   sipoc : &sipoc
     name: sipoc
@@ -291,7 +291,7 @@ plugins:
     source: https://github.com/microelly2/freecad-sipoc/archive/master.zip
     sourcedir: freecad-sipoc-master
     timestamp: https://raw.githubusercontent.com/microelly2/freecad-sipoc/master/release
-    destdir: AppHomePath/Mod/plugins/plugin3
+    destdir: UserAppData/Mod/plugins/plugin3
     
     # only one single menu entry
     #menu: sipoc - command3
@@ -307,7 +307,7 @@ plugins:
     source: https://raw.githubusercontent.com/microelly2/freecad-dynamictools/master/selectiontoolbar.py
     
     #timestamp: https://raw.githubusercontent.com/microelly2/freecad-sipoc/master/release
-    destdir: AppHomePath/Mod/plugins/selectiontoolbar.py
+    destdir: UserAppData/Mod/plugins/selectiontoolbar.py
     format: flatfile
     sourcedir: .
 
@@ -320,13 +320,13 @@ plugins:
      web: http://www.freecadweb.org/wiki/index.php?title=Macro_WorkFeatures
      timestamp: 00
      sourcedir: WorkFeature-master
-     destdir: AppHomePath/Mod/plugins/WorkFeature
+     destdir: UserAppData/Mod/plugins/WorkFeature
      menu: Workfeature Macro
-     #exec: fn="AppHomePath/Mod/plugins/WorkFeature/start_WF.FCMacro";exec open(fn).read()
-     exec: import sys;sys.path.append('AppHomePath/Mod/plugins/WorkFeature');import WorkFeature;reload(WorkFeature);m=WorkFeature.WorkFeatureTab() 
-     #exec: import sys;sys.path.append('AppHomePath/Mod/plugins/WorkFeature');import WorkFeature;reload(WorkFeature);t=FreeCADGui.getMainWindow();wf = t.findChild(QtGui.QDockWidget, "WorkFeatures");if not wf:myDialog = WorkFeatureTab()
+     #exec: fn="UserAppData/Mod/plugins/WorkFeature/start_WF.FCMacro";exec open(fn).read()
+     exec: import sys;sys.path.append('UserAppData/Mod/plugins/WorkFeature');import WorkFeature;reload(WorkFeature);m=WorkFeature.WorkFeatureTab() 
+     #exec: import sys;sys.path.append('UserAppData/Mod/plugins/WorkFeature');import WorkFeature;reload(WorkFeature);t=FreeCADGui.getMainWindow();wf = t.findChild(QtGui.QDockWidget, "WorkFeatures");if not wf:myDialog = WorkFeatureTab()
 
-     icon: AppHomePath/Mod/plugins/icons/WF_wf.png
+     icon: UserAppData/Mod/plugins/icons/WF_wf.png
   
   
   assembly animation dropbox:
@@ -352,7 +352,7 @@ plugins:
      destdir: UserAppData/Mod/ExplodedAssemblyAnimation
      menu: Assembly Animation Workbench
      exec: FreeCADGui.activateWorkbench("ExplodedAnimation")
-     icon: AppHomePath/Mod/plugins/icons/icon_createroute.png
+     icon: UserAppData/Mod/plugins/icons/icon_createroute.png
 
   sheet metal: &Sheetm
      name: Sheet Metal
@@ -362,7 +362,7 @@ plugins:
      destdir: UserAppData/Mod/SheetMetal
      menu: Assembly Animation Workbench
      exec: FreeCADGui.activateWorkbench("SheetMetalWorkbench")
-     icon: AppHomePath/Mod/plugins/icons/mars.png
+     icon: UserAppData/Mod/plugins/icons/mars.png
 
   cadquery: &cadquery
      status: noignore
@@ -376,7 +376,7 @@ plugins:
      destdir: UserAppData/Mod/CadQuery
      menu: CadQuery Workbench
      exec: FreeCADGui.activateWorkbench("CadQueryWorkbench")
-     icon: AppHomePath/Mod/plugins/icons/mars.png
+     icon: UserAppData/Mod/plugins/icons/mars.png
 
   lattice: &lattice
      status: noignore
@@ -390,7 +390,7 @@ plugins:
      destdir: UserAppData/Mod/Lattice
      menu: Lattice Workbench
      exec: FreeCADGui.activateWorkbench("LatticeWorkbench")
-     icon: AppHomePath/Mod/plugins/icons/mars.png
+     icon: UserAppData/Mod/plugins/icons/mars.png
 
 
 
@@ -401,17 +401,17 @@ plugins:
      web: http://www.bolts-library.org/de/index.html
      timestamp: 00
      sourcedir: BOLTS
-     destdir: AppHomePath/Mod/BOLTS
+     destdir: UserAppData/Mod/BOLTS
      menu: Bolts Library
      exec: import BOLTS;BOLTS.show_widget()
-     icon: AppHomePath/Mod/plugins/icons/bolts.png
+     icon: UserAppData/Mod/plugins/icons/bolts.png
      requires: pyside-tools 
   
   objtree: &ObjTree
     name: objecttree
     status: noignore
-    icon: AppHomePath/Mod/plugins/icons/freecad.png
-    exec: fn="AppHomePath/Mod/plugins/objecttree/objecttree.py";exec open(fn).read();
+    icon: UserAppData/Mod/plugins/icons/freecad.png
+    exec: fn="UserAppData/Mod/plugins/objecttree/objecttree.py";exec open(fn).read();
     man: https://github.com/microelly2/freecad-objecttree/blob/master/README.md
     web: https://github.com/microelly2/freecad-objecttree/blob/master/README.md
     description : Object Design Workflow Tree View
@@ -419,7 +419,7 @@ plugins:
     source: https://github.com/microelly2/freecad-objecttree/archive/master.zip
     sourcedir: freecad-objecttree-master
     timestamp: https://raw.githubusercontent.com/microelly2//freecad-objecttree/master/release
-    destdir: AppHomePath/Mod/plugins/objecttree
+    destdir: UserAppData/Mod/plugins/objecttree
     menu: Object Design Workflow Tree View
   
 
@@ -432,7 +432,7 @@ plugins:
     author: DeepSOIC
     source: https://github.com/DeepSOIC/JoinFeatures/archive/master.zip
     sourcedir: JoinFeatures-master
-    destdir: AppHomePath/Mod/JoinFeatures
+    destdir: UserAppData/Mod/JoinFeatures
     menu: Object Design Workflow Tree View
   
 
@@ -450,11 +450,11 @@ plugins:
      web: http://forum.freecadweb.org/viewtopic.php?f=9&t=10641&hilit=symbol+lib
      timestamp: 00
      sourcedir: FreeCAD-symbols-master
-     destdir:  AppHomePath/Mod/plugins/FreeCAD-symbols
-     backup:  AppHomePath/Mod/plugins/FreeCAD-symbols
+     destdir:  UserAppData/Mod/plugins/FreeCAD-symbols
+     backup:  UserAppData/Mod/plugins/FreeCAD-symbols
      menu: Drawing Symbols Library
-     exec: fn="AppHomePath/Mod/plugins/FreeCAD-symbols/SymbolsLibrary.FCMacro";exec open(fn).read()
-     icon: AppHomePath/Mod/plugins/icons/first_angle.png
+     exec: fn="UserAppData/Mod/plugins/FreeCAD-symbols/SymbolsLibrary.FCMacro";exec open(fn).read()
+     icon: UserAppData/Mod/plugins/icons/first_angle.png
 
   partlib: &pali
      name: partlib
@@ -466,11 +466,11 @@ plugins:
      author: yorik
      timestamp: 00
      sourcedir: FreeCAD-library-master
-     #destdir:  AppHomePath/Mod/plugins/FreeCAD-symbols
-     destdir: AppHomePath/Mod/plugins/FreeCAD-library
+     #destdir:  UserAppData/Mod/plugins/FreeCAD-symbols
+     destdir: UserAppData/Mod/plugins/FreeCAD-library
      menu: Parts Library
-     exec: fn="AppHomePath/Mod/plugins/FreeCAD-library/PartsLibrary.FCMacro";exec open(fn).read()
-     icon: AppHomePath/Mod/plugins/icons/master.png
+     exec: fn="UserAppData/Mod/plugins/FreeCAD-library/PartsLibrary.FCMacro";exec open(fn).read()
+     icon: UserAppData/Mod/plugins/icons/master.png
 
 #------------------------
 
@@ -480,12 +480,12 @@ plugins:
     # until the merge is done my version ...
     source: https://gist.githubusercontent.com/microelly2/cea679cc7bf9da19f174/raw/3fc3ef2111d67f48a39aee1eb19d14ee44bef8fd/Macro_FCCircularText.FCMacro
     sourcedir: .
-    destdir: AppHomePath/Mod/plugins/Macro_FCCircularText.py
+    destdir: UserAppData/Mod/plugins/Macro_FCCircularText.py
     format: flatfile
     menu: Circular Text Macro
-    exec: fn="AppHomePath/Mod/plugins/FreeCAD-macros/ObjectCreation/Macro_FCCircularText.FCMacro";d={};exec(open(fn).read(),d,d)
+    exec: fn="UserAppData/Mod/plugins/FreeCAD-macros/ObjectCreation/Macro_FCCircularText.FCMacro";d={};exec(open(fn).read(),d,d)
     #exec: import Macro_FCCircularText
-    icon: AppHomePath/Mod/plugins/icons/circulartext.png
+    icon: UserAppData/Mod/plugins/icons/circulartext.png
     
     
     
@@ -499,7 +499,7 @@ plugins:
     format: zipfile
     menu: Screw Maker Macro
     exec: fn="UserAppData/Macros/screw_maker1_7.py";exec open(fn).read()
-    exec: fn="AppHomePath/Mod/plugins/FreeCAD-macros/ScrewMaker.FCMacro";exec open(fn).read()
+    exec: fn="UserAppData/Mod/plugins/FreeCAD-macros/ScrewMaker.FCMacro";exec open(fn).read()
 
 #------------------------
 #
@@ -512,7 +512,7 @@ plugins:
     web: http://www.freecadweb.org/wiki/index.php?title=Macros_recipes
     source:  https://github.com/FreeCAD/FreeCAD-macros/archive/master.zip
     sourcedir: FreeCAD-macros-master
-    destdir: AppHomePath/Mod/plugins/FreeCAD-macros
+    destdir: UserAppData/Mod/plugins/FreeCAD-macros
     format: zip
     
 
@@ -525,7 +525,7 @@ plugins:
     source: https://github.com/microelly2/freecad-sipoc/archive/master.zip
     sourcedir: freecad-sipoc-master
     timestamp: https://raw.githubusercontent.com/microelly2/freecad-sipoc/master/release
-    destdir: AppHomePath/Mod/plugins/plugin3
+    destdir: UserAppData/Mod/plugins/plugin3
     menu: Single Point Configuration Macro
     
      # install this module with 3 menu items
@@ -550,14 +550,14 @@ plugins:
     #destdir: /tmp/destdir
     destdir: UserAppData/Mod/testdir
     #destdir: UserHomePath/testdir
-    #destdir: AppHomePath/Mod/testdir
+    #destdir: UserAppData/Mod/testdir
 
 
   defaulttest:
     status: ignore
     destdir: UserAppData/Mod/testdir
-    backup: AppHomePath/tmp/bak2_
-    icon: AppHomePath/Mod/plugins/icons/master.png
+    backup: UserAppData/tmp/bak2_
+    icon: UserAppData/Mod/plugins/icons/master.png
 
 # defaults:
 # if you don not specify parameters for your package
@@ -573,12 +573,12 @@ defaults: &defaults
     destdir: /tmp/destdir
     timestime: https://github.com/microelly2/plugin_defaults/timestamp
     menu: defaults
-    exec: import FreeCAD;FreeCAD.Console.PrintWarning('*****default Method FreeCAD-Dir=AppHomePath/! HOME-Dir=UserHomePath/!  UserData-Dir=UserAppData/!\n')
+    exec: import FreeCAD;FreeCAD.Console.PrintWarning('*****default Method FreeCAD-Dir=UserAppData/! HOME-Dir=UserHomePath/!  UserData-Dir=UserAppData/!\n')
     #backup: UserHomePath/tmp/bak2_
-    backup: AppHomePath/tmp/bak3_
+    backup: UserAppData/tmp/bak3_
     format: zipdir 
     method: zip
-    icon: AppHomePath/Mod/plugins/icons/master.png
+    icon: UserAppData/Mod/plugins/icons/master.png
  
  
 # base:
@@ -603,181 +603,181 @@ base:
 data:
   Animat: &Anim
     exec: FreeCADGui.activateWorkbench("AnimationWorkbench")
-    icon: AppHomePath/Mod/Animation/icons/animation.png
+    icon: UserAppData/Mod/Animation/icons/animation.png
   Arch: &Arch
     exec: FreeCADGui.activateWorkbench("ArchWorkbench")
-    icon: AppHomePath/Mod/plugins/icons/16px-Arch.png
+    icon: UserAppData/Mod/plugins/icons/16px-Arch.png
   Assembyl2: &Ass2
     exec: FreeCADGui.activateWorkbench("Assembly2Workbench")
-    icon: AppHomePath/Mod/plugins/icons/assembly2.png
+    icon: UserAppData/Mod/plugins/icons/assembly2.png
   Draft: &Draft
     exec: FreeCADGui.activateWorkbench("DraftWorkbench")
-    icon: AppHomePath/Mod/plugins/icons/16px-Workbench_Draft.png
+    icon: UserAppData/Mod/plugins/icons/16px-Workbench_Draft.png
   Drawing: &Dang
     exec: FreeCADGui.activateWorkbench("DrawingWorkbench")
-    icon: AppHomePath/Mod/plugins/icons/drawing-orthoviews.png
+    icon: UserAppData/Mod/plugins/icons/drawing-orthoviews.png
     man: http://www.freecadweb.org/wiki/index.php?title=Drawing_Module
   DrawingDim: &Ddim
     exec: FreeCADGui.activateWorkbench("DrawingDimensioningWorkbench")
-    icon: AppHomePath/Mod/plugins/icons/drawing_dim.png
+    icon: UserAppData/Mod/plugins/icons/drawing_dim.png
     
   Exploded: &Exan
     exec: FreeCADGui.activateWorkbench("ExplodedAnimation")
-    icon: AppHomePath/Mod/plugins/icons/icon_createroute.png
+    icon: UserAppData/Mod/plugins/icons/icon_createroute.png
   Image: &Imag
     exec: FreeCADGui.activateWorkbench("ImageWorkbench")
-    icon: AppHomePath/Mod/plugins/icons/16px-Workbench_Image.png
+    icon: UserAppData/Mod/plugins/icons/16px-Workbench_Image.png
   Inspection: &Insp
     exec: FreeCADGui.activateWorkbench("InspectionWorkbench")
-    icon: AppHomePath/Mod/plugins/icons/view-zoom-fit.png
+    icon: UserAppData/Mod/plugins/icons/view-zoom-fit.png
   Mesh: &Mesh
     exec: FreeCADGui.activateWorkbench("MeshWorkbench")
-    icon: AppHomePath/Mod/plugins/icons/16px-Workbench_Mesh.png
+    icon: UserAppData/Mod/plugins/icons/16px-Workbench_Mesh.png
   OpenSCAD: &Scad
     exec: FreeCADGui.activateWorkbench("OpenSCADWorkbench")
-    icon: AppHomePath/Mod/plugins/icons/16px-Workbench_OpenSCAD.png
+    icon: UserAppData/Mod/plugins/icons/16px-Workbench_OpenSCAD.png
   Plot: &Plot
     exec: FreeCADGui.activateWorkbench("PlotWorkbench")
-    icon: AppHomePath/Mod/plugins/icons/16px-Plot_Save.png
+    icon: UserAppData/Mod/plugins/icons/16px-Plot_Save.png
     info: Plot Workbench
     man: http://www.freecadweb.org/wiki/index.php?title=Plot_Module
   Points: &Poin
     exec: FreeCADGui.activateWorkbench("PointsWorkbench")
-    icon: AppHomePath/Mod/plugins/icons/points_import_point_cloud.png
+    icon: UserAppData/Mod/plugins/icons/points_import_point_cloud.png
   PCB: &Pcb
     exec: FreeCADGui.activateWorkbench("PCB")
-    icon: AppHomePath/Mod/plugins/icons/board.svg
+    icon: UserAppData/Mod/plugins/icons/board.svg
   Raytraicing: &Rayt
     exec: FreeCADGui.activateWorkbench("RaytracingWorkbench")
-    icon: AppHomePath/Mod/plugins/icons/preferences-raytracing.png
+    icon: UserAppData/Mod/plugins/icons/preferences-raytracing.png
   Reference: &Refe
     exec: FreeCADGui.activateWorkbench("ReferenceWorkbench")
-    icon: AppHomePath/Mod/plugins/icons/16px-Arch.png
+    icon: UserAppData/Mod/plugins/icons/16px-Arch.png
   Reverse: &Rein
     exec: FreeCADGui.activateWorkbench("ReverseEngineeringWorkbench")
-    icon: AppHomePath/Mod/plugins/icons/16px-Arch.png
+    icon: UserAppData/Mod/plugins/icons/16px-Arch.png
   Robot: &Robo
     exec: FreeCADGui.activateWorkbench("RobotWorkbench")
-    icon:  AppHomePath/Mod/plugins/icons/robot.png
+    icon:  UserAppData/Mod/plugins/icons/robot.png
   Ship: &Ship
     exec: FreeCADGui.activateWorkbench("ShipWorkbench")
-    icon:  AppHomePath/Mod/plugins/icons/ship.png
+    icon:  UserAppData/Mod/plugins/icons/ship.png
   Sketcher: &Sket
     exec: FreeCADGui.activateWorkbench("SketcherWorkbench")
-    icon: AppHomePath/Mod/plugins/icons/16px-Workbench_Sketcher.png
+    icon: UserAppData/Mod/plugins/icons/16px-Workbench_Sketcher.png
   Spreedsheet: &Calc
     exec: FreeCADGui.activateWorkbench("SpreadsheetWorkbench")
-    icon: AppHomePath/Mod/plugins/icons/16px-Spreadsheet_Create.png
+    icon: UserAppData/Mod/plugins/icons/16px-Spreadsheet_Create.png
   Start: &Start
     exec: FreeCADGui.activateWorkbench("StartWorkbench")
-    icon: AppHomePath/Mod/plugins/icons/freecad.png
+    icon: UserAppData/Mod/plugins/icons/freecad.png
   Test: &Test
     exec: FreeCADGui.activateWorkbench("TestWorkbench")
-    icon: AppHomePath/Mod/plugins/icons/part_measure_step_done.png
+    icon: UserAppData/Mod/plugins/icons/part_measure_step_done.png
   Web: &Web
     exec: FreeCADGui.activateWorkbench("WebWorkbench")
-    icon: AppHomePath/Mod/plugins/icons/web-browser.png
+    icon: UserAppData/Mod/plugins/icons/web-browser.png
   PartDesignWorkbench: &PartDesign
     exec: FreeCADGui.activateWorkbench("PartDesignWorkbench")
-    icon:  AppHomePath/Mod/plugins/icons/partdesign.png
+    icon:  UserAppData/Mod/plugins/icons/partdesign.png
   PartWorkbench: &Part
     exec: FreeCADGui.activateWorkbench("PartWorkbench")
-    icon:  AppHomePath/Mod/plugins/icons/part.png
+    icon:  UserAppData/Mod/plugins/icons/part.png
   FEMWorkbench: &FEM
     exec: FreeCADGui.activateWorkbench("FemWorkbench")
-    icon:  AppHomePath/Mod/plugins/icons/fem.png
+    icon:  UserAppData/Mod/plugins/icons/fem.png
   PathWorkbench : &Path
       exec: FreeCADGui.activateWorkbench("PathWorkbench")
-      icon: AppHomePath/Mod/plugins/icons/path.png
+      icon: UserAppData/Mod/plugins/icons/path.png
 
 
 # FreeCAD-macros calls
   Peel the Egg: &peg
-      exec: fn="AppHomePath/Mod/plugins/microelly-macros/peeltheegg.py";d={};exec("import FreeCAD,FreeCADGui;App=FreeCAD;\n" + open(fn).read(),d,d)
+      exec: fn="UserAppData/Mod/plugins/microelly-macros/peeltheegg.py";d={};exec("import FreeCAD,FreeCADGui;App=FreeCAD;\n" + open(fn).read(),d,d)
 
   Unfold: &unfold
-      exec: fn="AppHomePath/Mod/plugins/microelly-macros/unfold.py";d={};exec("import FreeCAD,FreeCADGui;App=FreeCAD;\n" + open(fn).read(),d,d)
+      exec: fn="UserAppData/Mod/plugins/microelly-macros/unfold.py";d={};exec("import FreeCAD,FreeCADGui;App=FreeCAD;\n" + open(fn).read(),d,d)
   Align to xy: &2xy
-      exec: fn="AppHomePath/Mod/plugins/microelly-macros/rot2xy.py";d={};exec("import FreeCAD,FreeCADGui;App=FreeCAD;\n" + open(fn).read(),d,d)
+      exec: fn="UserAppData/Mod/plugins/microelly-macros/rot2xy.py";d={};exec("import FreeCAD,FreeCADGui;App=FreeCAD;\n" + open(fn).read(),d,d)
 
 
   Camera: &Camera
-      exec: fn="AppHomePath/Mod/plugins/FreeCAD-macros/FCCamera.FCMacro";d={};exec("import FreeCAD,FreeCADGui;App=FreeCAD;\n" + open(fn).read(),d,d)
-      icon: AppHomePath/Mod/plugins/FreeCAD-macros/icons/Camera/FCCamera_00.png
+      exec: fn="UserAppData/Mod/plugins/FreeCAD-macros/FCCamera.FCMacro";d={};exec("import FreeCAD,FreeCADGui;App=FreeCAD;\n" + open(fn).read(),d,d)
+      icon: UserAppData/Mod/plugins/FreeCAD-macros/icons/Camera/FCCamera_00.png
 
   Rotate View:  &RotateView
-        exec: fn="AppHomePath/Mod/plugins/FreeCAD-macros/FCRotateView.FCMacro";d={};exec("import FreeCAD,FreeCADGui;App=FreeCAD;\n" + open(fn).read(),d,d)
-        icon: AppHomePath/Mod/plugins/FreeCAD-macros/icons/RotateView/right.png
+        exec: fn="UserAppData/Mod/plugins/FreeCAD-macros/FCRotateView.FCMacro";d={};exec("import FreeCAD,FreeCADGui;App=FreeCAD;\n" + open(fn).read(),d,d)
+        icon: UserAppData/Mod/plugins/FreeCAD-macros/icons/RotateView/right.png
         author: Joe Dowsett
         wiki: http://www.freecadweb.org/wiki/index.php?title=Macro_View_Rotation
         forum: http://forum.freecadweb.org/viewtopic.php?f=3&t=1784&hilit=View+Rotation#p12012
 
   Rotate View Absolute:  &RotateViewAbsolute
-        exec: fn="AppHomePath/Mod/plugins/FreeCAD-macros/FCRotateViewAbsolute.FCMacro";d={};exec("import FreeCAD,FreeCADGui;App=FreeCAD;\n" + open(fn).read(),d,d)
-        icon: AppHomePath/Mod/plugins/FreeCAD-macros/icons/RotateView/right_abs.png
+        exec: fn="UserAppData/Mod/plugins/FreeCAD-macros/FCRotateViewAbsolute.FCMacro";d={};exec("import FreeCAD,FreeCADGui;App=FreeCAD;\n" + open(fn).read(),d,d)
+        icon: UserAppData/Mod/plugins/FreeCAD-macros/icons/RotateView/right_abs.png
 
 
   ExportFem: &ExportFem
       man: http://forum.freecadweb.org/viewtopic.php?f=18&t=11455
-      exec: runscript("AppHomePath/Mod/plugins/FreeCAD-macros/FEM/ExportFem.FCMacro")
+      exec: runscript("UserAppData/Mod/plugins/FreeCAD-macros/FEM/ExportFem.FCMacro")
 
   Hyperbola: &Hyperbola
-     icon: AppHomePath/Mod/plugins/FreeCAD-macros/icons/HyperbolaIcon.png
-     exec: fn="AppHomePath/Mod/plugins/FreeCAD-macros/ObjectCreation/HyperbolaCreater.FCMacro";d={};exec(open(fn).read(),d,d)
+     icon: UserAppData/Mod/plugins/FreeCAD-macros/icons/HyperbolaIcon.png
+     exec: fn="UserAppData/Mod/plugins/FreeCAD-macros/ObjectCreation/HyperbolaCreater.FCMacro";d={};exec(open(fn).read(),d,d)
 
 
 #16.06.2015
 
 
   HalfHull: &Hahu
-      exec: fn="AppHomePath/Mod/plugins/FreeCAD-macros/ObjectCreation/HalfHull.FCMacro";exec open(fn).read()
+      exec: fn="UserAppData/Mod/plugins/FreeCAD-macros/ObjectCreation/HalfHull.FCMacro";exec open(fn).read()
       man: http://www.freecadweb.org/wiki/index.php?title=Macro_Half-Hull_Model
   GeodesicDome: &GeoDo
-      exec: fn="AppHomePath/Mod/plugins/FreeCAD-macros/ObjectCreation/GeodesicDome.FCMacro";exec open(fn).read()
+      exec: fn="UserAppData/Mod/plugins/FreeCAD-macros/ObjectCreation/GeodesicDome.FCMacro";exec open(fn).read()
       man: http://www.freecadweb.org/wiki/index.php?title=Macro_GeodesicDome
-      icon: AppHomePath/Mod/plugins/icons/geodo.png
+      icon: UserAppData/Mod/plugins/icons/geodo.png
   sweep: &Sweep
-      exec: fn="AppHomePath/Mod/plugins/FreeCAD-macros/SolidSweep.FCMacro";exec open(fn).read()
-      icon: AppHomePath/Mod/plugins/icons/mars.png
+      exec: fn="UserAppData/Mod/plugins/FreeCAD-macros/SolidSweep.FCMacro";exec open(fn).read()
+      icon: UserAppData/Mod/plugins/icons/mars.png
       man: http://www.freecadweb.org
   Unfold: &Unfold
-      exec: fn="AppHomePath/Mod/plugins/FreeCAD-macros/SheetMetalUnfolder.FCMacro";exec open(fn).read()
-      icon: AppHomePath/Mod/plugins/icons/mars.png
+      exec: fn="UserAppData/Mod/plugins/FreeCAD-macros/SheetMetalUnfolder.FCMacro";exec open(fn).read()
+      icon: UserAppData/Mod/plugins/icons/mars.png
   MyMacro: &Mymacro
-      exec: fn="AppHomePath/Mod/plugins/FreeCAD-macros/myMacroDir/myMacro.py";exec open(fn).read();main()
-      icon: AppHomePath/Mod/plugins/icons/mars.png
+      exec: fn="UserAppData/Mod/plugins/FreeCAD-macros/myMacroDir/myMacro.py";exec open(fn).read();main()
+      icon: UserAppData/Mod/plugins/icons/mars.png
   Foto: &Foto
-      exec: fn="AppHomePath/Mod/plugins/FreeCAD-macros/Foto.FCMacro";exec open(fn).read()
-      icon: AppHomePath/Mod/plugins/icons/camera-photo.png
+      exec: fn="UserAppData/Mod/plugins/FreeCAD-macros/Foto.FCMacro";exec open(fn).read()
+      icon: UserAppData/Mod/plugins/icons/camera-photo.png
       man: http://freecadbuch.de/doku.php?id=blog:massgerechte_fotos_vom_3d_fenster_erstellen
       info: create a well sized foto of the selected object from top view
 
   Rectellipse: &Rectellipse
-      exec: fn="AppHomePath/Mod/plugins/FreeCAD-macros/Rectellipse.FCMacro";exec open(fn).read()
-      icon: AppHomePath/Mod/plugins/icons/rectellipse.png
+      exec: fn="UserAppData/Mod/plugins/FreeCAD-macros/Rectellipse.FCMacro";exec open(fn).read()
+      icon: UserAppData/Mod/plugins/icons/rectellipse.png
       man: http://www.freecadweb.org/wiki/index.php?title=Macro_Rectellipse
 
   Import WB: &Impo
       exec: import FreeCAD;FreeCAD.Console.PrintWarning("I'm the Importer!")
-      icon: AppHomePath/Mod/plugins/icons/image-import.png
+      icon: UserAppData/Mod/plugins/icons/image-import.png
 
   Export WB: &Expo
       exec: import FreeCAD;FreeCAD.Console.PrintWarning("I'm the Exporter!")
-      icon: AppHomePath/Mod/plugins/icons/raytrace_exportproject.png
+      icon: UserAppData/Mod/plugins/icons/raytrace_exportproject.png
 
   Test: &Test2
-    icon: AppHomePath/Mod/plugins/icons/freecad.png
-    exec: import FreeCAD;FreeCAD.Console.PrintWarning('*****default Method FreeCAD-Dir=AppHomePath/! HOME-Dir=UserHomePath/!  UserData-Dir=UserAppData/!\n')
+    icon: UserAppData/Mod/plugins/icons/freecad.png
+    exec: import FreeCAD;FreeCAD.Console.PrintWarning('*****default Method FreeCAD-Dir=UserAppData/! HOME-Dir=UserHomePath/!  UserData-Dir=UserAppData/!\n')
 
 # Join Features
   pcf_cutout:  &pcf_cutout
-    icon: AppHomePath/Mod/JoinFeatures/PyResources/icons/Part-joinCutout.svg 
+    icon: UserAppData/Mod/JoinFeatures/PyResources/icons/Part-joinCutout.svg 
     exec: import JoinFeatures;JoinFeatures._CommandCutoutFeature().Activated()
   pcf_connect:  &pcf_connect
-    icon: AppHomePath/Mod/JoinFeatures/PyResources/icons/Part-joinConnect.svg 
+    icon: UserAppData/Mod/JoinFeatures/PyResources/icons/Part-joinConnect.svg 
     exec: import JoinFeatures;JoinFeatures._CommandConnectFeature().Activated()
   pcf_embed:  &pcf_embed
-    icon: AppHomePath/Mod/JoinFeatures/PyResources/icons/Part-joinEmbed.svg 
+    icon: UserAppData/Mod/JoinFeatures/PyResources/icons/Part-joinEmbed.svg 
     exec: import JoinFeatures;JoinFeatures._CommandEmbedFeature().Activated()
   
 # tabs of the manager window
@@ -830,7 +830,7 @@ tabs: &tabs
 
 #    Create Box:
 #      exec:  FreeCAD.ActiveDocument.addObject("Part::Box","Box")
-#      icon:  AppHomePath/Mod/plugins/icons/part.png
+#      icon:  UserAppData/Mod/plugins/icons/part.png
 #      man: http://www.freecadweb.org
     91 Solid Sweep Macro: *Sweep
     92 Circular Text Macro: *cirtex

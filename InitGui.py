@@ -90,7 +90,7 @@ def pathMacro(s):
 		arch=True
 	else:
 		arch=False
-	for k in ["UserHomePath","UserAppData","AppHomePath"]:
+	for k in ["UserHomePath","UserAppData","UserAppData"]:
 		pat=r"(.*)"+k+"/"+"(.*)"
 		m = re.match(pat, s)
 		if m:
@@ -98,7 +98,7 @@ def pathMacro(s):
 			post=m.group(2)
 			inn=FreeCAD.ConfigGet(k)
 			if arch:
-				if k == "AppHomePath": #Force sensible Plugin folder
+				if k == "UserAppData": #Force sensible Plugin folder
 					if inn == "/usr/":
 						inn=inn+"share/freecad/"
 					if inn == "/usr/bin/":
@@ -213,7 +213,7 @@ class MyDock(QtGui.QDockWidget):
 		self.lilayout.addWidget(scroll)
 		
 		self.pushButton00 = QtGui.QPushButton(QtGui.QIcon('icons:freecad.svg'),"Plugin Manager Version " + __version__)
-		self.pushButton01 = QtGui.QPushButton(QtGui.QIcon(FreeCAD.ConfigGet('AppHomePath')+'/Mod/mylib/icons/mars.png'),"Plugin Loader"     )
+		self.pushButton01 = QtGui.QPushButton(QtGui.QIcon(FreeCAD.ConfigGet('UserAppData')+'/Mod/mylib/icons/mars.png'),"Plugin Loader"     )
 		self.pushButton01.clicked.connect(self.start) 
 
 		layout.addWidget(self.pushButton00)
@@ -339,7 +339,7 @@ class MyDock(QtGui.QDockWidget):
 					if ff.has_key('icon'):
 						pushButton1 = QtGui.QPushButton(QtGui.QIcon(ff['icon']),funk)
 					else:
-						pushButton1 = QtGui.QPushButton(QtGui.QIcon(FreeCAD.ConfigGet('AppHomePath')+'/Mod/plugins/icons/sun.png'),funk)
+						pushButton1 = QtGui.QPushButton(QtGui.QIcon(FreeCAD.ConfigGet('UserAppData')+'/Mod/plugins/icons/sun.png'),funk)
 					if ff.has_key('info'): 
 						pushButton1.setToolTip(ff['info'])
 					try:
@@ -357,7 +357,7 @@ class MyDock(QtGui.QDockWidget):
 					pushButt_1 = QtGui.QPushButton(funk)
 					hBoxlayout.addWidget(pushButton1)
 					if ff.has_key('man'):
-						pushButt_2 = QtGui.QPushButton(QtGui.QIcon(FreeCAD.ConfigGet('AppHomePath')+'/Mod/plugins/icons/help.png'),'')
+						pushButt_2 = QtGui.QPushButton(QtGui.QIcon(FreeCAD.ConfigGet('UserAppData')+'/Mod/plugins/icons/help.png'),'')
 						pushButt_2.setToolTip('See WebSite Documentation')
 						cmdh='import WebGui; WebGui.openBrowser( "' +ff['man'] + '")'
 						yh=MyAction2(cmdh)

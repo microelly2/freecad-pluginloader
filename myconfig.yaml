@@ -48,10 +48,10 @@ toolbars:
           exec: import DraftTools;DraftTools.Move().Activated()
       mars:
           icon:  /usr/lib/freecad/Mod/plugins/icons/sun.png
-          exec: fn="AppHomePath/Mod/plugins/status.py";d={};exec(open(fn).read() + "\nsun()\n",d,d)
+          exec: fn="UserAppData/Mod/plugins/status.py";d={};exec(open(fn).read() + "\nsun()\n",d,d)
       sun:
           icon:  /usr/lib/freecad/Mod/plugins/icons/mars.png
-          exec: fn="AppHomePath/Mod/plugins/status.py";d={};exec(open(fn).read() + "\nmars()\n",d,d)
+          exec: fn="UserAppData/Mod/plugins/status.py";d={};exec(open(fn).read() + "\nmars()\n",d,d)
 
 
 #
@@ -104,8 +104,8 @@ tabs:
 
       0811 macro manager:
         man: http://forum.freecadweb.org/viewtopic.php?f=21&t=10905&start=20    
-        exec: fn="AppHomePath/Mod/plugins/macromanager.py";d={};exec(open(fn).read(),d,d)
-        icon: AppHomePath/Mod/Animation/icons/manager.png
+        exec: fn="UserAppData/Mod/plugins/macromanager.py";d={};exec(open(fn).read(),d,d)
+        icon: UserAppData/Mod/Animation/icons/manager.png
 
 #------------------------------
 
@@ -130,12 +130,12 @@ tabs:
         exec: runextern("/usr/bin/eog","/home/thomas/Bilder/bn_630.png")
       Dummy Macro: 
         exec: import FreeCAD;FreeCAD.Console.PrintWarning("Nothing to do!")
-        icon:  AppHomePath/Mod/plugins/icons/master.png
+        icon:  UserAppData/Mod/plugins/icons/master.png
         man: http://www.freecadweb.org
         info: A simple template 
       Greeting Macro : 
         exec: FreeCAD.Console.PrintWarning("Hello World!")
-        icon:  AppHomePath/Mod/plugins/icons/sun.png
+        icon:  UserAppData/Mod/plugins/icons/sun.png
         man: http://www.freecadweb.org
       My Test Macro: *Mymacro
 
@@ -159,42 +159,42 @@ tabs:
 #-----------------------------------------------------
    002 FreeCAD Macros:
     94 MakeCircle3Points:
-       exec: fn="AppHomePath/Mod/plugins/FreeCAD-macros/ObjectCreation/MakeCircle3Points.FCMacro";exec open(fn).read()
-       icon: AppHomePath/Mod/plugins/icons/circle-3points.png
+       exec: fn="UserAppData/Mod/plugins/FreeCAD-macros/ObjectCreation/MakeCircle3Points.FCMacro";exec open(fn).read()
+       icon: UserAppData/Mod/plugins/icons/circle-3points.png
     95 DraftCircle3Points:
-       exec: fn="AppHomePath/Mod/plugins/FreeCAD-macros/ObjectCreation/Draft_Circle_3_Points.FCMacro";exec open(fn).read()
-       icon: AppHomePath/Mod/plugins/icons/circle-3points.png
+       exec: fn="UserAppData/Mod/plugins/FreeCAD-macros/ObjectCreation/Draft_Circle_3_Points.FCMacro";exec open(fn).read()
+       icon: UserAppData/Mod/plugins/icons/circle-3points.png
     96 DraftCircle3PointsImproved:
-       exec: fn="AppHomePath/Mod/plugins/FreeCAD-macros/ObjectCreation/Draft_Circle_3_Points_improved.FCMacro";exec open(fn).read()
-       icon: AppHomePath/Mod/plugins/icons/circle-3points.png
+       exec: fn="UserAppData/Mod/plugins/FreeCAD-macros/ObjectCreation/Draft_Circle_3_Points_improved.FCMacro";exec open(fn).read()
+       icon: UserAppData/Mod/plugins/icons/circle-3points.png
     911 Ellipse-Center+2Points:
-       exec: fn="AppHomePath/Mod/plugins/FreeCAD-macros/ObjectCreation/Ellipse-Center+2Points.FCMacro";exec open(fn).read()
-       icon: AppHomePath/Mod/plugins/icons/ellipse-center+2points.png
+       exec: fn="UserAppData/Mod/plugins/FreeCAD-macros/ObjectCreation/Ellipse-Center+2Points.FCMacro";exec open(fn).read()
+       icon: UserAppData/Mod/plugins/icons/ellipse-center+2points.png
     921 Airfoil_Import_and_Scale:
-       exec: fn="AppHomePath/Mod/plugins/FreeCAD-macros/ObjectCreation/Airfoil_Import_and_Scale.FCMacro";exec open(fn).read();1+1
-       icon: AppHomePath/Mod/plugins/icons/airfoil.png
+       exec: fn="UserAppData/Mod/plugins/FreeCAD-macros/ObjectCreation/Airfoil_Import_and_Scale.FCMacro";exec open(fn).read();1+1
+       icon: UserAppData/Mod/plugins/icons/airfoil.png
     1216 Contextmenu by Gui.Selection:
-       exec: fn="AppHomePath/Mod/plugins/selectiontoolbar.py";exec open(fn).read()
-       icon: AppHomePath/Mod/plugins/icons/robot.png
+       exec: fn="UserAppData/Mod/plugins/selectiontoolbar.py";exec open(fn).read()
+       icon: UserAppData/Mod/plugins/icons/robot.png
 #--------------------------------------------------------
    003 Psicofil Macros:
     001 AnimatedConstrain:
-      exec: fn="AppHomePath/Mod/plugins/psicofil-macros/Macros/AnimatedConstrain.FCMacro";d={};exec("import FreeCAD;App=FreeCAD;\n" + open(fn).read(),d,d)
+      exec: fn="UserAppData/Mod/plugins/psicofil-macros/Macros/AnimatedConstrain.FCMacro";d={};exec("import FreeCAD;App=FreeCAD;\n" + open(fn).read(),d,d)
       man: https://github.com/psicofil/Macros_FreeCAD/blob/master/README.md
     002 GMSHMesh:
-      exec: fn="AppHomePath/Mod/plugins/psicofil-macros/Macros/GMSHMesh.FCMacro";d={};exec("import FreeCAD;App=FreeCAD;\n" + open(fn).read(),d,d)
+      exec: fn="UserAppData/Mod/plugins/psicofil-macros/Macros/GMSHMesh.FCMacro";d={};exec("import FreeCAD;App=FreeCAD;\n" + open(fn).read(),d,d)
       man: https://github.com/psicofil/Macros_FreeCAD/blob/master/README.md
     003 ParametricCurve:
-      exec: fn="AppHomePath/Mod/plugins/psicofil-macros/Macros/ParametricCurve.FCMacro";d={};exec("import FreeCAD,FreeCADGui;App=FreeCAD;\n" + open(fn).read(),d,d)
+      exec: fn="UserAppData/Mod/plugins/psicofil-macros/Macros/ParametricCurve.FCMacro";d={};exec("import FreeCAD,FreeCADGui;App=FreeCAD;\n" + open(fn).read(),d,d)
       man: https://github.com/psicofil/Macros_FreeCAD/blob/master/README.md
     004 RenderPovray:
-      exec: fn="AppHomePath/Mod/plugins/psicofil-macros/Macros/RenderPovray.FCMacro";d={};exec("import FreeCAD,FreeCADGui;App=FreeCAD;\n" + open(fn).read(),d,d)
+      exec: fn="UserAppData/Mod/plugins/psicofil-macros/Macros/RenderPovray.FCMacro";d={};exec("import FreeCAD,FreeCADGui;App=FreeCAD;\n" + open(fn).read(),d,d)
       man: https://github.com/psicofil/Macros_FreeCAD/blob/master/README.md
 #-----------------------------------------------------
    004 Export to Apps:
     31 Export for Kerkythea: *kerkythea
     32 Kerkythea Renderer: 
-        exec: import os;os.system("AppHomePath/Mod/plugins/Kerkythea2008/Kerkythea &")
+        exec: import os;os.system("UserAppData/Mod/plugins/Kerkythea2008/Kerkythea &")
         man: http://www.kerkythea.net/cms/
     41 ExportFem: *ExportFem
     42 Paraview:

@@ -28,7 +28,7 @@ def st1():
 	path0=storedir+'/freecad-pluginloader-master/'
 	for path, dirs, files in os.walk(path0):
 		rp= path.replace(path0,'')
-		directory=FreeCAD.ConfigGet('AppHomePath')+'/Mod/plugins/' + rp
+		directory=FreeCAD.ConfigGet('UserAppData')+'/Mod/plugins/' + rp
 		print directory
 		if not os.path.exists(directory):
 			os.makedirs(directory)

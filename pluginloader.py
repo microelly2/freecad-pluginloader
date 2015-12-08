@@ -27,7 +27,7 @@ from os.path import expanduser
 
 home = expanduser("~")
 __dir__=home+ '/.FreeCAD/Mod/pluginloader'
-__dir__=FreeCAD.ConfigGet('AppHomePath')+"/Mod/plugins"
+__dir__=FreeCAD.ConfigGet('UserAppData')+"/Mod/plugins"
 
 
 
@@ -71,7 +71,7 @@ def pathMacro(s):
 		arch=True
 	else:
 		arch=False
-	for k in ["UserHomePath","UserAppData","AppHomePath"]:
+	for k in ["UserHomePath","UserAppData","UserAppData"]:
 		pat=r"(.*)"+k+"/"+"(.*)"
 		m = re.match(pat, s)
 		if m:
@@ -79,7 +79,7 @@ def pathMacro(s):
 			post=m.group(2)
 			inn=FreeCAD.ConfigGet(k)
 			if arch:
-				if k == "AppHomePath": #Force sensible Plugin folder
+				if k == "UserAppData": #Force sensible Plugin folder
 					if inn == "/usr/":
 						inn=inn+"share/freecad/"
 					if inn == "/usr/bin/":
@@ -397,7 +397,7 @@ class PluginLoader(object):
 		say("---install or update !"+plugin+ "!") 
 		if plugin == 'pluginloader':
 			say("update MYSELF --------------- "+plugin) 
-			fn=FreeCAD.ConfigGet('AppHomePath')+"/Mod/plugins/installer.py";d={};exec(open(fn).read(),d,d)
+			fn=FreeCAD.ConfigGet('UserAppData')+"/Mod/plugins/installer.py";d={};exec(open(fn).read(),d,d)
 			now=timeString()
 			self.config[plugin]['installed']=now
 			FreeCAD.ParamGet('User parameter:/Plugins/'+plugin).SetString("installdate",now)
