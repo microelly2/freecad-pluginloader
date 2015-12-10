@@ -1,3 +1,4 @@
+__Author__='gffffffffffffffffffffffffffffffffff'
 
 
 import FreeCAD,PySide,os,FreeCADGui,time, sys,traceback

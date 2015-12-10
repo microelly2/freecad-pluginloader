@@ -19,6 +19,7 @@ import os,re, ast, _ast
 from configmanager import ConfigManager
 cm=ConfigManager("MacroManager")
 dir_name=cm.get('macrodir',FreeCAD.ConfigGet('UserAppData')+"/Mod/plugins/FreeCAD-macros")
+dir_name='/home/thomas/.FreeCAD/Mod/plugins'
 
 docstrings=['__Author__','__Version__','__Comment__','__Wiki__','__Icon__','__Help__','__Web__']
 
@@ -42,6 +43,7 @@ def getplugin(name=''):
 #	''' read the file filenam and create the parsetree '''
 
 	# test data
+	print "getplugin " + name 
 	if False:
 		content='''
 		
@@ -58,14 +60,18 @@ __Requires__ = ''
 '''
 	else:
 		content=open(name).read()
-	tree = ast.parse(content)
-	try:
-		# astpp found here
-		# http://alexleone.blogspot.de/2010/01/python-ast-pretty-printer.html
-		import astpp
-		print astpp.dump(tree)
+	try:	
+		tree = ast.parse(content)
+		try:
+			# astpp found here
+			# http://alexleone.blogspot.de/2010/01/python-ast-pretty-printer.html
+			import astpp
+			print astpp.dump(tree)
+		except:
+			pass
+		print "done"
 	except:
-		pass
+		tree=None
 	return tree
 
 def getplugindata(files):
@@ -73,25 +79,26 @@ def getplugindata(files):
 	for plin in files:
 		#print plin
 		tree=getplugin(plin)
-		doc={}
-		for id in docstrings:
-			doc[id]=""
-		for k in tree.body:
-			try:
-				for t in k.targets:
-					if t.id in docstrings:
-						print t.lineno
-						print t.id
-						if k.value.__class__ == _ast.Str:
-							v=k.value.s
-						elif k.value.__class__ == _ast.Num:
-							v=k.value.n
-						elif k.value.__class__ == _ast.Name:
-							v=k.value.id
-						doc[t.id]=v
-			except:
-				pass
-		plugindata[plin]=doc
+		if tree:
+			doc={}
+			for id in docstrings:
+				doc[id]=""
+			for k in tree.body:
+				try:
+					for t in k.targets:
+						if t.id in docstrings:
+							print t.lineno
+							print t.id
+							if k.value.__class__ == _ast.Str:
+								v=k.value.s
+							elif k.value.__class__ == _ast.Num:
+								v=k.value.n
+							elif k.value.__class__ == _ast.Name:
+								v=k.value.id
+							doc[t.id]=v
+				except:
+					pass
+			plugindata[plin]=doc
 	return plugindata
 
 
@@ -104,6 +111,10 @@ def findfiles(dir_name):
 			if re.search('\.FCMacro$', fname):  
 				s=root+'/'+fname
 				macrofiles.append(s)
+			if re.search('\.py$', fname):  
+				s=root+'/'+fname
+				macrofiles.append(s)
+
 	print macrofiles
 	return macrofiles
 
@@ -149,13 +160,21 @@ class MyAction2():
 def layout(widget,files,plugindata):	
 	zz=[]
 	n=0
+	print "generat layout for Macrolist"
+	print files
 	for fe in files:
 		print fe
 		n += 1
-		author=plugindata[fe]['__Author__']
-		comment=plugindata[fe]['__Comment__']
-		ic=plugindata[fe]['__Icon__']
-#		print fe,plugindata[fe]
+		try:
+			author=plugindata[fe]['__Author__']
+			comment=plugindata[fe]['__Comment__']
+			ic=plugindata[fe]['__Icon__']
+			print fe,plugindata[fe]
+		except:
+			author="UNKNOW"
+			comment="NO COMM"
+			ic="No icon"
+			
 		base=os.path.basename(fe)
 		st=base.upper() + '  ------  '
 		if author:
@@ -175,14 +194,19 @@ def layout(widget,files,plugindata):
 		ak1.setMaximumWidth(20)
 		hlay.addWidget(ak1)
 		
-		cmdh='import WebGui; WebGui.openBrowser( "' +plugindata[fe]['__Wiki__']+ '")'
+		try:
+			cmdh='import WebGui; WebGui.openBrowser( "' +plugindata[fe]['__Wiki__']+ '")'
+		except:
+			cmdh="NONE"
+		
 		FreeCAD.Console.PrintMessage(cmdh+"!-----------------------------------\n")
 		yh=MyAction2(cmdh)
 		ak1.yh=yh
-		if plugindata[fe]['__Wiki__'] <>'':
+		try:
+			plugindata[fe]['__Wiki__']
 			ak1.clicked.connect(yh.run)
 			ak1.setToolTip('See WebSite Documentation')
-		else:
+		except:
 			ak1.setIcon(QtGui.QIcon('icons:Tree_Dimension.svg'))
 		
 		
@@ -252,9 +276,14 @@ class Widget(QWidget):
 
 def macroManager():
 		files=findfiles(dir_name)
+		print "files 1---"
+		print files
+		print "plugindaat"
 		plugindata=getplugindata(files)
 		print plugindata
 		ww= Widget()
+		print "files ---"
+		print files
 		buttonlist=layout(ww,files,plugindata)
 		ww.show()
 		return ww

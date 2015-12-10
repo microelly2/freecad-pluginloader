@@ -152,6 +152,23 @@ plugins:
 # workbenches
 #
 
+
+# 10.12.2015
+  3dguitar: &3dguitar
+    name:  guitar generator
+    status: noignore
+    web: &web_3dguitar https://github.com/jptned/3DGuitar/
+    man:  http://forum.freecadweb.org/viewtopic.php?f=22&t=13394
+    description: guitar generator
+    author: MartijnvE and jptned
+    source: https://github.com/jptned/3DGuitar/archive/master.zip
+    method: zip
+    sourcedir: 3DGuitar-master
+    destdir: UserAppData/Mod/3DGuitar
+    icon: UserAppData/Mod/FCGear-master/Resources/icons/gearworkbench.svg
+    exec: FreeCADGui.activateWorkbench("TGD")
+
+
   gear: &gear
     name:  different types of gears, involute gear, involute rack, cycloide gear, bevel gear
     status: noignore

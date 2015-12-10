@@ -17,7 +17,7 @@ global MyAction,say,saye
 from configmanager import ConfigManager
 
 import WebGui
-__vers__=' version 0.16 A'
+__vers__=' version 0.17 A'
 
 from tools import *
 import sys, os, zipfile, traceback, time, yaml, urllib, re, platform, pprint 

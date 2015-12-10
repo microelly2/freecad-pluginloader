@@ -7,6 +7,9 @@
 #-- GNU Lesser General Public License (LGPL)
 #-------------------------------------------------
 
+__Version__='huhu'
+
+__Author__="AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
 
 from PySide import QtGui,QtCore
 import FreeCAD,tools,sys

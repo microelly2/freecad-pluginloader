@@ -1,3 +1,10 @@
+
+_Version__='huhu'
+
+__Author__="AAAAAAAgggggggggggggggggggggggggggAAAAAAAAAAAAAAAAAAAAAAAA"
+
+
+
 from tools import *
 
 global buffer
