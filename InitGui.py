@@ -21,7 +21,7 @@
 #***************************************************************************
 
 global __version__
-__version__='0.35 C (2015/12/09)'
+__version__='0.36  (2015/12/16)'
 
 
 import FreeCAD
@@ -65,8 +65,10 @@ def myDialoge(msg):
     diag.exec_()
 
 def say(s):
-	App.Console.PrintMessage(str(s)+"\n")
+	FreeCAD.Console.PrintMessage(str(s)+"\n")
 
+global saye
+saye=say
 
 
 global sayexc

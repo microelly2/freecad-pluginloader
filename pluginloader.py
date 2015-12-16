@@ -17,9 +17,9 @@ global MyAction,say,saye
 from configmanager import ConfigManager
 
 import WebGui
-__vers__=' version 0.17 A'
+__vers__=' version 0.17 A 116 localdirs'
 
-from tools import *
+from tools2 import *
 import sys, os, zipfile, traceback, time, yaml, urllib, re, platform, pprint 
 
 from datetime import datetime
@@ -28,6 +28,13 @@ from os.path import expanduser
 home = expanduser("~")
 __dir__=home+ '/.FreeCAD/Mod/pluginloader'
 __dir__=FreeCAD.ConfigGet('UserAppData')+"/Mod/plugins"
+
+
+#def say(s):
+#	App.Console.PrintMessage(str(s)+"\n")
+
+#global saye
+#saye=say
 
 
 
@@ -71,15 +78,30 @@ def pathMacro(s):
 		arch=True
 	else:
 		arch=False
-	for k in ["UserHomePath","UserAppData","UserAppData"]:
+	for k in ["UserHomePath","UserAppData","AppHomePath"]:
 		pat=r"(.*)"+k+"/"+"(.*)"
 		m = re.match(pat, s)
 		if m:
 			pre=m.group(1)
 			post=m.group(2)
 			inn=FreeCAD.ConfigGet(k)
+			#
+			# force location sensitive dirs ----------------------------------
+			#
+			localdirs=True
+			usbstick=False
+			school=False
+			if localdirs:
+				inn=FreeCAD.ConfigGet("UserAppData")
+			if usbstick:
+				inn=FreeCAD.ConfigGet("AppHomePath")
+			if school:
+				inn=FreeCAD.ConfigGet("AppHomePath")
+			#
+			# ----------------------------------------------------------------
+			#
 			if arch:
-				if k == "UserAppData": #Force sensible Plugin folder
+				if k == "AppHomePath": #Force sensible Plugin folder
 					if inn == "/usr/":
 						inn=inn+"share/freecad/"
 					if inn == "/usr/bin/":
@@ -131,7 +153,7 @@ class MyAction( QtGui.QAction):
 			exec(self.cmd)
 			say("done")
 
-class MyWidget(QtGui.QWidget):
+class PluginloaderWidget(QtGui.QWidget):
 	def __init__(self, master,*args):
 		QtGui.QWidget.__init__(self, *args)
 		self.master=master
@@ -255,8 +277,6 @@ class MyWidget(QtGui.QWidget):
 
 def transformkeylist(base,liste,val):
 	key=liste.pop(0)
-	#say(base)
-	#say(key)
 	if base.has_key(key) and len(liste) !=0:
 		transformkeylist(base[key],liste,val)
 	else:
@@ -286,8 +306,6 @@ def transformkeytree(base):
 		transformkeylist(base,liste,val)
 	return cc
 
-
-
 class PluginLoader(object):
 
 	def __init__(self):
@@ -311,7 +329,6 @@ class PluginLoader(object):
 			say("Try only:" + fn)
 			config3 = yaml.load(stream)
 		config3=set_defaults(config3)
-		
 
 		for plin in config3['plugins'].keys():
 			for k in config3['plugins'][plin].keys():
@@ -341,7 +358,7 @@ class PluginLoader(object):
 		self.base=config3['base']
 		self.config3=config3
 		self.keys=self.config.keys
-		
+
 		#----------------------------
 		if config3.has_key('keys') and config3['keys'].has_key("keyserver"):
 			try:
@@ -355,7 +372,8 @@ class PluginLoader(object):
 
 
 	def start(self):
-		s=MyWidget(self)
+		''' start dialog linked inside InitGui.py of the pluginmanager''' 
+		s=PluginloaderWidget(self)
 		self.widget=s
 		s.show()
 
@@ -392,8 +410,7 @@ class PluginLoader(object):
 		self.widget.lab2.setText("Install start")
 		self.widget.show()
 		plugin=item
-		
-		
+
 		say("---install or update !"+plugin+ "!") 
 		if plugin == 'pluginloader':
 			say("update MYSELF --------------- "+plugin) 
@@ -434,7 +451,6 @@ class PluginLoader(object):
 			zipfilename=zipextract+".7z"
 		else:
 			zipfilename=zipextract+".zip"
-		
 		say("zipfile: " + zipfilename)
 		zipextract += '/'
 		if needUpdate:
@@ -449,6 +465,7 @@ class PluginLoader(object):
 					saye("destdir not given -- install aborted")
 					return
 				say("before download ...")
+				say(self.config[plugin]['destdir'])
 				if self.config[plugin].has_key('format') and self.config[plugin]['format']=='flatfile':
 					zipfilename=zipextract+"../a.txt"
 					say(zipfilename)
@@ -531,9 +548,6 @@ class PluginLoader(object):
 							f= self.config[plugin]['replace']['files']
 							say(f)
 							d=pathMacro(d)
-#							say(d)
-#							say(f)
-#							say(base)
 							for fil in f:
 								try:
 									cmd="sed -e 's#"+str(p)+"#"+str(d)+"#' " + source + "/" + fil + ">" + source + "/"+fil+".sed" 

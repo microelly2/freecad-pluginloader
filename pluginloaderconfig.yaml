@@ -153,6 +153,23 @@ plugins:
 #
 
 
+# 16.12.2015
+  glider: &glider
+    name:  glider
+    status: noignore
+    web: &web_glider  https://github.com/looooo/freecad_glider
+    man:  http://forum.freecadweb.org/viewtopic.php?f=22&t=13394
+    description:  paragliding engineering  with Openglider
+    author: looooo
+    source: https://github.com/looooo/freecad_glider/archive/master.zip
+    method: zip
+    sourcedir: freecad_glider-master/freecad_glider
+    destdir: UserAppData/Mod/freecad_glider
+    icon: UserAppData/Mod/freecad_glider/icons/glider_workbench.svg
+    exec: FreeCADGui.activateWorkbench("gliderWorkbench")
+
+
+
 # 10.12.2015
   3dguitar: &3dguitar
     name:  guitar generator
@@ -846,7 +863,11 @@ tabs: &tabs
     Ship WB: *Ship
     Robot WB: *Robo
     #Sheet Metal ...
-    Sheet Metal Unfolder Macro: *Unfold
+#    Sheet Metal Unfolder Macro: *Unfold
+    Sheet Metal: *sheetmetal
+    Glider: *glider
+    3D Guitar: *3dguitar
+    
   
   8 Aux: # not realy needed in production workflow
     Sketcher WB: *Sket
