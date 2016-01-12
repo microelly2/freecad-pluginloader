@@ -32,6 +32,20 @@ plugins:
 #
 # 
 
+# 12.01.2016
+
+# https://github.com/edwardvmills/NURBSlib_EVM
+  nurbslib_evm:
+    status: noignore
+    author: edwardvmills
+    description: macro collection 
+    man: https://github.com/Peta-T/FreeCAD-PartMacros/blob/master/README.md
+    source:  https://github.com/edwardvmills/NURBSlib_EVM/archive/master.zip
+    sourcedir: NURBSlib_EVM-master/
+    destdir: UserAppData/Mod/plugins/NURBSlib_EVM
+    format: zip
+
+
 # 08.12.2015
   peta-t-makros:
     status: noignore
@@ -111,13 +125,12 @@ plugins:
      exec: runscript("UserAppData/Mod/plugins/FreeCAD-Kerkythea/exportToKerkythea.FCMacro")
      icon: UserAppData/Mod/plugins/icons/camera-photo.png
 
-
-  workfeature: &wofe
+  workfeature2: &wofe
      name: workfeature 
      status: noignore
      source: https://github.com/Rentlau/WorkFeature/archive/master.zip
      web: http://www.freecadweb.org/wiki/index.php?title=Macro_WorkFeatures
-     timestamp: 00
+#     timestamp: 00
      sourcedir: WorkFeature-master
      destdir: UserAppData/Mod/plugins/WorkFeature
      menu: Workfeature Macro
@@ -151,6 +164,23 @@ plugins:
 #
 # workbenches
 #
+
+
+# 12.01.2016
+  tabbar: &tabbar
+    name:  tabbar
+    status: noignore
+    web: &web_tabbar  https://github.com/looooo/freecad_glider
+    man:  http://forum.freecadweb.org/viewtopic.php?f=22&t=13394
+    description:  paragliding engineering  with Openglider
+    author: triplus
+    source: https://github.com/triplus/TabBar/archive/master.zip
+    method: zip
+    sourcedir: TabBar-master/
+    destdir: UserAppData/Mod/tabbar
+#    icon: UserAppData/Mod/freecad_glider/icons/glider_workbench.svg
+#    exec: FreeCADGui.activateWorkbench("gliderWorkbench")
+
 
 
 # 16.12.2015
