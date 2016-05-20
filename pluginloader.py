@@ -17,7 +17,11 @@ global MyAction,say,saye
 from configmanager import ConfigManager
 
 import WebGui
-__vers__=' version 0.17 A 116 localdirs'
+
+__vers__=' version 0.20'
+
+
+
 
 from tools2 import *
 import sys, os, zipfile, traceback, time, yaml, urllib, re, platform, pprint 
@@ -30,12 +34,25 @@ __dir__=home+ '/.FreeCAD/Mod/pluginloader'
 __dir__=FreeCAD.ConfigGet('UserAppData')+"/Mod/plugins"
 
 
+
+ta=FreeCAD.ParamGet('User parameter:Plugins')
+fn=ta.GetString("configfile")
+os=platform.system()
+
+localdirs=ta.GetBool("localdirs",True)
+usbstick=ta.GetBool("usbstick",False)
+school=ta.GetBool("school",False)
+
+ta.SetBool("localdirs",localdirs)
+ta.SetBool("usbstick",usbstick)
+ta.SetBool("school",school)
+
+
 #def say(s):
 #	App.Console.PrintMessage(str(s)+"\n")
 
 #global saye
 #saye=say
-
 
 
 import FreeCAD,os,time,sys,traceback
@@ -63,10 +80,14 @@ def timeString():
 
 # read from file and converted to python
 
+
+
+
 def pathMacro(s):
 	'''
 	replace shortname by os path
 	'''
+	global localdirs,usbstick,school
 	kk=('Linux', 'Arch', '4.0.1-1-ARCH', '#1 SMP PREEMPT Wed Apr 29 12:00:26 CEST 2015', 'x86_64')
 	import os
 	try:
@@ -88,9 +109,10 @@ def pathMacro(s):
 			#
 			# force location sensitive dirs ----------------------------------
 			#
-			localdirs=True
-			usbstick=False
-			school=False
+#			localdirs=True
+#			usbstick=False
+#			school=False
+
 			if localdirs:
 				inn=FreeCAD.ConfigGet("UserAppData")
 			if usbstick:
@@ -124,10 +146,6 @@ def set_defaults(conf):
 			if not conf['plugins'][key].has_key(att):
 				conf['plugins'][key][att]=conf['defaults'][att]
 	return(conf)
-
-ta=FreeCAD.ParamGet('User parameter:Plugins')
-fn=ta.GetString("configfile")
-os=platform.system()
 
 # where am I ?
 where=ta.GetString("whereAmI")
@@ -306,6 +324,50 @@ def transformkeytree(base):
 		transformkeylist(base,liste,val)
 	return cc
 
+
+myconfigstring='''
+#------------------------------------------------
+#-- individual configuration of the plugin manager
+#--
+#-- microelly 2015
+#--
+#-- GNU Lesser General Public License (LGPL)
+#-------------------------------------------------
+
+# here you can configure your own package list, toolbars and tabs
+
+#
+# plugins section
+#
+
+#plugins: 
+#  <<: *plugins
+
+#
+# toolbars section 
+#
+# 1. subkey = Name of the Workbench
+# 2. subkey = Name of the Toolbar
+# 3. subkey = Name of the Item
+# 4. subkeys: Confogiuration of the Item (Icon, Command, ...)
+#
+
+toolbars:
+  <<: *toolbars
+
+#
+# tabs section
+#
+# 1. subkey = Name of the Tab
+# 2. subkey = Name of the Item
+# 3. subkeys: Confogiuration of the Item (Icon, Command, ...)
+#
+
+tabs:
+   <<: *tabs
+   
+'''
+
 class PluginLoader(object):
 
 	def __init__(self):
@@ -321,6 +383,17 @@ class PluginLoader(object):
 				mcf = open(fn2, 'r').read()
 			except:
 				sayexc("userconfigfile not available",True)
+				try:
+					z=ConfigManager('')
+					fn2=z.get('userconfigfile',"/usr/lib/freecad/Mod/plugins/myconfig.yaml")
+					say("pluginmanager userconfig file "+ fn2)
+					mcf = open(fn2, 'w')
+					mcf.write(myconfigstring)
+					mcf.close()
+					mcf = open(fn2, 'r').read()
+				except:
+					sayexc("userconfigfile not available and cannot be created",True)
+
 			all=stream + mcf
 			config3 = yaml.load(all)
 		#	config3=set_defaults(config3)
@@ -500,12 +573,10 @@ class PluginLoader(object):
 				if self.config[plugin].has_key('backup'):
 					try:
 						say("backup " + destination)
-						
 						say(" to " + self.config[plugin]['backup']+"/bak."+str(time.time()))
 						if not os.path.exists(self.config[plugin]['backup']):
 							say("create dir " + self.config[plugin]['backup'])
 							os.makedirs(self.config[plugin]['backup'])
-						# os.rename(destination,"c:/windows/temp/bak"+str(time.time()))
 						os.rename(destination,self.config[plugin]['backup']+"/bak."+str(time.time()))
 					except:
 						sayexc("hier")

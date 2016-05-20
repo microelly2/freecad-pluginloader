@@ -21,7 +21,7 @@
 #***************************************************************************
 
 global __version__
-__version__='0.36  (2015/12/16)'
+__version__='0.37  (2016/02/16)'
 
 
 import FreeCAD
@@ -151,7 +151,6 @@ def runextern(fn,arg1="",arg2=""):
 		except:
 			sayexc("exec error file:" + fn ) 
 	else:
-
 		sayexc("no access to " + fn) 
 
 
@@ -243,7 +242,6 @@ class MyDock(QtGui.QDockWidget):
 		say("gentoolbars ...")
 		if self.pluginloader.config3["toolbars"].has_key(workbench):
 			for ky in sorted(self.pluginloader.config3["toolbars"][workbench].keys()):
-				say("ky:"+str(ky))
 				cma=ConfigManager("__toolbars__/" + workbench +"/" + ky)
 				funhide=cma.get("_hide_",False)
 				if funhide:
@@ -258,15 +256,9 @@ class MyDock(QtGui.QDockWidget):
 					toolbarBox=mw.toolbar
 				except Exception:
 					sayexc("exception add Tool Bar")
+
 				for tool in sorted(self.pluginloader.config3["toolbars"][workbench][ky].keys()):
-					say("tool, ky, yy ...")
-					say(tool)
-					say(ky)
 					yy=self.pluginloader.config3["toolbars"][workbench][ky][tool]
-					say(yy)
-					FreeCAD.yy=yy
-					FreeCAD.tb=toolbarBox
-					
 					myAction2=QtGui.QAction(QtGui.QIcon(yy['icon']),tool ,mw)
 					myAction2.setToolTip(tool)
 					toolbarBox.addAction(myAction2)
@@ -277,7 +269,6 @@ class MyDock(QtGui.QDockWidget):
 					yy=MyAction2(pathMacro(cmd))
 					myAction2.yy=yy
 					myAction2.triggered.connect(yy.run) 
-					
 				toolbarBox.show()
 				self.toolbars.append(toolbarBox)
 				say(ky +" done")
@@ -302,10 +293,8 @@ class MyDock(QtGui.QDockWidget):
 			if mode =="east":
 				tabs.setTabPosition(QtGui.QTabWidget.East)
 				kl.reverse()
-			
 			for ky in kl:
 				import re
-				
 				cmt=ConfigManager("__tabs__/" + ky)
 				hide=cmt.get("_hide_",False)
 				if hide:
@@ -384,6 +373,8 @@ class MyDock(QtGui.QDockWidget):
 		# aktiver tab
 		cm=ConfigManager("PluginManager")
 		ix=cm.get("PluginTabIndex",0)
+		if ix>64000:
+			ix=0
 		tabs.setCurrentIndex(ix)
 		self.tabs=tabs
 
@@ -429,7 +420,10 @@ if FreeCAD.ParamGet('User parameter:Plugins').GetBool('showdock'):
 	PluginManager.show()
 
 FreeCAD.Console.PrintMessage("Mod pluginloader InitGui.py done"+"\n")
-PluginManager.genlabels()
+try:
+	PluginManager.genlabels()
+except:
+	FreeCAD.Console.PrintMessage("genlabels error "+"\n")
 
 
 def runme():
@@ -476,3 +470,5 @@ if FreeCAD.ParamGet('User parameter:Plugins').GetBool('autoStartEventFilter'):
 	except:
 		pass
 		sayexc("autostart keyfilter module")
+
+

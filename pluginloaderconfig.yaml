@@ -39,7 +39,7 @@ plugins:
     status: noignore
     author: edwardvmills
     description: macro collection 
-    man: https://github.com/Peta-T/FreeCAD-PartMacros/blob/master/README.md
+    man: https://github.com/edwardvmills/NURBSlib_EVM/blob/master/README.md
     source:  https://github.com/edwardvmills/NURBSlib_EVM/archive/master.zip
     sourcedir: NURBSlib_EVM-master/
     destdir: UserAppData/Mod/plugins/NURBSlib_EVM
@@ -164,6 +164,32 @@ plugins:
 #
 # workbenches
 #
+
+# 20.05.2016
+
+  geodata : &geoadata
+    name: geodata
+    status: noignore
+    description : geodata
+    author: microelly2
+    source: https://github.com/microelly2/geodata/archive/master.zip
+    sourcedir: geodata-master
+    timestamp: https://raw.githubusercontent.com/microelly2/geodata/master/release
+    destdir: UserAppData/Mod/geodat
+    web: http://freecadbuch.de/doku.php?id=geodata
+    icon: UserAppData/Mod/geodata/icons/geodata.png
+
+  reconstruction : &recon
+    name: reconstruction
+    status: noignore
+    description : reconstruction
+    author: microelly2
+    source: https://github.com/microelly2/reconstruction/archive/master.zip
+    sourcedir: reconstruction-master
+    timestamp: https://raw.githubusercontent.com/microelly2/reconstruction/master/release
+    destdir: UserAppData/Mod/reconstruction
+    web: http://freecadbuch.de/doku.php?id=reconstruction
+    icon: UserAppData/Mod/reconstruction/icons/freek.png
 
 
 # 12.01.2016
@@ -405,7 +431,19 @@ plugins:
      exec: FreeCADGui.activateWorkbench("LatticeWorkbench")
      icon: UserAppData/Mod/plugins/icons/mars.png
 
-
+  lattice2: &lattice2
+     status: noignore
+     name: Lattice2 WB
+     author: DeepSOIC
+     man: http://forum.freecadweb.org/viewtopic.php?f=22&t=12464
+     web: http://forum.freecadweb.org/viewtopic.php?f=22&t=12464
+     source: https://github.com/DeepSOIC/Lattice2/archive/master.zip
+     method: zip
+     sourcedir: Lattice2-master/
+     destdir: UserAppData/Mod/Lattice2
+     menu: Lattice2 Workbench
+     exec: FreeCADGui.activateWorkbench("Lattice2Workbench")
+     icon: UserAppData/Mod/Lattice2/PyResources/icons/Lattice2.svg
 
 
 
